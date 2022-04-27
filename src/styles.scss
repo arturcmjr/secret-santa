@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.page-wrapper {
+  // background-color: #123731;
+  background: rgb(0,84,84);
+  background: linear-gradient(180deg, rgba(0,84,84,1) 0%, rgba(161,227,216,1) 100%);
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-card {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  max-width: calc(100vw - 4rem);
+  padding: 1rem;
+  width: 900px;
+}
+
+/* -------------------------------- utilities ------------------------------- */
+// TODO: move to utilities
+.w-100 {
+  width: 100%;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mat-vertical-stepper-content .mat-vertical-content {
+  padding: 0 24px 0 24px !important;
+}
