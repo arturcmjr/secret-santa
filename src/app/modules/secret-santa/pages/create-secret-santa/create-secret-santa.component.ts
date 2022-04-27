@@ -8,6 +8,11 @@ import {
 } from '@angular/forms';
 import { minimumArrayLength } from 'src/app/shared/helpers/validators/minimum-array-length.validator';
 
+interface IParticipantSecretSanta {
+  name: string;
+  secretSanta: string;
+}
+
 @Component({
   selector: 'app-create-secret-santa',
   templateUrl: './create-secret-santa.component.html',
@@ -22,7 +27,21 @@ export class CreateSecretSantaComponent implements OnInit {
     date: new FormControl(null, [Validators.required]),
   });
 
-  public participantsControl = new FormControl([], [minimumArrayLength(4)]);
+  public participantsControl = new FormControl(
+    [
+      'Patricia',
+      'Johanna',
+      'Sebastian',
+      'Sandra',
+      'Lida',
+      'Andreas',
+      'Sven',
+      'Marcos',
+      'Sophie',
+      'Lukas',
+    ],
+    [minimumArrayLength(4)]
+  );
   public newParticipantControl = new FormControl(null, [
     Validators.minLength(3),
   ]);
@@ -59,7 +78,10 @@ export class CreateSecretSantaComponent implements OnInit {
   }
 
   public addParticipant(): void {
-    if (this.newParticipantControl.invalid || !this.newParticipantControl.value) {
+    if (
+      this.newParticipantControl.invalid ||
+      !this.newParticipantControl.value
+    ) {
       this.newParticipantControl.markAsTouched();
       return;
     }
@@ -79,5 +101,41 @@ export class CreateSecretSantaComponent implements OnInit {
       this.participantsScroll.nativeElement.scrollTop =
         this.participantsScroll.nativeElement.scrollHeight;
     });
+  }
+
+  public save(): void {
+    const participants = this.drawSecretSanta();
+  }
+
+  private drawSecretSanta(): IParticipantSecretSanta[] {
+    let participants: IParticipantSecretSanta[] = [];
+    let attempts = 0;
+    do {
+      participants = [];
+      const allParticipants: string[] = [...this.participantsControl.value];
+      let options: string[] = [...this.participantsControl.value];
+      allParticipants.forEach((entry) => {
+        const secretSanta = options[Math.floor(Math.random() * options.length)];
+        participants.push({
+          name: entry,
+          secretSanta,
+        });
+        options.splice(options.indexOf(secretSanta), 1);
+      });
+      attempts++;
+    } while (this.hasRepeatingParticipants(participants));
+    console.log(participants);
+    console.log(`Took ${attempts} attempts`);
+    return participants;
+  }
+
+  private hasRepeatingParticipants(
+    participants: IParticipantSecretSanta[]
+  ): boolean {
+    for (let i = 0; i < participants.length; i++) {
+      const participant = participants[i];
+      if (participant.name === participant.secretSanta) return true;
+    }
+    return false;
   }
 }
