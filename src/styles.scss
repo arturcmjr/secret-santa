@@ -6,8 +6,9 @@ body {
 
 .page-wrapper {
   // background-color: #123731;
-  background: rgb(0,84,84);
-  background: linear-gradient(180deg, rgba(0,84,84,1) 0%, rgba(161,227,216,1) 100%);
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+
   min-height: 100vh;
   min-width: 100vw;
   display: flex;
@@ -21,11 +22,25 @@ body {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   max-width: calc(100vw - 4rem);
   padding: 1rem;
-  width: 900px;
+  width: 800px;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-card.min-height {
+  min-height: 350px;
 }
 
 /* -------------------------------- utilities ------------------------------- */
 // TODO: move to utilities
+.text-secondary {
+  color: #757575;
+}
+
+.text-center {
+  text-align: center;
+}
+
 .w-100 {
   width: 100%;
 }

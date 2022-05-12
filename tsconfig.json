@@ -4,6 +4,12 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "@env" : ["./src/environments/environment.ts"],
+      "@shared/*" : ["./src/app/shared/*"],
+      "@modules/*" : ["./src/app/modules/*"],
+      "@services/*" : ["./src/app/shared/services/*"],
+    },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
