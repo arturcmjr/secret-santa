@@ -1,0 +1,10 @@
+.revelation-url {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: right;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

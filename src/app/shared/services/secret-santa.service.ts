@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
 import {
+  collection,
   doc,
+  DocumentData,
   DocumentReference,
   Firestore,
   getDoc,
+  getDocs,
+  query,
   setDoc,
+  where,
 } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { FirebaseService } from './firebase.service';
 
 export interface IParticipant {
+  id?: string;
   name: string;
   revelationRef: DocumentReference<IRevelation>;
   secretSantaRef: DocumentReference<ISecretSanta>;
@@ -70,12 +76,33 @@ export class SecretSantaService {
     });
   }
 
-  public getSecretSanta(participant: IParticipant) : Observable<ISecretSanta> {
+  public getSecretSanta(participant: IParticipant): Observable<ISecretSanta> {
     // TODO: handle errors
     return new Observable((observer) => {
       getDoc(participant.secretSantaRef).then((doc) => {
         const secretSanta = doc.data() as ISecretSanta;
         observer.next(secretSanta);
+        observer.complete();
+      });
+    });
+  }
+
+  public getParticipants(secretSantaId: string): Observable<IParticipant[]> {
+    return new Observable((observer) => {
+      const secretSantaRef = doc(this.database, 'secretSantas', secretSantaId);
+
+      const q = query(
+        collection(this.database, 'participants'),
+        where('secretSantaRef', '==', secretSantaRef)
+      );
+
+      getDocs(q).then((docs) => {
+        const data = docs.docs.map((doc) => {
+          const participant = doc.data() as IParticipant;
+          participant.id = doc.id;
+          return participant;
+        }) as IParticipant[];
+        observer.next(data);
         observer.complete();
       });
     });
