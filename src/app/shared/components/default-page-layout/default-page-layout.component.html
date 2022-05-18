@@ -1,0 +1,13 @@
+<div class="main-wrapper">
+  <div class="header">
+    <div class="app-name">
+      <img src="../../../../assets/img/illustrations/gift-white.svg">
+      <h1>SECRET<br>SANTA</h1>
+    </div>
+  </div>
+  <div class="page-container">
+    <h2 *ngIf="title" class="page-title">{{title}}</h2>
+    <h4 *ngIf="subTitle" class="page-subtitle">{{subTitle}}</h4>
+    <ng-content></ng-content>
+  </div>
+</div>
