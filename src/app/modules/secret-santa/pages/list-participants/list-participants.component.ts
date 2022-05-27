@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@env';
-import {Clipboard} from '@angular/cdk/clipboard';
+import { Clipboard } from '@angular/cdk/clipboard';
 import {
   IParticipant,
   SecretSantaService,
@@ -16,8 +16,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ListParticipantsComponent implements OnInit {
   public participants: IParticipant[] = [];
-  public wppUrls: SafeUrl[] = [];
-  public shareUrls: SafeUrl[] = [];
   public isLoading = false;
 
   constructor(
@@ -25,7 +23,7 @@ export class ListParticipantsComponent implements OnInit {
     private secretSanta: SecretSantaService,
     private domSanitizer: DomSanitizer,
     private clipboard: Clipboard,
-    private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -42,34 +40,33 @@ export class ListParticipantsComponent implements OnInit {
       .getParticipants(secretSantaId)
       .subscribe((participants) => {
         this.participants = participants;
-        this.setUpWhatsAppLinks();
-        this.setUpShareUrls();
         this.isLoading = false;
       });
     // TODO: handle error
-  }
-
-  private setUpWhatsAppLinks(): void {
-    this.wppUrls = this.participants.map((participant) => {
-      const text = `Hello ${participant.name}, click on the link to reveal your secret santa: ${this.getParticipantUrl(participant)}`;
-      return this.domSanitizer.bypassSecurityTrustResourceUrl(
-        `whatsapp://send?text=${encodeURI(text)}`
-      );
-    });
-  }
-
-  private setUpShareUrls(): void {
-    this.shareUrls = this.participants.map((participant) => {
-      return this.domSanitizer.bypassSecurityTrustResourceUrl(this.getParticipantUrl(participant));
-    });
   }
 
   public getParticipantUrl(participant: IParticipant): string {
     return `${environment.appUrl}reveal/${participant.id}`;
   }
 
-  public copyToClipboard(participant: IParticipant): void {
+  public copyToClipboard(participant: IParticipant): void { 
     this.clipboard.copy(this.getParticipantUrl(participant));
-    this.snackBar.open('Copied to clipboard', '', { duration: 2000 });
+    this.snackBar.open('Link copied to clipboard', '', { duration: 2000 });
+  }
+
+  public shareSanta(participant: IParticipant): void {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: `Reveal ${participant.name}'s secret santa`,
+          url: this.getParticipantUrl(participant),
+        })
+        .then(() => {
+          console.log('Compartilhado com sucesso!');
+        })
+        .catch(console.error);
+    } else {
+      this.copyToClipboard(participant);
+    }
   }
 }

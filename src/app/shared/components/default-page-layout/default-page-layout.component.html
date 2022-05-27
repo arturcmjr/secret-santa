@@ -8,6 +8,8 @@
   <div class="page-container">
     <h2 *ngIf="title" class="page-title">{{title}}</h2>
     <h4 *ngIf="subTitle" class="page-subtitle">{{subTitle}}</h4>
-    <ng-content></ng-content>
+    <div fxLayout="row" fxLayoutAlign="center none">
+      <ng-content></ng-content>
+    </div>
   </div>
 </div>

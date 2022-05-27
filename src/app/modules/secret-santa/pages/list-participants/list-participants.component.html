@@ -18,17 +18,21 @@
 </div> -->
 <!-- [ngStyle]="{height: '75px'}" [ngStyle.lt-sm]="{height: '125px'}"  -->
 <app-default-page-layout title="Share Links" subTitle="send the links to the participants">
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <div fxLayout="column" fxLayoutAlign="start none" fxLayoutGap="13px" style="width: 900px; max-width: 100vw;">
-      <div class="share-container" *ngFor="let participant of participants; index as i">
-        <div fxFlex="20" fxFlexOrder="1"><b>{{ participant.name}}</b></div>
+  <div class="page-width">
+    <div fxLayout="column" fxLayoutAlign="start none" fxLayoutGap="13px">
+      <div class="share-container" *ngFor="let participant of participants; index as i"
+        fxLayoutAlign="space-between center">
+        <div style="max-width: 88%;">
+          <b>{{ participant.name}}</b><br>
+          <div class="revelation-url" (click)="copyToClipboard(participant)">{{getParticipantUrl(participant)}}</div>
+        </div>
         <!-- <div (click)="copyToClipboard(participant)" fxFlexOrder="2" fxFlexOrder.lt-sm="3" class="revelation-url"
           [ngStyle.lt-sm]="{'margin-top': '7px'}" fxFlex="70%" fxFlex.lt-sm="100%">
-          {{getParticipantUrl(participant)}}
+          
         </div> -->
-        <div fxFlex="10" fxLayoutAlign="center center" fxFlexOrder="3" fxFlexOrder.lt-sm="2">
-          <button mat-icon-button>
-            <img src="../../../../../assets/img/icons/whats-app-icon.svg" alt="share to whats app">
+        <div fxLayoutAlign="center center">
+          <button mat-icon-button (click)="shareSanta(participant)">
+            <mat-icon>share</mat-icon>
           </button>
         </div>
       </div>

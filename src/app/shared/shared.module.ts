@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [LayoutComponent, SpinnerOverlayComponent, DefaultPageLayoutComponent],
-  imports: [CommonModule, RouterModule, AngularMaterialModule],
+  imports: [CommonModule, RouterModule, AngularMaterialModule, FlexLayoutModule],
   exports: [AngularMaterialModule, FormsModule, ReactiveFormsModule, FlexLayoutModule, SpinnerOverlayComponent, DefaultPageLayoutComponent ],
 })
 export class SharedModule {}

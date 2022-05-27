@@ -2,7 +2,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  text-align: right;
+  margin-top: .5rem;
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;
