@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { generateUniqueId } from '@shared/helpers/utils/generate-unique-id';
 import {
   collection,
   doc,
-  DocumentData,
   DocumentReference,
   Firestore,
   getDoc,
@@ -10,27 +10,16 @@ import {
   query,
   setDoc,
   where,
+  writeBatch,
 } from 'firebase/firestore';
 import { Observable } from 'rxjs';
-import { FirebaseService } from './firebase.service';
-
-export interface IParticipant {
-  id?: string;
-  name: string;
-  revelationRef: DocumentReference<IRevelation>;
-  secretSantaRef: DocumentReference<ISecretSanta>;
-}
-
-export interface ISecretSanta {
-  name: string;
-  description: string;
-  date: Date;
-}
-
-export interface IRevelation {
-  name: string;
-  revealedCount: number;
-}
+import { FirebaseService } from '../firebase.service';
+import {
+  ICreateSecretSanta,
+  ISecretSanta,
+  IParticipant,
+  IRevelation,
+} from './secret-santa.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +29,44 @@ export class SecretSantaService {
 
   constructor(private firebaseService: FirebaseService) {
     this.database = this.firebaseService.getDatabase();
+  }
+
+  public createSecretSanta(
+    data: ICreateSecretSanta
+  ): Observable<DocumentReference> {
+    const { name, description, date, participants } = data;
+
+    return new Observable((observer) => {
+      const db = this.database;
+      const batch = writeBatch(db);
+      const secretSantaRef = doc(db, 'secretSantas', generateUniqueId());
+      batch.set(secretSantaRef, { name, description, date });
+
+      participants.forEach((participant) => {
+        const revelationRef = doc(db, 'revelations', generateUniqueId());
+        const participantRef = doc(db, 'participants', generateUniqueId());
+        batch.set(revelationRef, {
+          name: participant.secretSanta,
+          revealedCount: 0,
+        });
+        batch.set(participantRef, {
+          name: participant.name,
+          revelationRef,
+          secretSantaRef,
+        });
+      });
+
+      batch
+        .commit()
+        .then((res) => {
+          observer.next(secretSantaRef);
+          observer.complete();
+        })
+        .catch((err) => {
+          // TODO: handle errors
+          console.error(err);
+        });
+    });
   }
 
   public getParticipant(participantId: string): Observable<IParticipant> {

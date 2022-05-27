@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IParticipant, IRevelation, ISecretSanta } from '@shared/services/secret-santa/secret-santa.interface';
 import {
-  IParticipant,
-  IRevelation,
-  ISecretSanta,
   SecretSantaService,
-} from '@shared/services/secret-santa.service';
+} from '@shared/services/secret-santa/secret-santa.service';
 
 @Component({
   selector: 'app-reveal-secret-santa',

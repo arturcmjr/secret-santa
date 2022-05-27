@@ -1,18 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
-  FormArray,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
 import { minimumArrayLength } from 'src/app/shared/helpers/validators/minimum-array-length.validator';
-
-// TODO: remove
-import { initializeApp } from 'firebase/app';
-import { doc, getFirestore, writeBatch } from 'firebase/firestore';
-import { collection, addDoc } from 'firebase/firestore';
-import { generateUniqueId } from 'src/app/shared/helpers/utils/generate-unique-id';
+import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
+import { ICreateSecretSanta } from '@shared/services/secret-santa/secret-santa.interface';
+import { Router } from '@angular/router';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBygS6EvetxOt6b1gtEv1kudh8Nek6h2yQ',
@@ -23,11 +19,6 @@ const firebaseConfig = {
   appId: '1:908249212112:web:d7c735ccc74fdf176fead5',
   measurementId: 'G-N9B763KS2Y',
 };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
 
 interface IParticipantSecretSanta {
   name: string;
@@ -42,6 +33,7 @@ interface IParticipantSecretSanta {
 export class CreateSecretSantaComponent implements OnInit {
   @ViewChild('participantsScroll') private participantsScroll: ElementRef;
 
+  public isLoading = false;
   public basicInfoForm = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
     description: new FormControl(null),
@@ -53,7 +45,10 @@ export class CreateSecretSantaComponent implements OnInit {
     Validators.minLength(3),
   ]);
 
-  constructor() {}
+  constructor(
+    private secretSantaService: SecretSantaService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -113,57 +108,17 @@ export class CreateSecretSantaComponent implements OnInit {
   public save(): void {
     const participants = this.drawSecretSanta();
     const { name, description, date } = this.basicInfoForm.value;
-    /* ----------------------------------- tt ----------------------------------- */
-
-    const batch = writeBatch(db);
-    const secretSantaRef = doc(
-      db,
-      'secretSantas',
-      generateUniqueId()
-    );
-    batch.set(secretSantaRef, { name, description, date });
-
-    participants.forEach((participant) => {
-      const revelationRef = doc(db, 'revelations', generateUniqueId());
-      const participantRef = doc(db,'participants', generateUniqueId());
-      batch.set(revelationRef, {
-        name: participant.secretSanta,
-        revealedCount: 0,
-      });
-      batch.set(participantRef, {
-        name: participant.name,
-        revelationRef,
-        secretSantaRef,
-      });
-    });
-
-    batch
-      .commit()
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    /* ----------------------------------- tt ----------------------------------- */
-    /* addDoc(collection(db, 'secretsSantaV1'), {
+    const data: ICreateSecretSanta = {
       name,
       description,
       date,
-    }).then((res) => {
-      const id = res.id;
-
-      participants.forEach((participant) => {
-        addDoc(collection(db, 'secretsSantaV1', id, 'participants'), {
-          name: participant.name,
-          secretSanta: participant.secretSanta,
-          revealedCount: 0,
-        });
-      });
-      console.log(res);
-      console.log('Document written with ID: ', res.id);
-    }); */
+      participants,
+    };
+    this.isLoading = true;
+    this.secretSantaService.createSecretSanta(data).subscribe((res) => {
+      this.isLoading = false;
+      this.router.navigate([`/share/${res.id}`]);
+    });
   }
 
   private drawSecretSanta(): IParticipantSecretSanta[] {

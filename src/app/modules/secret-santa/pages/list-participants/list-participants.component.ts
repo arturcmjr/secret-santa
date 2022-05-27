@@ -4,10 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '@env';
 import { Clipboard } from '@angular/cdk/clipboard';
 import {
-  IParticipant,
   SecretSantaService,
-} from '@shared/services/secret-santa.service';
+} from '@shared/services/secret-santa/secret-santa.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { IParticipant } from '@shared/services/secret-santa/secret-santa.interface';
 
 @Component({
   selector: 'app-list-participants',
