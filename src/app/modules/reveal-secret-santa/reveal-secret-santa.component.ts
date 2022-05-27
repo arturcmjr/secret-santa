@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { IParticipant, IRevelation, ISecretSanta } from '@shared/services/secret-santa/secret-santa.interface';
 import {
@@ -15,10 +16,13 @@ export class RevealSecretSantaComponent implements OnInit {
   public secretSantaInfo: ISecretSanta;
   public revelation: IRevelation;
   public isLoading: boolean = false;
+  public title: string;
+  public subTitle: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private secretSanta: SecretSantaService
+    private secretSanta: SecretSantaService,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +36,8 @@ export class RevealSecretSantaComponent implements OnInit {
     this.isLoading = true;
     this.secretSanta.getParticipant(participantId).subscribe((participant) => {
       this.participant = participant;
+      this.title = `${participant.name}'s Secret Santa`;
+      this.titleService.setTitle(this.title);
       this.fetchSecretSanta();
     });
   }
@@ -39,6 +45,8 @@ export class RevealSecretSantaComponent implements OnInit {
   private fetchSecretSanta(): void {
     this.secretSanta.getSecretSanta(this.participant).subscribe((secretSanta) => {
       this.secretSantaInfo = secretSanta;
+      this.subTitle = secretSanta.name;
+      if(secretSanta.description) this.subTitle += ` - ${secretSanta.description}`;
       this.isLoading = false;
     });
   }
