@@ -35,7 +35,7 @@ export class CreateSecretSantaComponent implements OnInit {
 
   public isLoading = false;
   public basicInfoForm = new FormGroup({
-    name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+    name: new FormControl(null, [Validators.required, Validators.minLength(5)]),
     description: new FormControl(null),
     date: new FormControl(null, [Validators.required]),
   });

@@ -1,0 +1,50 @@
+{
+  "HEADER": {
+    "APP_NAME": "secret santa"
+  },
+  "REVEAL": {
+    "TITLE": "Reveal {{name}}'s Secret Santa",
+    "REVEAL_INSTRUCTIONS": "Click on the gift above to see who you got.",
+    "REVELATION": "You got <b>{{name}}</b>! Gift time!",
+    "REVEALED_BEFORE": "It was revealed {{count}} times before, if it wasn't you, someone else may know who you got. Anyone with this link can reveal your secret santa."
+  },
+  "PARTICIPANTS" : {
+    "TITLE": "{{name}} Participants",
+    "SUBTITLE": "Send the link to the participants",
+    "SHARE_TITLE": "Reveal {{name}}'s secret santa",
+    "CLIPBOARD_SUCCESS": "Link copied to clipboard"
+  },
+  "CREATE" : {
+    "TITLE": "Create Secret Santa",
+    "FORM": {
+      "STEP_1": "Basic Information",
+      "STEP_2": "Participants",
+      "STEP_3": "Confirmation",
+      "NAME_PLACEHOLDER": "Secret Santa Name",
+      "NAME_LABEL": "Name",
+      "NAME_REQUIRED": "Name is required",
+      "NAME_MINLENGTH": "Name must be at least 5 characters long",
+      "DESCRIPTION_LABEL": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Short description of the Secret Santa",
+      "DATE_LABEL": "Date",
+      "DATE_REQUIRED": "Date is required",
+      "DATE_INVALID": "Date is invalid",
+      "DATE_HINT": "Data wont be available 2 days after this date",
+      "PARTICIPANTS_LABEL": "Name",
+      "PARTICIPANTS_PLACEHOLDER": "Participant Name",
+      "PARTICIPANTS_MINLENGTH": "Participant name must be at least 3 characters long",
+      "PARTICIPANTS_DUPLICATE": "Participant already exists",
+      "PARTICIPANTS_MINARRAY": "At least 4 participants are required"
+    },
+    "CONFIRMATION" : {
+      "MESSAGE": "You're all set, review the info then click done to create the Secret Santa",
+      "NAME": "Name:",
+      "DESCRIPTION": "Description:",
+      "DATE": "Date:",
+      "PARTICIPANTS": "Participants:"
+    },
+    "NEXT": "Next",
+    "PREVIOUS": "Previous",
+    "DONE": "Done"
+  }
+}

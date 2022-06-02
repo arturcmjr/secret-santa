@@ -7,10 +7,29 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { SpinnerOverlayComponent } from './components/spinner-overlay/spinner-overlay.component';
 import { DefaultPageLayoutComponent } from './components/default-page-layout/default-page-layout.component';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [LayoutComponent, SpinnerOverlayComponent, DefaultPageLayoutComponent],
-  imports: [CommonModule, RouterModule, AngularMaterialModule, FlexLayoutModule],
-  exports: [AngularMaterialModule, FormsModule, ReactiveFormsModule, FlexLayoutModule, SpinnerOverlayComponent, DefaultPageLayoutComponent ],
+  declarations: [
+    LayoutComponent,
+    SpinnerOverlayComponent,
+    DefaultPageLayoutComponent,
+  ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AngularMaterialModule,
+    FlexLayoutModule,
+    TranslateModule,
+  ],
+  exports: [
+    AngularMaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    SpinnerOverlayComponent,
+    DefaultPageLayoutComponent,
+    TranslateModule,
+  ],
 })
 export class SharedModule {}

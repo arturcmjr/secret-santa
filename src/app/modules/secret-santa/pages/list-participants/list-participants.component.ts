@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@env';
 import { Clipboard } from '@angular/cdk/clipboard';
-import {
-  SecretSantaService,
-} from '@shared/services/secret-santa/secret-santa.service';
+import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IParticipant } from '@shared/services/secret-santa/secret-santa.interface';
+import { TranslateService } from '@ngx-translate/core';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-list-participants',
@@ -17,31 +17,41 @@ import { IParticipant } from '@shared/services/secret-santa/secret-santa.interfa
 export class ListParticipantsComponent implements OnInit {
   public participants: IParticipant[] = [];
   public isLoading = false;
+  public title: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private secretSanta: SecretSantaService,
-    private domSanitizer: DomSanitizer,
     private clipboard: Clipboard,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translate: TranslateService,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       const { secretSantaId } = params || {};
-      if (secretSantaId) this.fetchParticipants(secretSantaId);
+      if (secretSantaId) this.fetchData(secretSantaId);
       // TODO: handle error
     });
   }
 
-  private fetchParticipants(secretSantaId: string): void {
+  private fetchData(secretSantaId: string): void {
     this.isLoading = true;
-    this.secretSanta
-      .getParticipants(secretSantaId)
-      .subscribe((participants) => {
+    const participants$ = this.secretSanta.getParticipants(secretSantaId);
+    const secretSanta$ = this.secretSanta.getSecretSanta(secretSantaId);
+
+    combineLatest([participants$, secretSanta$]).subscribe(
+      ([participants, secretSanta]) => {
         this.participants = participants;
+        const title = this.translate.instant('PARTICIPANTS.TITLE', {
+          name: secretSanta.name,
+        });
+        this.titleService.setTitle(title);
+        this.title = title;
         this.isLoading = false;
-      });
+      }
+    );
     // TODO: handle error
   }
 
@@ -49,22 +59,21 @@ export class ListParticipantsComponent implements OnInit {
     return `${environment.appUrl}reveal/${participant.id}`;
   }
 
-  public copyToClipboard(participant: IParticipant): void { 
+  public copyToClipboard(participant: IParticipant): void {
     this.clipboard.copy(this.getParticipantUrl(participant));
-    this.snackBar.open('Link copied to clipboard', '', { duration: 2000 });
+    const message = this.translate.instant('PARTICIPANTS.CLIPBOARD_SUCCESS');
+    this.snackBar.open(message, '', { duration: 2000 });
   }
 
   public shareSanta(participant: IParticipant): void {
     if (navigator.share) {
-      navigator
-        .share({
-          title: `Reveal ${participant.name}'s secret santa`,
-          url: this.getParticipantUrl(participant),
-        })
-        .then(() => {
-          console.log('Compartilhado com sucesso!');
-        })
-        .catch(console.error);
+      const title: string = this.translate.instant('PARTICIPANTS.SHARE_TITLE', {
+        name: participant.name,
+      });
+      navigator.share({
+        title,
+        url: this.getParticipantUrl(participant),
+      });
     } else {
       this.copyToClipboard(participant);
     }

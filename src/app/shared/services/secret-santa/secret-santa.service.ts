@@ -103,10 +103,11 @@ export class SecretSantaService {
     });
   }
 
-  public getSecretSanta(participant: IParticipant): Observable<ISecretSanta> {
+  public getSecretSanta(secretSantaId: string): Observable<ISecretSanta> {
     // TODO: handle errors
     return new Observable((observer) => {
-      getDoc(participant.secretSantaRef).then((doc) => {
+      const docs = doc(this.database, 'secretSantas', secretSantaId);
+      getDoc(docs).then((doc) => {
         const secretSanta = doc.data() as ISecretSanta;
         observer.next(secretSanta);
         observer.complete();
