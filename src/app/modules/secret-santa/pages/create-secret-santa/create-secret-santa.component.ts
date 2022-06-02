@@ -123,7 +123,6 @@ export class CreateSecretSantaComponent implements OnInit {
 
   private drawSecretSanta(): IParticipantSecretSanta[] {
     let participants: IParticipantSecretSanta[] = [];
-    let attempts = 0;
     do {
       participants = [];
       const allParticipants: string[] = [...this.participantsControl.value];
@@ -136,10 +135,7 @@ export class CreateSecretSantaComponent implements OnInit {
         });
         options.splice(options.indexOf(secretSanta), 1);
       });
-      attempts++;
     } while (this.someoneGotHimself(participants));
-    console.log(participants);
-    console.log(`Took ${attempts} attempts`);
     return participants;
   }
 

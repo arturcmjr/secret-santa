@@ -12,7 +12,7 @@ import {
   where,
   writeBatch,
 } from 'firebase/firestore';
-import { Observable } from 'rxjs';
+import { from, Observable, map, switchMap } from 'rxjs';
 import { FirebaseService } from '../firebase.service';
 import {
   ICreateSecretSanta,
@@ -36,103 +36,91 @@ export class SecretSantaService {
   ): Observable<DocumentReference> {
     const { name, description, date, participants } = data;
 
-    return new Observable((observer) => {
-      const db = this.database;
-      const batch = writeBatch(db);
-      const secretSantaRef = doc(db, 'secretSantas', generateUniqueId());
-      batch.set(secretSantaRef, { name, description, date });
+    const db = this.database;
+    const batch = writeBatch(db);
+    const secretSantaRef = doc(db, 'secretSantas', generateUniqueId());
+    batch.set(secretSantaRef, { name, description, date });
 
-      participants.forEach((participant) => {
-        const revelationRef = doc(db, 'revelations', generateUniqueId());
-        const participantRef = doc(db, 'participants', generateUniqueId());
-        batch.set(revelationRef, {
-          name: participant.secretSanta,
-          revealedCount: 0,
-        });
-        batch.set(participantRef, {
-          name: participant.name,
-          revelationRef,
-          secretSantaRef,
-        });
+    participants.forEach((participant) => {
+      const revelationRef = doc(db, 'revelations', generateUniqueId());
+      const participantRef = doc(db, 'participants', generateUniqueId());
+      batch.set(revelationRef, {
+        name: participant.secretSanta,
+        revealedCount: 0,
       });
-
-      batch
-        .commit()
-        .then((res) => {
-          observer.next(secretSantaRef);
-          observer.complete();
-        })
-        .catch((err) => {
-          // TODO: handle errors
-          console.error(err);
-        });
+      batch.set(participantRef, {
+        name: participant.name,
+        revelationRef,
+        secretSantaRef,
+      });
     });
+
+    const batchCommand = batch.commit();
+    return from(batchCommand).pipe(map(() => secretSantaRef));
   }
 
   public getParticipant(participantId: string): Observable<IParticipant> {
-    // TODO: handle error
-    return new Observable((observer) => {
-      const ref = doc(
-        this.database,
-        `participants`,
-        participantId
-      ) as DocumentReference<IParticipant>;
-      getDoc(ref).then((doc) => {
-        observer.next(doc.data());
-        observer.complete();
-      });
-    });
+    const ref = doc(
+      this.database,
+      `participants`,
+      participantId
+    ) as DocumentReference<IParticipant>;
+    const docQuery = getDoc(ref);
+    return from(docQuery).pipe(map((doc) => doc.data() as IParticipant));
+  }
+
+  private increaseRevelationCount(
+    reference: DocumentReference<IRevelation>,
+    count: number
+  ): Observable<void> {
+    const docCommand = setDoc(
+      reference,
+      {
+        revealedCount: count,
+      },
+      { merge: true }
+    );
+    return from(docCommand);
   }
 
   public revealSecretSanta(participant: IParticipant): Observable<IRevelation> {
-    // TODO: handle errors
-    return new Observable((observer) => {
-      getDoc(participant.revelationRef).then((doc) => {
-        const revelation = doc.data() as IRevelation;
-        setDoc(
+    const docObs = from(getDoc(participant.revelationRef));
+    return docObs.pipe(
+      map((doc) => doc.data() as IRevelation),
+      switchMap((revelation) => {
+        const count = revelation.revealedCount + 1;
+        return this.increaseRevelationCount(
           participant.revelationRef,
-          {
-            revealedCount: revelation.revealedCount + 1,
-          },
-          { merge: true }
-        ).then(() => {
-          observer.next(doc.data());
-          observer.complete();
-        });
-      });
-    });
+          count
+        ).pipe(map(() => revelation));
+      })
+    );
   }
 
   public getSecretSanta(secretSantaId: string): Observable<ISecretSanta> {
-    // TODO: handle errors
-    return new Observable((observer) => {
-      const docs = doc(this.database, 'secretSantas', secretSantaId);
-      getDoc(docs).then((doc) => {
-        const secretSanta = doc.data() as ISecretSanta;
-        observer.next(secretSanta);
-        observer.complete();
-      });
-    });
+    const docs = doc(this.database, 'secretSantas', secretSantaId);
+    const docQuery = getDoc(docs);
+    return from(docQuery).pipe(map((doc) => doc.data() as ISecretSanta));
   }
 
   public getParticipants(secretSantaId: string): Observable<IParticipant[]> {
-    return new Observable((observer) => {
-      const secretSantaRef = doc(this.database, 'secretSantas', secretSantaId);
+    const secretSantaRef = doc(this.database, 'secretSantas', secretSantaId);
 
-      const q = query(
-        collection(this.database, 'participants'),
-        where('secretSantaRef', '==', secretSantaRef)
-      );
+    const quer = query(
+      collection(this.database, 'participants'),
+      where('secretSantaRef', '==', secretSantaRef)
+    );
 
-      getDocs(q).then((docs) => {
+    const docsQuery = getDocs(quer);
+    return from(docsQuery).pipe(
+      map((docs) => {
         const data = docs.docs.map((doc) => {
           const participant = doc.data() as IParticipant;
           participant.id = doc.id;
           return participant;
         }) as IParticipant[];
-        observer.next(data);
-        observer.complete();
-      });
-    });
+        return data;
+      })
+    );
   }
 }
