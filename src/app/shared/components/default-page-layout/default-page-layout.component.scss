@@ -3,7 +3,6 @@
   flex-direction: column;
   min-height: 100vh;
   padding: 0;
-  // overflow-x: hidden;
 }
 
 .header {
@@ -14,36 +13,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  .app-name {
-    position: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    h1 {
-      color: #fff;
-      margin: 0;
-      margin-left: 0.5rem;
-      font-size: 2rem;
-      font-weight: 500;
-      line-height: 1.5rem;
-
-      div {
-        font-weight: 300;
-        font-size: 0.8em;
-      }
-    }
-
-    h1::after {
-      position: fixed;
-    }
-
-    img {
-      width: 25%;
-      height: 25%;
-    }
-  }
 }
 
 .page-container {

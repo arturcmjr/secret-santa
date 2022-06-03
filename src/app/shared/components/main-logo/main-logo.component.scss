@@ -1,0 +1,39 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.app-name, .app-name:visited {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+
+  h1 {
+    color: #fff;
+    margin: 0;
+    margin-left: 0.5rem;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+
+    div {
+      font-weight: 300;
+      font-size: 0.8em;
+    }
+  }
+
+  h1::after {
+    position: fixed;
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+  }
+}

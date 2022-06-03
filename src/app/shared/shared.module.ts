@@ -8,12 +8,14 @@ import { SpinnerOverlayComponent } from './components/spinner-overlay/spinner-ov
 import { DefaultPageLayoutComponent } from './components/default-page-layout/default-page-layout.component';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { MainLogoComponent } from './components/main-logo/main-logo.component';
 
 @NgModule({
   declarations: [
     LayoutComponent,
     SpinnerOverlayComponent,
     DefaultPageLayoutComponent,
+    MainLogoComponent,
   ],
   imports: [
     CommonModule,
