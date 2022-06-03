@@ -106,6 +106,11 @@ export class CreateSecretSantaComponent implements OnInit {
   }
 
   public save(): void {
+    if (this.basicInfoForm.invalid || this.participantsControl.invalid) {
+      this.basicInfoForm.markAllAsTouched();
+      this.participantsControl.markAsTouched();
+      return;
+    }
     const participants = this.drawSecretSanta();
     const { name, description, date } = this.basicInfoForm.value;
     const data: ICreateSecretSanta = {
@@ -119,6 +124,10 @@ export class CreateSecretSantaComponent implements OnInit {
       this.isLoading = false;
       this.router.navigate([`/share/${res.id}`]);
     });
+  }
+
+  public logErrors() {
+    console.log(this.basicInfoForm.get('date')?.errors);
   }
 
   private drawSecretSanta(): IParticipantSecretSanta[] {
@@ -137,6 +146,15 @@ export class CreateSecretSantaComponent implements OnInit {
       });
     } while (this.someoneGotHimself(participants));
     return participants;
+  }
+
+  public dateFilter: (date: Date | null) => boolean =
+    (date: Date | null) => {
+      if(!date) return false;
+      const now = new Date();
+      const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const oneYearFromNow = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate());
+      return date >= startOfDay && date < oneYearFromNow;
   }
 
   private someoneGotHimself(participants: IParticipantSecretSanta[]): boolean {

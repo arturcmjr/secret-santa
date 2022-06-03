@@ -28,6 +28,7 @@
       "DESCRIPTION_PLACEHOLDER": "Short description of the Secret Santa",
       "DATE_LABEL": "Date",
       "DATE_REQUIRED": "Date is required",
+      "DATE_NOTALLOWED": "Date must be between today and 1 year from now",
       "DATE_INVALID": "Date is invalid",
       "DATE_HINT": "Data wont be available 2 days after this date",
       "PARTICIPANTS_LABEL": "Name",

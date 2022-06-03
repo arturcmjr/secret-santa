@@ -28,6 +28,7 @@
       "DESCRIPTION_PLACEHOLDER": "Curta descrição do amigo oculto",
       "DATE_LABEL": "Data",
       "DATE_REQUIRED": "Data é obrigatória",
+      "DATE_NOTALLOWED": "Data precisa ser entre hoje e daqui a 1 ano",
       "DATE_INVALID": "Data inválida",
       "DATE_HINT": "Os dados não estarão disponíveis 2 dias após a data",
       "PARTICIPANTS_LABEL": "Nome",
