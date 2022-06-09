@@ -47,5 +47,22 @@
     "NEXT": "Next",
     "PREVIOUS": "Previous",
     "DONE": "Done"
+  },
+  "HOME" : {
+    "TITLE": "secret santa on 3 easy steps", 
+    "STEP_1": {
+      "TITLE": "basic information",
+      "DESCRIPTION": "Fill in the basic information about your Secret Santa."
+    },
+    "STEP_2": {
+      "TITLE": "add participants",
+      "DESCRIPTION": "Add the participants to your Secret Santa."
+    },
+    "STEP_3": {
+      "TITLE": "envie os links",
+      "DESCRIPTION": "Done! Now just send the link so they can discover who they got."
+    },
+    "BOTTOM_TEXT": "No register, no costs and no limits. Create now your secret santa",
+    "CREATE_BUTTON": "CREATE SECRET SANTA"
   }
 }

@@ -9,10 +9,9 @@ import { LayoutComponent } from './shared/components/layout/layout.component';
 const routes: Routes = [
   {
     path: '',
-    // component: LayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path: 'new', component: CreateSecretSantaComponent },
+      { path: 'create', component: CreateSecretSantaComponent },
       { path: 'reveal/:participantId', component: RevealSecretSantaComponent },
       { path: 'share/:secretSantaId', component: ListParticipantsComponent },
     ],

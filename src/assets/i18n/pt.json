@@ -47,5 +47,22 @@
     "NEXT": "Próximo",	
     "PREVIOUS": "Anterior",
     "DONE": "Pronto"
+  },
+  "HOME" : {
+    "TITLE": "amigo oculto em 3 simples passos",
+    "STEP_1": {
+      "TITLE": "informações básicas",
+      "DESCRIPTION": "Preencha informações básicas do amigo oculto."
+    },
+    "STEP_2": {
+      "TITLE": "insira os participantes",
+      "DESCRIPTION": "Adicione quem irá participar do amigo oculto."
+    },
+    "STEP_3": {
+      "TITLE": "envie os links",
+      "DESCRIPTION": "Pronto! Agora basta enviar os link para que eles descubram quem tiraram."
+    },
+    "BOTTOM_TEXT": "Sem cadastro, sem custo e sem limites. Crie agora mesmo seu amigo oculto.",
+    "CREATE_BUTTON": "CRIAR AMIGO OCULTO"
   }
 }

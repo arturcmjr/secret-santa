@@ -1,0 +1,37 @@
+<div class="home-wrapper">
+  <div class="app-name-container">
+    <app-main-logo></app-main-logo>
+  </div>
+  <h1 class="text-center">{{'HOME.TITLE' | translate}}</h1>
+  <div style="flex-grow: 1;" fxLayoutAlign="center center">
+    <div fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="1.5rem" fxLayoutGap.lt-md="3rem"
+      fxLayout.lt-md="column" class="steps-container" style="margin: 2rem 0;">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-title">{{'HOME.STEP_1.TITLE' | translate}}</div>
+        <mat-icon class="material-icons-outlined">edit</mat-icon>
+        <div class="step-description">{{'HOME.STEP_1.DESCRIPTION' | translate}}</div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-title">{{'HOME.STEP_2.TITLE' | translate}}</div>
+        <mat-icon class="material-icons-outlined">group_add</mat-icon>
+        <div class="step-description">{{'HOME.STEP_2.DESCRIPTION' | translate}}</div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-title">{{'HOME.STEP_3.TITLE' | translate}}</div>
+        <mat-icon class="material-icons-outlined">send</mat-icon>
+        <div class="step-description">{{'HOME.STEP_3.DESCRIPTION' | translate}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-info">
+    {{'HOME.BOTTOM_TEXT' | translate}}
+  </div>
+  <div class="create-btn-container">
+    <a mat-flat-button color="accent" routerLink="/create">
+      {{'HOME.CREATE_BUTTON' | translate}}
+    </a>
+  </div>
+</div>

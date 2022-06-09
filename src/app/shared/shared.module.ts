@@ -32,6 +32,8 @@ import { MainLogoComponent } from './components/main-logo/main-logo.component';
     SpinnerOverlayComponent,
     DefaultPageLayoutComponent,
     TranslateModule,
+    MainLogoComponent,
+    RouterModule,
   ],
 })
 export class SharedModule {}
