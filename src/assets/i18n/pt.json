@@ -42,7 +42,8 @@
       "NAME": "Nome:",
       "DESCRIPTION": "Descrição:",
       "DATE": "Data:",
-      "PARTICIPANTS": "Participantes:"
+      "PARTICIPANTS": "Participantes:",
+      "CAPTCHA_REQUIRED": "Por favor, confirme o captcha"
     },
     "NEXT": "Próximo",	
     "PREVIOUS": "Anterior",

@@ -13,10 +13,7 @@ export class AppComponent {
     const defaultLang = 'en';
     translate.setDefaultLang(defaultLang);
 
-    // const lang = translate.getBrowserLang() || defaultLang;
-    // translate.use(lang);
-
-    // TODO: revert
-    translate.use('pt');
+    const lang = translate.getBrowserLang() || defaultLang;
+    translate.use(lang);
   }
 }

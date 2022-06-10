@@ -39,8 +39,10 @@ export class CreateSecretSantaComponent implements OnInit {
     description: new FormControl(null),
     date: new FormControl(null, [Validators.required]),
   });
-
   public participantsControl = new FormControl([], [minimumArrayLength(4)]);
+  public confirmForm = new FormGroup({
+    captcha: new FormControl(null, [Validators.required]),
+  });
   public newParticipantControl = new FormControl(null, [
     Validators.minLength(3),
   ]);
@@ -106,9 +108,14 @@ export class CreateSecretSantaComponent implements OnInit {
   }
 
   public save(): void {
-    if (this.basicInfoForm.invalid || this.participantsControl.invalid) {
+    if (
+      this.basicInfoForm.invalid ||
+      this.participantsControl.invalid ||
+      this.confirmForm.invalid
+    ) {
       this.basicInfoForm.markAllAsTouched();
       this.participantsControl.markAsTouched();
+      this.confirmForm.markAllAsTouched();
       return;
     }
     const participants = this.drawSecretSanta();
@@ -124,10 +131,6 @@ export class CreateSecretSantaComponent implements OnInit {
       this.isLoading = false;
       this.router.navigate([`/share/${res.id}`]);
     });
-  }
-
-  public logErrors() {
-    console.log(this.basicInfoForm.get('date')?.errors);
   }
 
   private drawSecretSanta(): IParticipantSecretSanta[] {
@@ -148,14 +151,21 @@ export class CreateSecretSantaComponent implements OnInit {
     return participants;
   }
 
-  public dateFilter: (date: Date | null) => boolean =
-    (date: Date | null) => {
-      if(!date) return false;
-      const now = new Date();
-      const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const oneYearFromNow = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate());
-      return date >= startOfDay && date < oneYearFromNow;
-  }
+  public dateFilter: (date: Date | null) => boolean = (date: Date | null) => {
+    if (!date) return false;
+    const now = new Date();
+    const startOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+    const oneYearFromNow = new Date(
+      now.getFullYear() + 1,
+      now.getMonth(),
+      now.getDate()
+    );
+    return date >= startOfDay && date < oneYearFromNow;
+  };
 
   private someoneGotHimself(participants: IParticipantSecretSanta[]): boolean {
     for (let i = 0; i < participants.length; i++) {
