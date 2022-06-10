@@ -65,5 +65,16 @@
     },
     "BOTTOM_TEXT": "No register, no costs and no limits. Create now your secret santa",
     "CREATE_BUTTON": "CREATE SECRET SANTA"
+  },
+  "ERRORS" : {
+    "GENERIC": {
+      "TITLE": "Something went wrong",
+      "MESSAGE": "We're sorry, something went wrong. Please, try again later."
+    },
+    "NO_PERMISSION": {
+      "TITLE": "No Permission",
+      "MESSAGE": "Resource not found or you don't have permission to access it.",
+      "HINT": "Remember that the data will be available only for 2 days after the secret santa."
+    }
   }
 }

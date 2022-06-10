@@ -1,12 +1,18 @@
 <ng-container [ngSwitch]="errorCode">
   <div *ngSwitchCase="'permission-denied'">
     <img src="../../../../../assets/img/illustrations/not-found.svg" alt="not found">
+    <div class="attribution-container">
+      <a href="https://storyset.com/web" target="_blank">Web illustrations by Storyset</a>
+    </div>
     <h1><b>{{'ERRORS.NO_PERMISSION.TITLE' | translate}}</b> - {{'ERRORS.NO_PERMISSION.MESSAGE' | translate}}</h1>
     <p>{{'ERRORS.NO_PERMISSION.HINT' | translate}}</p>
   </div>
   <div *ngSwitchDefault>
     <img src="../../../../../assets/img/illustrations/server-broken.svg" alt="unexpected error">
     <h1><b>{{'ERRORS.GENERIC.TITLE' | translate}}</b> - {{'ERRORS.GENERIC.MESSAGE' | translate}}</h1>
+    <div class="attribution-container">
+      <a href="https://storyset.com/internet" target="_blank">Internet illustrations by Storyset</a>
+    </div>
   </div>
   <ng-container *ngSwitchCase="null"></ng-container>
 </ng-container>
