@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { FirestoreError } from '@firebase/firestore';
 import { TranslateService } from '@ngx-translate/core';
 import {
   IParticipant,
@@ -21,6 +22,7 @@ export class RevealSecretSantaComponent implements OnInit {
   public isLoading: boolean = false;
   public title: string;
   public subTitle: string;
+  public errorCode: string | null = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,15 +40,21 @@ export class RevealSecretSantaComponent implements OnInit {
 
   private fetchParticipant(participantId: string): void {
     this.isLoading = true;
-    this.secretSanta.getParticipant(participantId).subscribe((participant) => {
-      this.participant = participant;
-      this.translate
-        .get('REVEAL.TITLE', { name: participant.name })
-        .subscribe((res: string) => {
-          this.title = res;
-          this.titleService.setTitle(res);
-        });
-      this.fetchSecretSanta();
+    this.secretSanta.getParticipant(participantId).subscribe({
+      next: (participant) => {
+        this.participant = participant;
+        this.translate
+          .get('REVEAL.TITLE', { name: participant.name })
+          .subscribe((res: string) => {
+            this.title = res;
+            this.titleService.setTitle(res);
+          });
+        this.fetchSecretSanta();
+      },
+      error: (error: FirestoreError) => {
+        this.errorCode = error?.code || 'UNKNOWN';
+        this.isLoading = false;
+      },
     });
   }
 

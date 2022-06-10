@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IParticipant } from '@shared/services/secret-santa/secret-santa.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest } from 'rxjs';
+import { FirestoreError } from '@firebase/firestore';
 
 @Component({
   selector: 'app-list-participants',
@@ -18,6 +19,7 @@ export class ListParticipantsComponent implements OnInit {
   public participants: IParticipant[] = [];
   public isLoading = false;
   public title: string;
+  public errorCode: string | null = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -32,7 +34,6 @@ export class ListParticipantsComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       const { secretSantaId } = params || {};
       if (secretSantaId) this.fetchData(secretSantaId);
-      // TODO: handle error
     });
   }
 
@@ -41,8 +42,8 @@ export class ListParticipantsComponent implements OnInit {
     const participants$ = this.secretSanta.getParticipants(secretSantaId);
     const secretSanta$ = this.secretSanta.getSecretSanta(secretSantaId);
 
-    combineLatest([participants$, secretSanta$]).subscribe(
-      ([participants, secretSanta]) => {
+    combineLatest([participants$, secretSanta$]).subscribe({
+      next: ([participants, secretSanta]) => {
         this.participants = participants;
         const title = this.translate.instant('PARTICIPANTS.TITLE', {
           name: secretSanta.name,
@@ -50,9 +51,12 @@ export class ListParticipantsComponent implements OnInit {
         this.titleService.setTitle(title);
         this.title = title;
         this.isLoading = false;
-      }
-    );
-    // TODO: handle error
+      },
+      error: (error: FirestoreError) => {
+        this.errorCode = error?.code || 'UNKNOWN';
+        this.isLoading = false;
+      },
+    });
   }
 
   public getParticipantUrl(participant: IParticipant): string {

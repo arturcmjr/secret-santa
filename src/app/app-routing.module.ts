@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RevealSecretSantaComponent } from '@modules/reveal-secret-santa/reveal-secret-santa.component';
+import { RevealSecretSantaComponent } from '@modules/secret-santa/pages/reveal-secret-santa/reveal-secret-santa.component';
 import { ListParticipantsComponent } from '@modules/secret-santa/pages/list-participants/list-participants.component';
 import { HomeComponent } from './modules/home/pages/home/home.component';
 import { CreateSecretSantaComponent } from './modules/secret-santa/pages/create-secret-santa/create-secret-santa.component';

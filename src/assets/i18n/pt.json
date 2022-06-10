@@ -64,5 +64,16 @@
     },
     "BOTTOM_TEXT": "Sem cadastro, sem custo e sem limites. Crie agora mesmo seu amigo oculto.",
     "CREATE_BUTTON": "CRIAR AMIGO OCULTO"
+  },
+  "ERRORS" : {
+    "GENERIC": {
+      "TITLE": "Algo Deu Errado",
+      "MESSAGE": "Estamos Com Problema, Tente Novamente Mais Tarde"
+    },
+    "NO_PERMISSION": {
+      "TITLE": "Falta de Permissão",
+      "MESSAGE": "Recurso Não Encontrado ou Falta de Permissão",
+      "HINT": "Lembrando que os dados somente estão disponíveis até 2 dias após a data do amigo oculto"
+    }
   }
 }
