@@ -1,27 +1,25 @@
-# SecretSanta
+# Secret Santa
+Secret Santa Web App In Angular 13.x
+> This app is part of my portfolio. If you liked it and are interested in working with me, here is my website where you can have a look at what I'm currently doing, see my other projects and get my resume. 
+> Please feel free to contact me at arturcmjr@gmail.com
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.3.
+This web page is a simple solution made to help my family with the traditional secret santa on holidays.
 
-## Development server
+[live demo](https://arju-secret-santa.web.app/).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
+- Secret santa on 3 steps
+- Send link to participants so they can reveal who they got
+- Available in Portuguese and English based on browser language
+- Responsive
+- Easy to use
 
-## Code scaffolding
+## Libraries and Frameworks
+- [Angular 13.x](https://angular.io/) base
+- [Angular Material](https://material.angular.io/) Theme and style
+- [Flex Layout](https://github.com/angular/flex-layout/wiki/fxLayout-API) Responsiveness utilities
+- [NGX Translate](https://github.com/ngx-translate/core) Translation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Technical
+- Firebase's firestore as BaaS
+- Google's reCAPTCHA on creation to avoid spam as login is not required
