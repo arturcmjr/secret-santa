@@ -5,7 +5,7 @@ Secret Santa Web App In Angular 13.x
 
 This web page is a simple solution made to help my family with the traditional secret santa on holidays.
 
-[live demo](https://arju-secret-santa.web.app/).
+[live demo](https://secreto.arju.dev/).
 
 ## Features
 - Secret santa on 3 steps
