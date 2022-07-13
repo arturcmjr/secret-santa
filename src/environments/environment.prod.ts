@@ -1,6 +1,5 @@
 export const environment = {
   production: true,
-  appUrl: 'https://arju-secret-santa.web.app/',
   firebaseConfig: {
     apiKey: 'AIzaSyBygS6EvetxOt6b1gtEv1kudh8Nek6h2yQ',
     authDomain: 'arju-secret-santa.firebaseapp.com',

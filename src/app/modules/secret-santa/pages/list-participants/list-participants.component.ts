@@ -60,7 +60,8 @@ export class ListParticipantsComponent implements OnInit {
   }
 
   public getParticipantUrl(participant: IParticipant): string {
-    return `${environment.appUrl}reveal/${participant.id}`;
+    const baseUrl = window.location.origin;
+    return `${baseUrl}/reveal/${participant.id}`;
   }
 
   public copyToClipboard(participant: IParticipant): void {
