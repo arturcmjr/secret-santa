@@ -76,5 +76,10 @@
       "MESSAGE": "Resource not found or you don't have permission to access it.",
       "HINT": "Remember that the data will be available only for 2 days after the secret santa."
     }
+  },
+  "LABELS": {
+    "OPENED": "Opened",
+    "NOT_OPENED_YET": "Not Opened Yet",
+    "OPENED_TIMES": "Opened {{count}} times"
   }
 }

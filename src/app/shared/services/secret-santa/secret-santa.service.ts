@@ -69,6 +69,19 @@ export class SecretSantaService {
     return from(docQuery).pipe(map((doc) => doc.data() as IParticipant));
   }
 
+  public getRevelationCount(revelationId: string): Observable<number> {
+    const ref = doc(
+      this.database,
+      `revelations`,
+      revelationId
+    ) as DocumentReference<IRevelation>;
+    const docQuery = getDoc(ref);
+    return from(docQuery).pipe(
+      map((doc) => doc.data() as IRevelation),
+      map((revelation) => revelation.revealedCount)
+    );
+  }
+
   private increaseRevelationCount(
     reference: DocumentReference<IRevelation>,
     count: number

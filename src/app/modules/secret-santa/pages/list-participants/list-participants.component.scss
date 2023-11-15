@@ -10,7 +10,6 @@
   }
 }
 
-/* ----------------------------------- new ---------------------------------- */
 .share-container {
   border-radius: 15px;
   background-color: #FFF;
@@ -21,4 +20,16 @@
 
 .body {
   background-color: #FFF !important;
+}
+
+.revelation-count {
+  font-size: .8rem;
+
+  &.opened {
+    color: #28a745;
+  }
+
+  &.not-opened {
+    color: #b3b3b3;
+  }
 }

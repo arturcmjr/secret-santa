@@ -6,6 +6,14 @@
         <div style="max-width: 88%;">
           <b>{{ participant.name}}</b><br>
           <div class="revelation-url" (click)="copyToClipboard(participant)">{{getParticipantUrl(participant)}}</div>
+          <ng-container *ngIf="participant.revealedCount !== undefined; else revelationLoading">
+            <div class="revelation-count opened" *ngIf="participant.revealedCount === 1">{{ 'LABELS.OPENED' | translate }}</div>
+            <div class="revelation-count opened" *ngIf="participant.revealedCount > 1">{{ 'LABELS.OPENED_TIMES' | translate: {count: participant.revealedCount} }}</div>
+            <div class="revelation-count not-opened" *ngIf="participant.revealedCount === 0">{{ 'LABELS.NOT_OPENED_YET' | translate }}</div>
+          </ng-container>
+          <ng-template #revelationLoading>
+            <mat-spinner diameter="20"></mat-spinner>
+          </ng-template>
         </div>
         <div fxLayoutAlign="center center">
           <button mat-icon-button (click)="shareSanta(participant)">

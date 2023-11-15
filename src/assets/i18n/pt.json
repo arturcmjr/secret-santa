@@ -76,5 +76,10 @@
       "MESSAGE": "Recurso Não Encontrado ou Falta de Permissão",
       "HINT": "Lembrando que os dados somente estão disponíveis até 2 dias após a data do amigo oculto"
     }
+  },
+  "LABELS": {
+    "OPENED": "Aberto",
+    "NOT_OPENED_YET": "Ainda não aberto",
+    "OPENED_TIMES": "Aberto {{count}} vezes"
   }
 }

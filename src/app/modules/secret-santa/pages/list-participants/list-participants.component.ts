@@ -1,14 +1,17 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from '@env';
-import { Clipboard } from '@angular/cdk/clipboard';
-import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { IParticipant } from '@shared/services/secret-santa/secret-santa.interface';
-import { TranslateService } from '@ngx-translate/core';
-import { combineLatest } from 'rxjs';
 import { FirestoreError } from '@firebase/firestore';
+import { TranslateService } from '@ngx-translate/core';
+import { IParticipant as IParticipantBase } from '@shared/services/secret-santa/secret-santa.interface';
+import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
+import { Observable, combineLatest } from 'rxjs';
+
+export interface IParticipant extends IParticipantBase {
+  revealedCount?: number;
+}
 
 @Component({
   selector: 'app-list-participants',
@@ -45,6 +48,7 @@ export class ListParticipantsComponent implements OnInit {
     combineLatest([participants$, secretSanta$]).subscribe({
       next: ([participants, secretSanta]) => {
         this.participants = participants;
+        this.fetchRevelationsCount();
         const title = this.translate.instant('PARTICIPANTS.TITLE', {
           name: secretSanta.name,
         });
@@ -56,6 +60,16 @@ export class ListParticipantsComponent implements OnInit {
         this.errorCode = error?.code || 'UNKNOWN';
         this.isLoading = false;
       },
+    });
+  }
+
+  private fetchRevelationsCount(): void {
+    this.participants.forEach((participant) => {
+      this.secretSanta
+        .getRevelationCount(participant.revelationRef.id)
+        .subscribe((count) => {
+          participant.revealedCount = count;
+        });
     });
   }
 
