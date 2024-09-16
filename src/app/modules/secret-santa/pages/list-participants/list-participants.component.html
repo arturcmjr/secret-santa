@@ -1,8 +1,7 @@
 <app-default-page-layout [title]="title" [subTitle]="'PARTICIPANTS.SUBTITLE' | translate">
   <div class="page-width">
-    <div fxLayout="column" fxLayoutAlign="start none" fxLayoutGap="13px">
-      <div class="share-container" *ngFor="let participant of participants; index as i"
-        fxLayoutAlign="space-between center">
+    <div class="cards-container">
+      <div class="share-container" *ngFor="let participant of participants; index as i">
         <div style="max-width: 88%;">
           <b>{{ participant.name}}</b><br>
           <div class="revelation-url" (click)="copyToClipboard(participant)">{{getParticipantUrl(participant)}}</div>
@@ -15,7 +14,7 @@
             <mat-spinner diameter="20"></mat-spinner>
           </ng-template>
         </div>
-        <div fxLayoutAlign="center center">
+        <div class="flex-center">
           <button mat-icon-button (click)="shareSanta(participant)">
             <mat-icon>share</mat-icon>
           </button>

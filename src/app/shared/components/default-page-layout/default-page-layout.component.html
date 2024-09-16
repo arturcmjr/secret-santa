@@ -5,7 +5,7 @@
   <div class="page-container">
     <h2 *ngIf="title" class="page-title">{{title}}</h2>
     <h4 *ngIf="subTitle" class="page-subtitle">{{subTitle}}</h4>
-    <div fxLayout="row" fxLayoutAlign="center none" style="flex-grow: 1;">
+    <div class="page-body">
       <ng-content></ng-content>
     </div>
   </div>

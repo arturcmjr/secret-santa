@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormControl,
@@ -30,7 +30,7 @@ interface IParticipantSecretSanta {
   templateUrl: './create-secret-santa.component.html',
   styleUrls: ['./create-secret-santa.component.scss'],
 })
-export class CreateSecretSantaComponent implements OnInit {
+export class CreateSecretSantaComponent {
   @ViewChild('participantsScroll') private participantsScroll: ElementRef;
 
   public isLoading = false;
@@ -40,19 +40,14 @@ export class CreateSecretSantaComponent implements OnInit {
     date: new UntypedFormControl(null, [Validators.required]),
   });
   public participantsControl = new UntypedFormControl([], [minimumArrayLength(4)]);
-  public confirmForm = new UntypedFormGroup({
-    captcha: new UntypedFormControl(null, [Validators.required]),
-  });
   public newParticipantControl = new UntypedFormControl(null, [
     Validators.minLength(3),
   ]);
 
   constructor(
     private secretSantaService: SecretSantaService,
-    private router: Router
+    private router: Router,
   ) {}
-
-  ngOnInit(): void {}
 
   public formGroupHasError(
     group: UntypedFormGroup,
@@ -110,12 +105,10 @@ export class CreateSecretSantaComponent implements OnInit {
   public save(): void {
     if (
       this.basicInfoForm.invalid ||
-      this.participantsControl.invalid ||
-      this.confirmForm.invalid
+      this.participantsControl.invalid 
     ) {
       this.basicInfoForm.markAllAsTouched();
       this.participantsControl.markAsTouched();
-      this.confirmForm.markAllAsTouched();
       return;
     }
     const participants = this.drawSecretSanta();

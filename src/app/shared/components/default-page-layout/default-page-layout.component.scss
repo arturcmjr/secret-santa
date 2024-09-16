@@ -36,3 +36,9 @@
     margin-top: -1rem;
   }
 }
+
+.page-body {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
