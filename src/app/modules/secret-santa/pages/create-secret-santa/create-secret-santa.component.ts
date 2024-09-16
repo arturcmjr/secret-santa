@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { minimumArrayLength } from 'src/app/shared/helpers/validators/minimum-array-length.validator';
@@ -34,16 +34,16 @@ export class CreateSecretSantaComponent implements OnInit {
   @ViewChild('participantsScroll') private participantsScroll: ElementRef;
 
   public isLoading = false;
-  public basicInfoForm = new FormGroup({
-    name: new FormControl(null, [Validators.required, Validators.minLength(5)]),
-    description: new FormControl(null),
-    date: new FormControl(null, [Validators.required]),
+  public basicInfoForm = new UntypedFormGroup({
+    name: new UntypedFormControl(null, [Validators.required, Validators.minLength(5)]),
+    description: new UntypedFormControl(null),
+    date: new UntypedFormControl(null, [Validators.required]),
   });
-  public participantsControl = new FormControl([], [minimumArrayLength(4)]);
-  public confirmForm = new FormGroup({
-    captcha: new FormControl(null, [Validators.required]),
+  public participantsControl = new UntypedFormControl([], [minimumArrayLength(4)]);
+  public confirmForm = new UntypedFormGroup({
+    captcha: new UntypedFormControl(null, [Validators.required]),
   });
-  public newParticipantControl = new FormControl(null, [
+  public newParticipantControl = new UntypedFormControl(null, [
     Validators.minLength(3),
   ]);
 
@@ -55,7 +55,7 @@ export class CreateSecretSantaComponent implements OnInit {
   ngOnInit(): void {}
 
   public formGroupHasError(
-    group: FormGroup,
+    group: UntypedFormGroup,
     controlName: string,
     error?: string
   ): boolean {
