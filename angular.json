@@ -98,10 +98,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "secret-santa:build:production"
+              "buildTarget": "secret-santa:build:production"
             },
             "development": {
-              "browserTarget": "secret-santa:build:development"
+              "buildTarget": "secret-santa:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -109,7 +109,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "secret-santa:build"
+            "buildTarget": "secret-santa:build"
           }
         },
         "test": {
