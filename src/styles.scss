@@ -82,16 +82,6 @@ body {
   filter: drop-shadow(0px 6px 10px rgba(101, 101, 101, 0.25));
 }
 
-::-moz-selection { 
-  color: #FFF;
-  background: #367c7c;
-}
-
-::selection {
-  color: #FFF;
-  background: #367c7c;
-}
-
 /* -------------------------------- utilities ------------------------------- */
 // TODO: move to utilities
 .text-secondary {

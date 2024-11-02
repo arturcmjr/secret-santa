@@ -1,0 +1,48 @@
+$input-gray: #6e6e6e;
+
+:host {
+  .list-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: .4rem 0;
+    counter-reset: item;
+  }
+
+  .list-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: calc(20px + .8rem);
+
+    &::before {
+      content: counter(item);
+      position: absolute;
+      left: 0;
+      counter-increment: item;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: $input-gray;
+      color: #fff;
+      font-size: 0.8rem;
+    }
+  }
+
+  .input-wrapper {
+    display: flex;
+    gap: .4rem;
+
+    mat-form-field {
+      flex-grow: 1;
+    }
+
+    button {
+      height: 56px;
+    }
+  }
+}

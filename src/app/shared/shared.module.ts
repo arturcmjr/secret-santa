@@ -8,6 +8,7 @@ import { DefaultPageLayoutComponent } from './components/default-page-layout/def
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MainLogoComponent } from './components/main-logo/main-logo.component';
+import { ListInputComponent } from './components/list-input/list-input.component';
 
 @NgModule({
   declarations: [
@@ -15,12 +16,15 @@ import { MainLogoComponent } from './components/main-logo/main-logo.component';
     SpinnerOverlayComponent,
     DefaultPageLayoutComponent,
     MainLogoComponent,
+    ListInputComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     AngularMaterialModule,
     TranslateModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     AngularMaterialModule,
@@ -31,6 +35,7 @@ import { MainLogoComponent } from './components/main-logo/main-logo.component';
     TranslateModule,
     MainLogoComponent,
     RouterModule,
+    ListInputComponent,
   ],
 })
 export class SharedModule {}

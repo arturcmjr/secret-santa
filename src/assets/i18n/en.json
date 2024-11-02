@@ -80,6 +80,19 @@
   "LABELS": {
     "OPENED": "Opened",
     "NOT_OPENED_YET": "Not Opened Yet",
-    "OPENED_TIMES": "Opened {{count}} times"
+    "OPENED_TIMES": "Opened {{count}} times",
+    "NAME": "Name",
+    "SUGGESTION": "Suggestion"
+  },
+  "SUGGESTIONS": {
+    "SUBTITLE": "Give us a hint of what gift you would like to receive"
+  },
+  "INPUTS": {
+    "LIST": {
+      "DUPLICATE": "{{name}} already exists"
+    },
+    "GENERIC":{
+      "MIN_LENGTH": "{{name}} must be at least {{length}} characters long"
+    }
   }
 }

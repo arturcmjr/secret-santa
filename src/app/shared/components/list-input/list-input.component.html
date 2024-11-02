@@ -1,0 +1,37 @@
+<div class="list-wrapper">
+  @for(string of value; track string; let i = $index){
+  <div class="list-item">
+    {{ string }}
+    <button mat-icon-button (click)="removeItem(i)">
+      <mat-icon class="material-icons-outlined" style="color: #6e6e6e"
+        >delete</mat-icon
+      >
+    </button>
+  </div>
+  }
+</div>
+<div class="input-wrapper">
+  <mat-form-field appearance="outline">
+    <mat-label>{{ label }}</mat-label>
+    <input
+      type="text"
+      matInput
+      [formControl]="inputControl"
+      (keydown.enter)="addItem(); $event.preventDefault()"
+    />
+    @if (inputControl.hasError('duplicate')) {
+    <mat-error>
+      {{ "INPUTS.LIST.DUPLICATE" | translate : { name: label } }}
+    </mat-error>
+    } @else if (inputControl.hasError('minlength')) {
+    <mat-error>
+      {{ "INPUTS.GENERIC.MIN_LENGTH" | translate : { length: minLength, name: label } }}
+    </mat-error>
+    }
+  </mat-form-field>
+  <div>
+    <button mat-stroked-button color="primary" (click)="addItem()">
+      <span class="material-icons">add</span>
+    </button>
+  </div>
+</div>

@@ -1,24 +1,14 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { minimumArrayLength } from 'src/app/shared/helpers/validators/minimum-array-length.validator';
-import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
-import { ICreateSecretSanta } from '@shared/services/secret-santa/secret-santa.interface';
 import { Router } from '@angular/router';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyBygS6EvetxOt6b1gtEv1kudh8Nek6h2yQ',
-  authDomain: 'arju-secret-santa.firebaseapp.com',
-  projectId: 'arju-secret-santa',
-  storageBucket: 'arju-secret-santa.appspot.com',
-  messagingSenderId: '908249212112',
-  appId: '1:908249212112:web:d7c735ccc74fdf176fead5',
-  measurementId: 'G-N9B763KS2Y',
-};
+import { ICreateSecretSanta } from '@shared/services/secret-santa/secret-santa.interface';
+import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
+import { minimumArrayLength } from 'src/app/shared/helpers/validators/minimum-array-length.validator';
 
 interface IParticipantSecretSanta {
   name: string;
@@ -31,18 +21,15 @@ interface IParticipantSecretSanta {
   styleUrls: ['./create-secret-santa.component.scss'],
 })
 export class CreateSecretSantaComponent {
-  @ViewChild('participantsScroll') private participantsScroll: ElementRef;
-
   public isLoading = false;
-  public basicInfoForm = new UntypedFormGroup({
+  public step1group = new UntypedFormGroup({
     name: new UntypedFormControl(null, [Validators.required, Validators.minLength(5)]),
     description: new UntypedFormControl(null),
     date: new UntypedFormControl(null, [Validators.required]),
   });
-  public participantsControl = new UntypedFormControl([], [minimumArrayLength(4)]);
-  public newParticipantControl = new UntypedFormControl(null, [
-    Validators.minLength(3),
-  ]);
+  protected step2group = new UntypedFormGroup({
+    participants: new UntypedFormControl([], [minimumArrayLength(4)]),
+  });
 
   constructor(
     private secretSantaService: SecretSantaService,
@@ -70,49 +57,17 @@ export class CreateSecretSantaComponent {
     );
   }
 
-  public removeParticipant(index: number): void {
-    const participants: string[] = this.participantsControl.value || [];
-    participants.splice(index, 1);
-    this.participantsControl.setValue(participants);
-  }
-
-  public addParticipant(): void {
-    if (
-      this.newParticipantControl.invalid ||
-      !this.newParticipantControl.value
-    ) {
-      this.newParticipantControl.markAsTouched();
-      return;
-    }
-    const name = this.newParticipantControl.value;
-    const participants: string[] = this.participantsControl.value || [];
-    if (participants.includes(name)) {
-      this.newParticipantControl.setErrors({ duplicate: true });
-      this.newParticipantControl.markAsTouched();
-      return;
-    } else {
-      this.newParticipantControl.setErrors({ duplicate: false });
-    }
-    participants.push(name);
-    this.participantsControl.setValue(participants);
-    this.newParticipantControl.reset();
-    window.setTimeout(() => {
-      this.participantsScroll.nativeElement.scrollTop =
-        this.participantsScroll.nativeElement.scrollHeight;
-    });
-  }
-
   public save(): void {
     if (
-      this.basicInfoForm.invalid ||
-      this.participantsControl.invalid 
+      this.step1group.invalid ||
+      this.step2group.invalid
     ) {
-      this.basicInfoForm.markAllAsTouched();
-      this.participantsControl.markAsTouched();
+      this.step1group.markAllAsTouched();
+      this.step2group.markAllAsTouched();
       return;
     }
     const participants = this.drawSecretSanta();
-    const { name, description, date } = this.basicInfoForm.value;
+    const { name, description, date } = this.step1group.value;
     const data: ICreateSecretSanta = {
       name,
       description,
@@ -127,11 +82,12 @@ export class CreateSecretSantaComponent {
   }
 
   private drawSecretSanta(): IParticipantSecretSanta[] {
+    const initialParticipants: string[] = [...this.step2group.value.participants];
     let participants: IParticipantSecretSanta[] = [];
     do {
       participants = [];
-      const allParticipants: string[] = [...this.participantsControl.value];
-      let options: string[] = [...this.participantsControl.value];
+      const allParticipants: string[] = [...initialParticipants];
+      let options: string[] = [...initialParticipants];
       allParticipants.forEach((entry) => {
         const secretSanta = options[Math.floor(Math.random() * options.length)];
         participants.push({
