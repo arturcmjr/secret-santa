@@ -4,7 +4,7 @@ import { RevealSecretSantaComponent } from '@modules/secret-santa/pages/reveal-s
 import { ListParticipantsComponent } from '@modules/secret-santa/pages/list-participants/list-participants.component';
 import { HomeComponent } from './modules/home/pages/home/home.component';
 import { CreateSecretSantaComponent } from './modules/secret-santa/pages/create-secret-santa/create-secret-santa.component';
-import { SuggestionsComponent } from '@modules/secret-santa/pages/suggestions/suggestions.component';
+import { ParticipantComponent } from '@modules/secret-santa/pages/participant/participant.component';
 
 const routes: Routes = [
   {
@@ -12,9 +12,9 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'create', component: CreateSecretSantaComponent },
-      { path: 'reveal/:participantId', component: RevealSecretSantaComponent },
       { path: 'share/:secretSantaId', component: ListParticipantsComponent },
-      { path: 'suggestions/:participantId', component: SuggestionsComponent },
+      { path: 'participant/:participantId', component: ParticipantComponent },
+      { path: 'reveal/:participantId', component: RevealSecretSantaComponent },
     ],
   },
 ];

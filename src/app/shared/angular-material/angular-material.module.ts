@@ -9,6 +9,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   exports: [
@@ -22,6 +24,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatIconModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })

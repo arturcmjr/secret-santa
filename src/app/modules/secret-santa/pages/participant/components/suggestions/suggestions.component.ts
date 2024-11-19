@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './suggestions.component.scss'
 })
 export class SuggestionsComponent {
-  protected title = 'Suggestions';
-  protected isLoading = false;
+
 }

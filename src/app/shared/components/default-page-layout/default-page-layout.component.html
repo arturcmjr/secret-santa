@@ -4,7 +4,11 @@
   </div>
   <div class="page-container">
     <h2 *ngIf="title" class="page-title">{{title}}</h2>
-    <h4 *ngIf="subTitle" class="page-subtitle">{{subTitle}}</h4>
+    @if(subTitleTemplate) {
+      <ng-container *ngTemplateOutlet="subTitleTemplate"></ng-container>
+    } @else {
+      <h4 *ngIf="subTitle" class="page-subtitle">{{subTitle}}</h4>
+    }
     <div class="page-body">
       <ng-content></ng-content>
     </div>

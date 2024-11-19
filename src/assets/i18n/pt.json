@@ -8,48 +8,13 @@
     "REVELATION": "Você tirou o(a) <b>{{name}}</b>!",
     "REVEALED_BEFORE": "Já foi revelado {{count}} vezes antes. Se não foi você, alguém com o link pode saber quem você tirou."
   },
-  "PARTICIPANTS" : {
+  "PARTICIPANTS": {
     "TITLE": "Participantes {{name}}",
     "SUBTITLE": "Envie os links para os participantes",
     "SHARE_TITLE": "Revelar o amigo oculto do(a) {{name}}",
     "CLIPBOARD_SUCCESS": "Link copiado para a área de transferência"
   },
-  "CREATE" : {
-    "TITLE": "Criar um novo amigo oculto",
-    "FORM": {
-      "STEP_1": "Informações Básicas",
-      "STEP_2": "Participantes",
-      "STEP_3": "Confirmação",
-      "NAME_PLACEHOLDER": "Título do amigo oculto",
-      "NAME_LABEL": "Título",
-      "NAME_REQUIRED": "Título é obrigatório",
-      "NAME_MINLENGTH": "Título deve ter no mínimo 5 caracteres",
-      "DESCRIPTION_LABEL": "Descrição",
-      "DESCRIPTION_PLACEHOLDER": "Curta descrição do amigo oculto",
-      "DATE_LABEL": "Data",
-      "DATE_REQUIRED": "Data é obrigatória",
-      "DATE_NOTALLOWED": "Data precisa ser entre hoje e daqui a 1 ano",
-      "DATE_INVALID": "Data inválida",
-      "DATE_HINT": "Os dados não estarão disponíveis 2 dias após a data",
-      "PARTICIPANTS_LABEL": "Nome",
-      "PARTICIPANTS_PLACEHOLDER": "Nome do participante",
-      "PARTICIPANTS_MINLENGTH": "Nome do participante deve ter no mínimo 3 caracteres",
-      "PARTICIPANTS_DUPLICATE": "Participante já existe",
-      "PARTICIPANTS_MINARRAY": "É necessário pelo menos 4 participantes"
-    },
-    "CONFIRMATION" : {
-      "MESSAGE": "Tudo pronto, revise as informações e clique em pronto para criar o amigo oculto",
-      "NAME": "Nome:",
-      "DESCRIPTION": "Descrição:",
-      "DATE": "Data:",
-      "PARTICIPANTS": "Participantes:",
-      "CAPTCHA_REQUIRED": "Por favor, confirme o captcha"
-    },
-    "NEXT": "Próximo",	
-    "PREVIOUS": "Anterior",
-    "DONE": "Pronto"
-  },
-  "HOME" : {
+  "HOME": {
     "TITLE": "amigo oculto em 3 simples passos",
     "STEP_1": {
       "TITLE": "informações básicas",
@@ -66,7 +31,7 @@
     "BOTTOM_TEXT": "Sem cadastro, sem custo e sem limites. Crie agora mesmo seu amigo oculto.",
     "CREATE_BUTTON": "CRIAR AMIGO OCULTO"
   },
-  "ERRORS" : {
+  "ERRORS": {
     "GENERIC": {
       "TITLE": "Algo Deu Errado",
       "MESSAGE": "Estamos Com Problema, Tente Novamente Mais Tarde"
@@ -77,13 +42,6 @@
       "HINT": "Lembrando que os dados somente estão disponíveis até 2 dias após a data do amigo oculto"
     }
   },
-  "LABELS": {
-    "OPENED": "Aberto",
-    "NOT_OPENED_YET": "Ainda não aberto",
-    "OPENED_TIMES": "Aberto {{count}} vezes",
-    "NAME": "Nome",
-    "SUGGESTION": "Sugestão"
-  },
   "SUGGESTIONS": {
     "SUBTITLE": "Nos dê uma dica de que presente gostaria de ganhar"
   },
@@ -91,8 +49,39 @@
     "LIST": {
       "DUPLICATE": "{{name}} já existe"
     },
-    "GENERIC":{
+    "GENERIC": {
       "MIN_LENGTH": "{{name}} deve ter no mínimo {{length}} caracteres"
     }
+  },
+  "LABELS": {
+    "BASIC_INFO": "Informações Básicas",
+    "TITLE": "Título",
+    "SS_TITLE": "Titulo do Amigo Oculto",
+    "DESCRIPTION": "Descrição",
+    "DATE": "Data",
+    "SS_SHORT_DESCRIPTION": "Curta descrição do amigo oculto",
+    "USE_SUGGESTIONS": "Usar Sugestões",
+    "MAX_SUGGESTIONS": "Máximo de Sugestões",
+    "NEXT": "Próximo",
+    "PARTICIPANTS": "Participantes",
+    "NAME": "Nome",
+    "PREVIOUS": "Anterior",
+    "CONFIRMATION": "Confirmação",
+    "DONE": "Pronto",
+    "OPENED": "Aberto",
+    "NOT_OPENED_YET": "Ainda não aberto",
+    "OPENED_TIMES": "Aberto {{count}} vezes",
+    "SUGGESTION": "Sugestão",
+    "CREATE": "Criar"
+  },
+  "MESSAGES": {
+    "VALIDATION_REQUIRED": "{{field}} é obrigatório",
+    "VALIDATION_MIN_LENGTH": "{{field}} deve ter no mínimo {{length}} caracteres",
+    "VALIDATION_MIN_VALUE": "{{field}} deve ser maior do que {{value}}",
+    "VALIDATION_INVALID": "{{field}} inválido",
+    "VALIDATION_CUSTOM_01": "Data precisa ser entre hoje e daqui a 1 ano",
+    "HINT_AVAILABLE_DATE": "Os dados não estarão disponíveis 2 dias após a data",
+    "HINT_USE_SUGGESTIONS": "Selecione para que os participantes possam adicionar sugestões de presentes",
+    "INFO_CREATE_CONFIRMATION": "Tudo pronto, revise as informações e clique em pronto para criar o amigo oculto"
   }
 }

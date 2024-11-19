@@ -19,6 +19,7 @@ import {
   ISecretSanta,
   IParticipant,
   IRevelation,
+  SecretSantaTypeEnum,
 } from './secret-santa.interface';
 
 @Injectable({
@@ -34,12 +35,12 @@ export class SecretSantaService {
   public createSecretSanta(
     data: ICreateSecretSanta
   ): Observable<DocumentReference> {
-    const { name, description, date, participants } = data;
+    const { name, description, date, participants, type } = data;
 
     const db = this.database;
     const batch = writeBatch(db);
     const secretSantaRef = doc(db, 'secretSantas', generateUniqueId());
-    batch.set(secretSantaRef, { name, description, date });
+    batch.set(secretSantaRef, { name, description, date, type });
 
     participants.forEach((participant) => {
       const revelationRef = doc(db, 'revelations', generateUniqueId());
@@ -68,6 +69,7 @@ export class SecretSantaService {
     const docQuery = getDoc(ref);
     return from(docQuery).pipe(map((doc) => doc.data() as IParticipant));
   }
+
 
   public getRevelationCount(revelationId: string): Observable<number> {
     const ref = doc(

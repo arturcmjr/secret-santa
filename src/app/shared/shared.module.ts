@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MainLogoComponent } from './components/main-logo/main-logo.component';
 import { ListInputComponent } from './components/list-input/list-input.component';
+import { MatFormErrorDirective } from './services/directives/mat-form-error.directive';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ListInputComponent } from './components/list-input/list-input.component
     DefaultPageLayoutComponent,
     MainLogoComponent,
     ListInputComponent,
+    MatFormErrorDirective,
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { ListInputComponent } from './components/list-input/list-input.component
     MainLogoComponent,
     RouterModule,
     ListInputComponent,
+    MatFormErrorDirective,
   ],
 })
 export class SharedModule {}

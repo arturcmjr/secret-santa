@@ -1,0 +1,18 @@
+<app-default-page-layout [title]="title" [subTitleTemplate]="subTitleTemplate">
+  <div class="app-card page-width">
+    @if(participant && secretSanta) { @if(shouldSuggest) {
+    <app-suggestions></app-suggestions>
+    } }
+  </div>
+</app-default-page-layout>
+<app-spinner-overlay [isLoading]="isLoading"></app-spinner-overlay>
+
+<ng-template #subTitleTemplate>
+  @if(secretSanta) {
+  <p class="subtitle">
+    <b>{{ secretSanta.name }}</b>
+    <br />
+    <span> {{ secretSanta.description }}</span>
+  </p>
+  }
+</ng-template>

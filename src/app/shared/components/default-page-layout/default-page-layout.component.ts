@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-default-page-layout',
@@ -7,7 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DefaultPageLayoutComponent implements OnInit {
   @Input() public title: string;
-  @Input() public subTitle: string;
+  @Input() public subTitle?: string;
+  @Input() public subTitleTemplate?: TemplateRef<any>;
 
   constructor() { }
 

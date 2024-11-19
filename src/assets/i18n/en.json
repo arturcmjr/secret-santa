@@ -8,49 +8,14 @@
     "REVELATION": "You got <b>{{name}}</b>! Gift time!",
     "REVEALED_BEFORE": "It was revealed {{count}} times before, if it wasn't you, someone else may know who you got. Anyone with this link can reveal your secret santa."
   },
-  "PARTICIPANTS" : {
+  "PARTICIPANTS": {
     "TITLE": "{{name}} Participants",
     "SUBTITLE": "Send the link to the participants",
     "SHARE_TITLE": "Reveal {{name}}'s secret santa",
     "CLIPBOARD_SUCCESS": "Link copied to clipboard"
   },
-  "CREATE" : {
-    "TITLE": "Create Secret Santa",
-    "FORM": {
-      "STEP_1": "Basic Information",
-      "STEP_2": "Participants",
-      "STEP_3": "Confirmation",
-      "NAME_PLACEHOLDER": "Secret Santa Title",
-      "NAME_LABEL": "Title",
-      "NAME_REQUIRED": "Title is required",
-      "NAME_MINLENGTH": "Title must be at least 5 characters long",
-      "DESCRIPTION_LABEL": "Description",
-      "DESCRIPTION_PLACEHOLDER": "Short description of the Secret Santa",
-      "DATE_LABEL": "Date",
-      "DATE_REQUIRED": "Date is required",
-      "DATE_NOTALLOWED": "Date must be between today and 1 year from now",
-      "DATE_INVALID": "Date is invalid",
-      "DATE_HINT": "Data wont be available 2 days after this date",
-      "PARTICIPANTS_LABEL": "Name",
-      "PARTICIPANTS_PLACEHOLDER": "Participant Name",
-      "PARTICIPANTS_MINLENGTH": "Participant name must be at least 3 characters long",
-      "PARTICIPANTS_DUPLICATE": "Participant already exists",
-      "PARTICIPANTS_MINARRAY": "At least 4 participants are required"
-    },
-    "CONFIRMATION" : {
-      "MESSAGE": "You're all set, review the info then click done to create the Secret Santa",
-      "NAME": "Name:",
-      "DESCRIPTION": "Description:",
-      "DATE": "Date:",
-      "PARTICIPANTS": "Participants:",
-      "CAPTCHA_REQUIRED": "Please, check the captcha"
-    },
-    "NEXT": "Next",
-    "PREVIOUS": "Previous",
-    "DONE": "Done"
-  },
-  "HOME" : {
-    "TITLE": "secret santa on 3 easy steps", 
+  "HOME": {
+    "TITLE": "secret santa on 3 easy steps",
     "STEP_1": {
       "TITLE": "basic information",
       "DESCRIPTION": "Fill in the basic information about your Secret Santa."
@@ -66,7 +31,7 @@
     "BOTTOM_TEXT": "No register, no costs and no limits. Create now your secret santa",
     "CREATE_BUTTON": "CREATE SECRET SANTA"
   },
-  "ERRORS" : {
+  "ERRORS": {
     "GENERIC": {
       "TITLE": "Something went wrong",
       "MESSAGE": "We're sorry, something went wrong. Please, try again later."
@@ -77,13 +42,6 @@
       "HINT": "Remember that the data will be available only for 2 days after the secret santa."
     }
   },
-  "LABELS": {
-    "OPENED": "Opened",
-    "NOT_OPENED_YET": "Not Opened Yet",
-    "OPENED_TIMES": "Opened {{count}} times",
-    "NAME": "Name",
-    "SUGGESTION": "Suggestion"
-  },
   "SUGGESTIONS": {
     "SUBTITLE": "Give us a hint of what gift you would like to receive"
   },
@@ -91,8 +49,39 @@
     "LIST": {
       "DUPLICATE": "{{name}} already exists"
     },
-    "GENERIC":{
+    "GENERIC": {
       "MIN_LENGTH": "{{name}} must be at least {{length}} characters long"
     }
+  },
+  "LABELS": {
+    "BASIC_INFO": "Basic Information",
+    "TITLE": "Title",
+    "SS_TITLE": "Secret Santa Title",
+    "DESCRIPTION": "Description",
+    "DATE": "Date",
+    "SS_SHORT_DESCRIPTION": "Short description of Secret Santa",
+    "USE_SUGGESTIONS": "Use Suggestions",
+    "MAX_SUGGESTIONS": "Maximum Suggestions",
+    "NEXT": "Next",
+    "PARTICIPANTS": "Participants",
+    "NAME": "Name",
+    "PREVIOUS": "Previous",
+    "CONFIRMATION": "Confirmation",
+    "DONE": "Done",
+    "OPENED": "Opened",
+    "NOT_OPENED_YET": "Not Opened Yet",
+    "OPENED_TIMES": "Opened {{count}} times",
+    "SUGGESTION": "Suggestion",
+    "CREATE": "Create"
+  },
+  "MESSAGES": {
+    "VALIDATION_REQUIRED": "{{field}} is required",
+    "VALIDATION_MIN_LENGTH": "{{field}} must be at least {{length}} characters",
+    "VALIDATION_MIN_VALUE": "{{field}} must be greater than {{value}}",
+    "VALIDATION_INVALID": "{{field}} is invalid",
+    "VALIDATION_CUSTOM_01": "Date must be between today and 1 year from now",
+    "HINT_AVAILABLE_DATE": "Data will not be available 2 days after the date",
+    "HINT_USE_SUGGESTIONS": "Select to allow participants to add gift suggestions",
+    "INFO_CREATE_CONFIRMATION": "All set, review the information and click done to create the Secret Santa"
   }
 }

@@ -6,7 +6,7 @@ import { CreateSecretSantaComponent } from './secret-santa/pages/create-secret-s
 import { RevealSecretSantaComponent } from './secret-santa/pages/reveal-secret-santa/reveal-secret-santa.component';
 import { ListParticipantsComponent } from './secret-santa/pages/list-participants/list-participants.component';
 import { ErrorIllustrationComponent } from './secret-santa/components/error-illustration/error-illustration.component';
-import { SuggestionsComponent } from './secret-santa/pages/suggestions/suggestions.component';
+import { ParticipantModule } from './secret-santa/pages/participant/participant.module';
 
 @NgModule({
   declarations: [
@@ -15,8 +15,7 @@ import { SuggestionsComponent } from './secret-santa/pages/suggestions/suggestio
     RevealSecretSantaComponent,
     ListParticipantsComponent,
     ErrorIllustrationComponent,
-    SuggestionsComponent,
   ],
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, ParticipantModule],
 })
 export class ModulesModule {}
