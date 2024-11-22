@@ -72,7 +72,10 @@
     "NOT_OPENED_YET": "Not Opened Yet",
     "OPENED_TIMES": "Opened {{count}} times",
     "SUGGESTION": "Suggestion",
-    "CREATE": "Create"
+    "SUGGESTIONS": "Suggestions",
+    "CREATE": "Create",
+    "SAVE": "Save",
+    "PARTICIPANT": "Participant"
   },
   "MESSAGES": {
     "VALIDATION_REQUIRED": "{{field}} is required",
@@ -80,8 +83,13 @@
     "VALIDATION_MIN_VALUE": "{{field}} must be greater than {{value}}",
     "VALIDATION_INVALID": "{{field}} is invalid",
     "VALIDATION_CUSTOM_01": "Date must be between today and 1 year from now",
+    "SUCCESS_SUGGESTIONS_SAVED": "Suggestions saved successfully",
     "HINT_AVAILABLE_DATE": "Data will not be available 2 days after the date",
     "HINT_USE_SUGGESTIONS": "Select to allow participants to add gift suggestions",
-    "INFO_CREATE_CONFIRMATION": "All set, review the information and click done to create the Secret Santa"
+    "HINT_GIFT_SUGGESTIONS": "Now is time to tell us some gift suggestions, share up to {{value}} gifts that you would like to receive, you can leave it blank if you want to keep it a surprise. You can edit it until the responsible for the Secret Santa draw the names",
+    "INFO_CREATE_CONFIRMATION": "All set, review the information and click done to create the Secret Santa",
+    "INTO_PARTICIPANT_SUGGESTIONS": "{{name}}'s suggestions",
+    "WARNING_SAVING_WITHOUT_SUGGESTIONS": "If you save like this, it means that you are accept surprises and don't want to give any hints to your Secret Santa",
+    "WARNING_NO_SUGGESTIONS": "You chose gave no suggestion"
   }
 }

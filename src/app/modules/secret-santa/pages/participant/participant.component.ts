@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirestoreError } from '@firebase/firestore';
+import { TranslateService } from '@ngx-translate/core';
 import {
   IParticipant,
   ISecretSanta,
   SecretSantaTypeEnum,
 } from '@shared/services/secret-santa/secret-santa.interface';
 import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
+
+enum ParticipantState {
+  Suggesting,
+  Reveal,
+}
 
 @Component({
   selector: 'app-participant',
@@ -18,13 +24,15 @@ export class ParticipantComponent {
   protected participant: IParticipant;
   protected isLoading: boolean = true;
   protected errorCode?: string;
-  protected title: string = 'LABEL.PARTICIPANT';
+  protected title: string = this.translate.instant('LABELS.PARTICIPANT');
   protected subtitle?: string;
-  protected shouldSuggest = false;
+  protected state?: ParticipantState;
+  protected readonly ParticipantState = ParticipantState;
 
   constructor(
     private service: SecretSantaService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private translate: TranslateService,
   ) {
     this.activatedRoute.params.subscribe((params) => {
       const { participantId } = params || {};
@@ -49,11 +57,13 @@ export class ParticipantComponent {
   private fetchSecretSanta(secretSantaId: string): void {
     this.service.getSecretSanta(secretSantaId).subscribe({
       next: (secretSanta) => {
-        console.log(secretSanta);
         this.secretSanta = secretSanta;
-        this.shouldSuggest =
-          secretSanta.type === SecretSantaTypeEnum.Suggestions &&
-          !secretSanta.suggestionsReady;
+        if(secretSanta.type === SecretSantaTypeEnum.Suggestions && !secretSanta.readyForReveal) {
+          this.state = ParticipantState.Suggesting;
+          this.title = this.translate.instant('MESSAGES.INTO_PARTICIPANT_SUGGESTIONS', { name: this.participant.name });
+        } else {
+          this.state = ParticipantState.Reveal;
+        }
         this.subtitle = `${secretSanta.name}\n${secretSanta.description}`;
         this.isLoading = false;
       },

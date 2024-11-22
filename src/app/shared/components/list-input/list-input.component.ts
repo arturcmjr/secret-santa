@@ -28,13 +28,17 @@ export class ListInputComponent implements ControlValueAccessor {
     this.inputControl.setValidators(Validators.minLength(value));
   }
 
+  @Input()
+  hideNew: boolean = false;
+
   protected minLength?: number;
   protected value: string[] = [];
   protected onChange: (value: string[]) => void;
   protected onTouched: () => void;
   protected inputControl = new FormControl('');
-
   protected addItem(): void {
+    if (this.hideNew) return;
+
     if (this.inputControl.invalid || !this.inputControl.value) {
       this.inputControl.markAsTouched();
       return;

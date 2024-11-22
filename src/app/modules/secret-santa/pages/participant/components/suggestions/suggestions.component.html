@@ -1,9 +1,34 @@
+<small>
+  {{ "MESSAGES.HINT_GIFT_SUGGESTIONS" | translate : { value: maxSuggestions } }}
+  <br />
+</small>
+<h3>{{ "LABELS.SUGGESTIONS" | translate }}</h3>
+<app-list-input
+  [label]="'LABELS.SUGGESTION' | translate"
+  [formControl]="suggestionsControl"
+  [minLength]="2"
+  [hideNew]="suggestionsCount >= maxSuggestions"
+></app-list-input>
 
-<p>Insira até 3 sugestões do que gostaria de ganhar</p>
-<app-list-input [title]="'LABEL.SUGGESTION' | translate"></app-list-input>
-<mat-slide-toggle
-  formControlName="useSuggestion"
-  color="primary"
-  class="use-suggestions"
-  >{{ "LABEL.USE_SUGGESTIONS" | translate }}</mat-slide-toggle
->
+@if(suggestionsCount === 0) { @if(storedSuggestions?.length === 0) {
+<p class="warn-panel">
+  {{ "MESSAGES.WARNING_NO_SUGGESTIONS" | translate }}
+</p>
+} @else {
+<p class="warn-panel">
+  {{ "MESSAGES.WARNING_SAVING_WITHOUT_SUGGESTIONS" | translate }}
+</p>
+} }
+
+<div class="action-btns">
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="!hasChanges"
+    (click)="save()"
+  >
+    {{ "LABELS.SAVE" | translate }}
+  </button>
+</div>
+
+<app-spinner-overlay [isLoading]="isLoading"></app-spinner-overlay>

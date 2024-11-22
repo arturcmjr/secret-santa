@@ -1,8 +1,16 @@
-<app-default-page-layout [title]="title" [subTitleTemplate]="subTitleTemplate">
-  <div class="app-card page-width">
-    @if(participant && secretSanta) { @if(shouldSuggest) {
-    <app-suggestions></app-suggestions>
-    } }
+<app-default-page-layout [title]="title | translate" [subTitleTemplate]="subTitleTemplate">
+  <div class="app-card fit-content page-width">
+    @if(participant && secretSanta) { @switch (state) { @case
+    (ParticipantState.Suggesting) {
+      <!-- ----------------------------- suggesting ------------------------------ -->
+    <app-suggestions
+      [maxSuggestions]="secretSanta.maxSuggestions!"
+      [suggestions]="participant.suggestions"
+    ></app-suggestions>
+    } @case (ParticipantState.Reveal) {
+      <!-- ------------------------------- reveal -------------------------------- -->
+    <div>Green</div>
+    } } }
   </div>
 </app-default-page-layout>
 <app-spinner-overlay [isLoading]="isLoading"></app-spinner-overlay>

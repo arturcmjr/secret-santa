@@ -5,6 +5,7 @@ export interface ICreateSecretSanta {
   description: string;
   date: Date;
   type: SecretSantaTypeEnum;
+  maxSuggestions?: number;
   participants: ICreateSecretSantaParticipant[];
 }
 
@@ -18,6 +19,7 @@ export interface IParticipant {
   name: string;
   revelationRef: DocumentReference<IRevelation>;
   secretSantaRef: DocumentReference<ISecretSanta>;
+  suggestions?: string[];
 }
 
 export interface ISecretSanta {
@@ -25,7 +27,8 @@ export interface ISecretSanta {
   description: string;
   date: Date;
   type: SecretSantaTypeEnum;
-  suggestionsReady?: boolean;
+  maxSuggestions?: number;
+  readyForReveal?: boolean;
 }
 
 export interface IRevelation {

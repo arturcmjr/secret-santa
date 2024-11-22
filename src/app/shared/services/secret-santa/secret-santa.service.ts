@@ -35,12 +35,12 @@ export class SecretSantaService {
   public createSecretSanta(
     data: ICreateSecretSanta
   ): Observable<DocumentReference> {
-    const { name, description, date, participants, type } = data;
+    const { name, description, date, participants, type, maxSuggestions } = data;
 
     const db = this.database;
     const batch = writeBatch(db);
     const secretSantaRef = doc(db, 'secretSantas', generateUniqueId());
-    batch.set(secretSantaRef, { name, description, date, type });
+    batch.set(secretSantaRef, { name, description, date, type, maxSuggestions });
 
     participants.forEach((participant) => {
       const revelationRef = doc(db, 'revelations', generateUniqueId());
@@ -70,6 +70,11 @@ export class SecretSantaService {
     return from(docQuery).pipe(map((doc) => doc.data() as IParticipant));
   }
 
+  public setParticipantSuggestions(participantId: string, suggestions: string[]): Observable<void> {
+    const ref = doc(this.database, 'participants', participantId);
+    const docCommand = setDoc(ref, { suggestions }, { merge: true });
+    return from(docCommand);
+  }
 
   public getRevelationCount(revelationId: string): Observable<number> {
     const ref = doc(

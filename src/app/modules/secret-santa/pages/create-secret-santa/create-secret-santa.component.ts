@@ -95,12 +95,13 @@ export class CreateSecretSantaComponent implements OnInit {
       return;
     }
     const participants = this.drawSecretSanta();
-    const { name, description, date, useSuggestion } = this.step1group.value;
+    const { name, description, date, useSuggestion, maxSuggestions } = this.step1group.value;
     const data: ICreateSecretSanta = {
       name,
       description,
       date,
       participants,
+      maxSuggestions,
       type: useSuggestion
         ? SecretSantaTypeEnum.Suggestions
         : SecretSantaTypeEnum.Default,

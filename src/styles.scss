@@ -80,6 +80,20 @@ body {
   padding: 1rem;
 
   filter: drop-shadow(0px 6px 10px rgba(101, 101, 101, 0.25));
+
+  &.fit-content {
+    height: fit-content;
+  }
+}
+
+.warn-panel {
+  background-color: #fff2cc;
+  color: #856404;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* -------------------------------- utilities ------------------------------- */
