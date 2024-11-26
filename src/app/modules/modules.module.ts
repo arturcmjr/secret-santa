@@ -7,6 +7,7 @@ import { RevealSecretSantaComponent } from './secret-santa/pages/reveal-secret-s
 import { ListParticipantsComponent } from './secret-santa/pages/list-participants/list-participants.component';
 import { ErrorIllustrationComponent } from './secret-santa/components/error-illustration/error-illustration.component';
 import { ParticipantModule } from './secret-santa/pages/participant/participant.module';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,6 @@ import { ParticipantModule } from './secret-santa/pages/participant/participant.
     ListParticipantsComponent,
     ErrorIllustrationComponent,
   ],
-  imports: [CommonModule, SharedModule, ParticipantModule],
+  imports: [CommonModule, SharedModule, ParticipantModule, NgxSkeletonLoaderModule],
 })
 export class ModulesModule {}

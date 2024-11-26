@@ -58,7 +58,7 @@ export class ParticipantComponent {
     this.service.getSecretSanta(secretSantaId).subscribe({
       next: (secretSanta) => {
         this.secretSanta = secretSanta;
-        if(secretSanta.type === SecretSantaTypeEnum.Suggestions && !secretSanta.readyForReveal) {
+        if(secretSanta.type === SecretSantaTypeEnum.Suggestions && !secretSanta.suggestionsLocked) {
           this.state = ParticipantState.Suggesting;
           this.title = this.translate.instant('MESSAGES.INTO_PARTICIPANT_SUGGESTIONS', { name: this.participant.name });
         } else {

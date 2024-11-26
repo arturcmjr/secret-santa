@@ -1,5 +1,5 @@
 <small>
-  {{ "MESSAGES.HINT_GIFT_SUGGESTIONS" | translate : { value: maxSuggestions } }}
+  {{ "MESSAGES.INFO_GIFT_SUGGESTIONS" | translate : { value: maxSuggestions } }}
   <br />
 </small>
 <h3>{{ "LABELS.SUGGESTIONS" | translate }}</h3>
@@ -12,11 +12,11 @@
 
 @if(suggestionsCount === 0) { @if(storedSuggestions?.length === 0) {
 <p class="warn-panel">
-  {{ "MESSAGES.WARNING_NO_SUGGESTIONS" | translate }}
+  {{ "MESSAGES.INFO_NO_SUGGESTIONS" | translate }}
 </p>
 } @else {
 <p class="warn-panel">
-  {{ "MESSAGES.WARNING_SAVING_WITHOUT_SUGGESTIONS" | translate }}
+  {{ "MESSAGES.INFO_SAVING_WITHOUT_SUGGESTIONS" | translate }}
 </p>
 } }
 

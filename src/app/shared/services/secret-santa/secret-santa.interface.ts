@@ -28,7 +28,7 @@ export interface ISecretSanta {
   date: Date;
   type: SecretSantaTypeEnum;
   maxSuggestions?: number;
-  readyForReveal?: boolean;
+  suggestionsLocked?: boolean;
 }
 
 export interface IRevelation {

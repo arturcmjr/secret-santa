@@ -1,20 +1,60 @@
-<app-default-page-layout [title]="title" [subTitle]="'PARTICIPANTS.SUBTITLE' | translate">
+<app-default-page-layout [title]="title" [subTitle]="subtitle">
   <div class="page-width">
     <div class="cards-container">
-      <div class="share-container" *ngFor="let participant of participants; index as i">
-        <div style="max-width: 88%;">
-          <b>{{ participant.name}}</b><br>
-          <div class="revelation-url" (click)="copyToClipboard(participant)">{{getParticipantUrl(participant)}}</div>
-          <ng-container *ngIf="participant.revealedCount !== undefined; else revelationLoading">
-            <div class="revelation-count opened" *ngIf="participant.revealedCount === 1">{{ 'LABELS.OPENED' | translate }}</div>
-            <div class="revelation-count opened" *ngIf="participant.revealedCount > 1">{{ 'LABELS.OPENED_TIMES' | translate: {count: participant.revealedCount} }}</div>
-            <div class="revelation-count not-opened" *ngIf="participant.revealedCount === 0">{{ 'LABELS.NOT_OPENED_YET' | translate }}</div>
-          </ng-container>
-          <ng-template #revelationLoading>
-            <mat-spinner diameter="20"></mat-spinner>
-          </ng-template>
+      <div class="share-container">
+        <div class="info-and-btn">
+          <div>
+            <b>{{ "LABELS.SS_LINK" | translate }}</b>
+            <p>{{ "MESSAGES.INFO_SS_LINK" | translate }}</p>
+          </div>
+          <button mat-icon-button (click)="copyLinksUrl()">
+            <mat-icon>content_copy</mat-icon>
+          </button>
         </div>
-        <div class="flex-center">
+        @if(isSuggesting) {
+        <div class="info-and-btn">
+          <div>
+            <p>{{ "MESSAGES.INFO_CHECK_LOCK_SUGGESTIONS" | translate }}</p>
+          </div>
+          <button mat-icon-button (click)="lockSuggestions()">
+            <mat-icon>done_all</mat-icon>
+          </button>
+        </div>
+        }
+      </div>
+      <div
+        class="share-container"
+        *ngFor="let participant of participants; index as i"
+      >
+        <div class="info-and-btn">
+          <div>
+            <b>{{ participant.name }}</b>
+            @if(isSuggesting) {
+            <div class="extra-info">
+              <span>
+                {{ "LABELS.SUGGESTIONS" | translate }}:
+                @if(participantHasSuggested(participant)) {
+                <mat-icon class="success">check_circle</mat-icon>
+                } @else {
+                <mat-icon class="danger">cancel</mat-icon>
+                }
+              </span>
+            </div>
+            } @else { @if(participant.revealedCount !== undefined) {
+            <div class="extra-info">
+              <span>
+                {{ "LABELS.REVEALED" | translate }}:
+                @if(participant.revealedCount > 0) {
+                <mat-icon class="success">check_circle</mat-icon>
+                } @else {
+                <mat-icon class="danger">cancel</mat-icon>
+                }
+              </span>
+            </div>
+            } @else {
+            <ngx-skeleton-loader [theme]="{ width: '150px' }" />
+            } }
+          </div>
           <button mat-icon-button (click)="shareSanta(participant)">
             <mat-icon>share</mat-icon>
           </button>

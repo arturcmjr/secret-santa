@@ -14,31 +14,56 @@
   border-radius: 15px;
   background-color: #FFF;
   padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 
   filter: drop-shadow(0px 6px 10px rgba(101, 101, 101, 0.25));
+
+  .info-and-btn {
+    display: flex;
+    gap: .8rem;
+    align-items: center;
+
+    div:first-child {
+      flex-grow: 1;
+    }
+  }
 }
 
 .body {
   background-color: #FFF !important;
 }
 
-.revelation-count {
-  font-size: .8rem;
+.extra-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 
-  &.opened {
-    color: #28a745;
+  mat-icon {
+    font-size: 1rem;
+    height: 1rem;
+    transform: translateY(3px);
   }
+}
 
-  &.not-opened {
-    color: #b3b3b3;
-  }
+mat-icon.success {
+  color: #28a745;
+}
+
+mat-icon.danger {
+  color: #ac3b3b;
 }
 
 .cards-container {
   display: flex;
   flex-direction: column;
   gap: .8rem;
+}
+
+.close-suggestions-btn {
+  width: 100%;
+}
+
+.action-btns.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

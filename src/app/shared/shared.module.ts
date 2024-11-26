@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MainLogoComponent } from './components/main-logo/main-logo.component';
 import { ListInputComponent } from './components/list-input/list-input.component';
 import { MatFormErrorDirective } from './services/directives/mat-form-error.directive';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { MatFormErrorDirective } from './services/directives/mat-form-error.dire
     MainLogoComponent,
     ListInputComponent,
     MatFormErrorDirective,
+    ConfirmationDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,7 @@ import { MatFormErrorDirective } from './services/directives/mat-form-error.dire
     RouterModule,
     ListInputComponent,
     MatFormErrorDirective,
+    ConfirmationDialogComponent,
   ],
 })
 export class SharedModule {}

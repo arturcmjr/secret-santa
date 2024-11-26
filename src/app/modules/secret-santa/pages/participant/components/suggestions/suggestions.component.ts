@@ -65,7 +65,7 @@ export class SuggestionsComponent implements OnInit, OnDestroy {
         this.hasChanges = false;
         this.isLoading = false;
         this.snack.open(
-          this.translate.instant('MESSAGES.SUCCESS_SUGGESTIONS_SAVED'),
+          this.translate.instant('MESSAGES.INFO_SUGGESTIONS_SAVED'),
           '',
           { duration: 2000 }
         );

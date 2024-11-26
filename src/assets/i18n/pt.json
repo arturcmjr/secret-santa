@@ -80,8 +80,8 @@
     "VALIDATION_MIN_VALUE": "{{field}} deve ser maior do que {{value}}",
     "VALIDATION_INVALID": "{{field}} inválido",
     "VALIDATION_CUSTOM_01": "Data precisa ser entre hoje e daqui a 1 ano",
-    "HINT_AVAILABLE_DATE": "Os dados não estarão disponíveis 2 dias após a data",
-    "HINT_USE_SUGGESTIONS": "Selecione para que os participantes possam adicionar sugestões de presentes",
+    "INFO_AVAILABLE_DATE": "Os dados não estarão disponíveis 2 dias após a data",
+    "INFO_USE_SUGGESTIONS": "Selecione para que os participantes possam adicionar sugestões de presentes",
     "INFO_CREATE_CONFIRMATION": "Tudo pronto, revise as informações e clique em pronto para criar o amigo oculto"
   }
 }

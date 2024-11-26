@@ -76,6 +76,12 @@ export class SecretSantaService {
     return from(docCommand);
   }
 
+  public lockSuggestions(secretSantaId: string): Observable<void> {
+    const ref = doc(this.database, 'secretSantas', secretSantaId);
+    const docCommand = setDoc(ref, { suggestionsLocked: true }, { merge: true });
+    return from(docCommand);
+  }
+
   public getRevelationCount(revelationId: string): Observable<number> {
     const ref = doc(
       this.database,

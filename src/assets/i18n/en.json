@@ -8,12 +8,6 @@
     "REVELATION": "You got <b>{{name}}</b>! Gift time!",
     "REVEALED_BEFORE": "It was revealed {{count}} times before, if it wasn't you, someone else may know who you got. Anyone with this link can reveal your secret santa."
   },
-  "PARTICIPANTS": {
-    "TITLE": "{{name}} Participants",
-    "SUBTITLE": "Send the link to the participants",
-    "SHARE_TITLE": "Reveal {{name}}'s secret santa",
-    "CLIPBOARD_SUCCESS": "Link copied to clipboard"
-  },
   "HOME": {
     "TITLE": "secret santa on 3 easy steps",
     "STEP_1": {
@@ -75,7 +69,13 @@
     "SUGGESTIONS": "Suggestions",
     "CREATE": "Create",
     "SAVE": "Save",
-    "PARTICIPANT": "Participant"
+    "PARTICIPANT": "Participant",
+    "REVEALED": "Revealed",
+    "SS_LINK": "Secret Santa Link",
+    "CLOSE_SUGGESTIONS": "Close Suggestions",
+    "YES": "Yes",
+    "NO": "No"
+    
   },
   "MESSAGES": {
     "VALIDATION_REQUIRED": "{{field}} is required",
@@ -83,13 +83,21 @@
     "VALIDATION_MIN_VALUE": "{{field}} must be greater than {{value}}",
     "VALIDATION_INVALID": "{{field}} is invalid",
     "VALIDATION_CUSTOM_01": "Date must be between today and 1 year from now",
-    "SUCCESS_SUGGESTIONS_SAVED": "Suggestions saved successfully",
-    "HINT_AVAILABLE_DATE": "Data will not be available 2 days after the date",
-    "HINT_USE_SUGGESTIONS": "Select to allow participants to add gift suggestions",
-    "HINT_GIFT_SUGGESTIONS": "Now is time to tell us some gift suggestions, share up to {{value}} gifts that you would like to receive, you can leave it blank if you want to keep it a surprise. You can edit it until the responsible for the Secret Santa draw the names",
+    "INFO_SUGGESTIONS_SAVED": "Suggestions saved successfully",
+    "INFO_AVAILABLE_DATE": "Data will not be available 2 days after the date",
+    "INFO_USE_SUGGESTIONS": "Select to allow participants to add gift suggestions",
+    "INFO_GIFT_SUGGESTIONS": "Now is time to tell us some gift suggestions, share up to {{value}} gifts that you would like to receive, you can leave it blank if you want to keep it a surprise. You can edit it until the responsible for the Secret Santa draw the names",
     "INFO_CREATE_CONFIRMATION": "All set, review the information and click done to create the Secret Santa",
     "INTO_PARTICIPANT_SUGGESTIONS": "{{name}}'s suggestions",
-    "WARNING_SAVING_WITHOUT_SUGGESTIONS": "If you save like this, it means that you are accept surprises and don't want to give any hints to your Secret Santa",
-    "WARNING_NO_SUGGESTIONS": "You chose gave no suggestion"
+    "INFO_SAVING_WITHOUT_SUGGESTIONS": "If you save like this, it means that you are accept surprises and don't want to give any hints to your Secret Santa",
+    "INFO_NO_SUGGESTIONS": "You chose gave no suggestion",
+    "INFO_SHARE_SUGGESTIONS": "It's time for the participants to add their suggestions!",
+    "INFO_SHARE_REVEAL": "Share the links with the participants so they can reveal who they got",
+    "INFO_PARTICIPANTS_LIST": "{{name}}'s participants",
+    "INFO_SS_LINK": "Share the links with the participants. You should also copy this page link it and save somewhere safe, because you might need this links again",
+    "INFO_CHECK_LOCK_SUGGESTIONS": "When everyone has added their suggestions, click on the check icon to allow them to revel their Secret Santa",
+    "INFO_CLIPBOARD_SUCCESS": "Link copied to clipboard",
+    "INFO_SHARE_TITLE": "Reveal {{name}}'s secret santa",
+    "INFO_LOCK_SUGGESTION_CONFIRMATION": "Are you sure you want to close the suggestions? Double check if everyone has added their suggestions, because after that you can't change it. Click \"Yes\" to make the Secret Santa available to reveal"
   }
 }
