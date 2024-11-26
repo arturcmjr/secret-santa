@@ -34,6 +34,7 @@ export interface ISecretSanta {
 export interface IRevelation {
   name: string;
   revealedCount: number;
+  participantRef?: DocumentReference<IParticipant>;
 }
 
 export enum SecretSantaTypeEnum {

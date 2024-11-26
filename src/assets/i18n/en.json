@@ -1,13 +1,4 @@
 {
-  "HEADER": {
-    "APP_NAME": "secret santa"
-  },
-  "REVEAL": {
-    "TITLE": "Reveal {{name}}'s Secret Santa",
-    "REVEAL_INSTRUCTIONS": "Click on the gift above to see who you got.",
-    "REVELATION": "You got <b>{{name}}</b>! Gift time!",
-    "REVEALED_BEFORE": "It was revealed {{count}} times before, if it wasn't you, someone else may know who you got. Anyone with this link can reveal your secret santa."
-  },
   "HOME": {
     "TITLE": "secret santa on 3 easy steps",
     "STEP_1": {
@@ -34,17 +25,6 @@
       "TITLE": "No Permission",
       "MESSAGE": "Resource not found or you don't have permission to access it.",
       "HINT": "Remember that the data will be available only for 2 days after the secret santa."
-    }
-  },
-  "SUGGESTIONS": {
-    "SUBTITLE": "Give us a hint of what gift you would like to receive"
-  },
-  "INPUTS": {
-    "LIST": {
-      "DUPLICATE": "{{name}} already exists"
-    },
-    "GENERIC": {
-      "MIN_LENGTH": "{{name}} must be at least {{length}} characters long"
     }
   },
   "LABELS": {
@@ -74,7 +54,8 @@
     "SS_LINK": "Secret Santa Link",
     "CLOSE_SUGGESTIONS": "Close Suggestions",
     "YES": "Yes",
-    "NO": "No"
+    "NO": "No",
+    "SECRET_SANTA": "Secret Santa"
     
   },
   "MESSAGES": {
@@ -98,6 +79,12 @@
     "INFO_CHECK_LOCK_SUGGESTIONS": "When everyone has added their suggestions, click on the check icon to allow them to revel their Secret Santa",
     "INFO_CLIPBOARD_SUCCESS": "Link copied to clipboard",
     "INFO_SHARE_TITLE": "Reveal {{name}}'s secret santa",
-    "INFO_LOCK_SUGGESTION_CONFIRMATION": "Are you sure you want to close the suggestions? Double check if everyone has added their suggestions, because after that you can't change it. Click \"Yes\" to make the Secret Santa available to reveal"
+    "INFO_LOCK_SUGGESTION_CONFIRMATION": "Are you sure you want to close the suggestions? Double check if everyone has added their suggestions, because after that you can't change it. Click \"Yes\" to make the Secret Santa available to reveal",
+    "INFO_PARTICIPANT_SS": "{{name}}'s Secret Santa",
+    "INFO_REVEAL_INSTRUCTIONS": "Click on the gift above to see who you got",
+    "INFO_REVEALED_BEFORE": "It was revealed {{count}} times before, keep your link somewhere safe, because anyone with your link can reveal your secret santa",
+    "INFO_REVELED": "You got <b>{{name}}</b>! Gift time!",
+    "INFO_REVEALED_SUGGESTIONS": "Here are some gift suggestions from {{name}}:",
+    "INFO_REVEALED_NO_SUGGESTIONS": "{{name}} didn't give any suggestions, be creative!"
   }
 }

@@ -1,1 +1,59 @@
-<p>reveal works!</p>
+<div class="revelation-container">
+  @if(!revelation) {
+  <img
+    src="../../../assets/img/illustrations/gift.svg"
+    alt=""
+    srcset=""
+    class="shake"
+    (click)="revealSecretSanta()"
+  />
+  <p class="text-secondary text-center">
+    {{ "MESSAGES.INFO_REVEAL_INSTRUCTIONS" | translate }}
+  </p>
+  } @else {
+  <div style="position: relative">
+    <img
+      src="../../../assets/img/illustrations/gift-opened.svg"
+      alt=""
+      srcset=""
+      width="100%"
+    />
+    <div class="name-text">{{ revelation.name }}</div>
+  </div>
+  <p
+    class="text-center"
+    [innerHTML]="
+      'MESSAGES.INFO_REVELED' | translate : { name: revelation.name }
+    "
+  ></p>
+  @if(type === SecretSantaTypeEnum.Suggestions) { @if(suggestions?.length) {
+  <p
+    class="text-center"
+    [innerHTML]="
+      'MESSAGES.INFO_REVEALED_SUGGESTIONS'
+        | translate : { name: revelation.name }
+    "
+  ></p>
+  @for(suggestion of suggestions; track suggestion) {
+  <b>{{ suggestion }}</b>
+  }
+  } @else {
+  <p class="text-center">
+    {{
+      "MESSAGES.INFO_REVEALED_NO_SUGGESTIONS"
+        | translate : { name: revelation.name }
+    }}
+  </p>
+  } }
+  <p
+    class="text-secondary text-center small-info"
+    *ngIf="revelation.revealedCount > 0"
+  >
+    {{
+      "MESSAGES.INFO_REVEALED_BEFORE"
+        | translate : { count: revelation.revealedCount }
+    }}
+  </p>
+  }
+</div>
+<app-spinner-overlay [isLoading]="isLoading"></app-spinner-overlay>

@@ -70,6 +70,26 @@ export class SecretSantaService {
     return from(docQuery).pipe(map((doc) => doc.data() as IParticipant));
   }
 
+  public getRevelationSuggestions(secretSantaId: string, participantName: string): Observable<string[] | undefined> {
+    const secretSantaRef = doc(this.database, 'secretSantas', secretSantaId);
+    const quer = query(
+      collection(this.database, 'participants'),
+      where('secretSantaRef', '==', secretSantaRef),
+      where('name', '==', participantName)
+    );
+    const docsQuery = getDocs(quer);
+    return from(docsQuery).pipe(
+      map((docs) => {
+        const data = docs.docs.map((doc) => {
+          const participant = doc.data() as IParticipant;
+          participant.id = doc.id;
+          return participant;
+        }) as IParticipant[];
+        return data[0]?.suggestions;
+      })
+    );
+  }
+
   public setParticipantSuggestions(participantId: string, suggestions: string[]): Observable<void> {
     const ref = doc(this.database, 'participants', participantId);
     const docCommand = setDoc(ref, { suggestions }, { merge: true });

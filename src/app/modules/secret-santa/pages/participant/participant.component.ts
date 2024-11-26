@@ -28,6 +28,7 @@ export class ParticipantComponent {
   protected subtitle?: string;
   protected state?: ParticipantState;
   protected readonly ParticipantState = ParticipantState;
+  protected secretSantaId: string;
 
   constructor(
     private service: SecretSantaService,
@@ -45,6 +46,8 @@ export class ParticipantComponent {
     this.service.getParticipant(participantId).subscribe({
       next: (participant) => {
         this.participant = participant;
+        this.title = this.translate.instant('MESSAGES.INFO_PARTICIPANT_SS', { name: participant.name });
+        this.secretSantaId = participant.secretSantaRef.id;
         this.fetchSecretSanta(participant.secretSantaRef.id);
       },
       error: (error: FirestoreError) => {
