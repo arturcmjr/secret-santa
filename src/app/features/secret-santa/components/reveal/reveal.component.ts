@@ -10,8 +10,8 @@ import {
   IParticipant,
   IRevelation,
   SecretSantaTypeEnum,
-} from '@shared/services/secret-santa/secret-santa.interface';
-import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
+} from '@features/secret-santa/models/secret-santa.interface';
+import { SecretSantaService } from '@features/secret-santa/services/secret-santa.service';
 
 @Component({
   selector: 'app-reveal',

@@ -19,14 +19,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { LucideArrowRight, LucideCalendarDays } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
+import { DefaultPageLayoutComponent } from '@layout/default-page-layout/default-page-layout.component';
 import { ListInputComponent } from '@shared/components/list-input/list-input.component';
-import { minimumArrayLength } from '@shared/helpers/validators/minimum-array-length.validator';
+import { minimumArrayLength } from '@shared/validators/minimum-array-length.validator';
 import {
   ICreateSecretSanta,
   SecretSantaTypeEnum,
-} from '@shared/services/secret-santa/secret-santa.interface';
-import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
+} from '@features/secret-santa/models/secret-santa.interface';
+import { SecretSantaService } from '@features/secret-santa/services/secret-santa.service';
 
 interface IParticipantSecretSanta {
   name: string;

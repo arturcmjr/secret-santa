@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { generateUniqueId } from '@shared/helpers/utils/generate-unique-id';
+import { generateUniqueId } from '@shared/utils/generate-unique-id';
 import {
   collection,
   doc,
@@ -13,15 +13,15 @@ import {
   writeBatch,
 } from 'firebase/firestore';
 import { from, Observable, map, switchMap } from 'rxjs';
-import { FirebaseService } from '../firebase.service';
-import { LoadingService } from '../loading.service';
+import { FirebaseService } from '@core/services/firebase.service';
+import { LoadingService } from '@core/services/loading.service';
 import {
   ICreateSecretSanta,
   ISecretSanta,
   IParticipant,
   IRevelation,
   SecretSantaTypeEnum,
-} from './secret-santa.interface';
+} from '../models/secret-santa.interface';
 
 @Injectable({
   providedIn: 'root',

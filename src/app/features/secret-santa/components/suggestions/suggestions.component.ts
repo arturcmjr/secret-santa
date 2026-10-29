@@ -11,9 +11,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ListInputComponent } from '@shared/components/list-input/list-input.component';
-import { minimumArrayLength } from '@shared/helpers/validators/minimum-array-length.validator';
-import { NotificationService } from '@shared/services/notification.service';
-import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
+import { minimumArrayLength } from '@shared/validators/minimum-array-length.validator';
+import { NotificationService } from '@core/services/notification.service';
+import { SecretSantaService } from '@features/secret-santa/services/secret-santa.service';
 
 @Component({
   selector: 'app-suggestions',

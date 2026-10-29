@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { LoadingService } from '@shared/services/loading.service';
+import { LoadingService } from '@core/services/loading.service';
 
 @Component({
   selector: 'app-spinner-overlay',

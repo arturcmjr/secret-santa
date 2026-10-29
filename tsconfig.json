@@ -10,11 +10,14 @@
       "@shared/*": [
         "./src/app/shared/*"
       ],
-      "@modules/*": [
-        "./src/app/modules/*"
+      "@core/*": [
+        "./src/app/core/*"
       ],
-      "@services/*": [
-        "./src/app/shared/services/*"
+      "@layout/*": [
+        "./src/app/layout/*"
+      ],
+      "@features/*": [
+        "./src/app/features/*"
       ]
     },
     "forceConsistentCasingInFileNames": true,
