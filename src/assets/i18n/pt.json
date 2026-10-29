@@ -15,7 +15,12 @@
     "CLIPBOARD_SUCCESS": "Link copiado para a área de transferência"
   },
   "HOME": {
-    "TITLE": "amigo oculto em 3 simples passos",
+    "TITLE": "Um amigo oculto especial, em três passos simples",
+    "EYEBROW": "Mais espaço para a magia das festas",
+    "PROMISE": "Reúna todo mundo para trocar presentes sem o trabalho de organizar. O sorteio é feito de forma justa e cada participante recebe um link privado.",
+    "CARD_EYEBROW": "Uma tradição mais simples",
+    "CARD_TITLE": "Da organização à surpresa",
+    "STEPS_COUNT": "3 passos",
     "STEP_1": {
       "TITLE": "informações básicas",
       "DESCRIPTION": "Preencha informações básicas do amigo oculto."
@@ -28,7 +33,7 @@
       "TITLE": "envie os links",
       "DESCRIPTION": "Pronto! Agora basta enviar os link para que eles descubram quem tiraram."
     },
-    "BOTTOM_TEXT": "Sem cadastro, sem custo e sem limites. Crie agora mesmo seu amigo oculto.",
+    "BOTTOM_TEXT": "Sem cadastro e sem custo. Só mais alegria.",
     "CREATE_BUTTON": "CRIAR AMIGO OCULTO"
   },
   "ERRORS": {
@@ -55,8 +60,11 @@
   },
   "LABELS": {
     "BASIC_INFO": "Informações Básicas",
+    "ADD": "Adicionar",
+    "ADDED": "Adicionado",
     "CLOSE_SUGGESTIONS": "Encerrar Sugestões",
     "CONFIRMATION": "Confirmação",
+    "COPY_LINK": "Copiar link",
     "CREATE": "Criar",
     "DATE": "Data",
     "DESCRIPTION": "Descrição",
@@ -71,9 +79,12 @@
     "PARTICIPANT": "Participante",
     "PARTICIPANTS": "Participantes",
     "PREVIOUS": "Anterior",
+    "REMOVE": "Remover {{name}}",
     "REVEALED": "Revelado",
     "SAVE": "Salvar",
     "SECRET_SANTA": "Amigo Secreto",
+    "SHARE": "Compartilhar",
+    "SKIP_TO_CONTENT": "Pular para o conteúdo",
     "SS_LINK": "Link do Amigo Secreto",
     "SS_SHORT_DESCRIPTION": "Descrição curta do Amigo Secreto",
     "SS_TITLE": "Título do Amigo Secreto",
@@ -81,6 +92,7 @@
     "SUGGESTIONS": "Sugestões",
     "TITLE": "Título",
     "USE_SUGGESTIONS": "Usar Sugestões",
+    "WAITING": "Aguardando",
     "YES": "Sim"
   },
   "MESSAGES": {
@@ -91,6 +103,7 @@
     "INFO_GIFT_SUGGESTIONS": "Agora é hora de nos contar algumas sugestões de presentes, compartilhe até {{value}} presentes que você gostaria de receber, você pode deixar em branco se quiser manter uma surpresa. Você pode editar até que o responsável pelo Amigo Secreto sorteie os nomes",
     "INFO_LOCK_SUGGESTION_CONFIRMATION": "Tem certeza de que deseja fechar as sugestões? Verifique se todos adicionaram suas sugestões, pois depois disso você não poderá alterá-las. Clique em \"Sim\" para tornar o Amigo Secreto disponível para revelação",
     "INFO_NO_SUGGESTIONS": "Você não deu nenhuma sugestão",
+    "INFO_NO_PARTICIPANTS": "Nenhum participante encontrado.",
     "INFO_PARTICIPANT_SS": "Amigo Secreto de {{name}}",
     "INFO_PARTICIPANTS_LIST": "Participantes de {{name}}",
     "INFO_REVEALED_BEFORE": "Foi revelado {{count}} vezes antes, mantenha seu link em um lugar seguro, pois qualquer pessoa com seu link pode revelar seu amigo secreto",
@@ -103,11 +116,13 @@
     "INFO_SHARE_TITLE": "Revele o amigo secreto de {{name}}",
     "INFO_SS_LINK": "Compartilhe os links com os participantes. Você também deve copiar o link desta página e salvar em algum lugar seguro, pois pode precisar desses links novamente",
     "INFO_SUGGESTIONS_SAVED": "Sugestões salvas com sucesso",
+    "INFO_LOADING": "Carregando",
+    "INFO_USE_SUGGESTIONS": "Os participantes poderão compartilhar sugestões de presentes antes de revelar quem tiraram.",
     "INTO_PARTICIPANT_SUGGESTIONS": "Sugestões de {{name}}",
     "VALIDATION_CUSTOM_01": "A data deve estar entre hoje e 1 ano a partir de agora",
     "VALIDATION_INVALID": "{{field}} é inválido",
     "VALIDATION_MIN_LENGTH": "{{field}} deve ter pelo menos {{length}} caracteres",
-    "VALIDATION_MIN_VALUE": "{{field}} deve ser maior que {{value}}",
+    "VALIDATION_MIN_VALUE": "{{field}} deve ser no mínimo {{value}}",
     "VALIDATION_REQUIRED": "{{field}} é obrigatório",
     "INFO_REVELED": "Você tirou <b>{{name}}</b>! Hora do presente!"
   }

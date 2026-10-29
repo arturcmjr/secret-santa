@@ -13,30 +13,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { MatButton } from '@angular/material/button';
-import {
-  MatDatepicker,
-  MatDatepickerInput,
-  MatDatepickerToggle,
-} from '@angular/material/datepicker';
-import { MatError, MatFormField, MatHint, MatLabel, MatSuffix } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
-import {
-  MatStep,
-  MatStepLabel,
-  MatStepper,
-  MatStepperNext,
-  MatStepperPrevious,
-} from '@angular/material/stepper';
-import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { DaisyDatePickerComponent } from 'ng-daisy-date-picker';
 import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
 import { ListInputComponent } from '@shared/components/list-input/list-input.component';
 import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import { minimumArrayLength } from '@shared/helpers/validators/minimum-array-length.validator';
-import { MatFormErrorDirective } from '@shared/services/directives/mat-form-error.directive';
+import { AccessibleDatePickerDirective } from '@shared/services/directives/accessible-date-picker.directive';
 import {
   ICreateSecretSanta,
   SecretSantaTypeEnum,
@@ -63,31 +47,14 @@ interface IConfirmationSummary {
     DatePipe,
     ReactiveFormsModule,
     CdkTextareaAutosize,
-    MatButton,
-    MatDatepicker,
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatError,
-    MatFormField,
-    MatHint,
-    MatInput,
-    MatLabel,
-    MatSlideToggle,
-    MatStep,
-    MatStepLabel,
-    MatStepper,
-    MatStepperNext,
-    MatStepperPrevious,
-    MatSuffix,
-    MatTooltip,
+    DaisyDatePickerComponent,
+    AccessibleDatePickerDirective,
     TranslatePipe,
     DefaultPageLayoutComponent,
     ListInputComponent,
     SpinnerOverlayComponent,
-    MatFormErrorDirective,
   ],
   templateUrl: './create-secret-santa.component.html',
-  styleUrl: './create-secret-santa.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateSecretSantaComponent {
@@ -96,6 +63,7 @@ export class CreateSecretSantaComponent {
 
   protected readonly isLoading = signal(false);
   protected readonly confirmationSummary = signal<IConfirmationSummary | undefined>(undefined);
+  protected readonly currentStep = signal(0);
 
   protected readonly step1group = new FormGroup({
     name: new FormControl<string | null>(null, [
@@ -103,7 +71,13 @@ export class CreateSecretSantaComponent {
       Validators.minLength(5),
     ]),
     description: new FormControl<string | null>(null),
-    date: new FormControl<Date | null>(null, [Validators.required]),
+    date: new FormControl<Date | null>(null, [
+      Validators.required,
+      (control) => {
+        const value = control.value as Date | null;
+        return value && !this.isDateAllowed(value) ? { dateRange: true } : null;
+      },
+    ]),
     useSuggestion: new FormControl(false, { nonNullable: true }),
     maxSuggestions: new FormControl<number | null>(
       { value: null, disabled: true },
@@ -130,8 +104,11 @@ export class CreateSecretSantaComponent {
     });
   }
 
-  protected readonly dateFilter = (date: Date | null): boolean => {
-    if (!date) return false;
+  protected readonly dateFilter = (date: Date): boolean => {
+    return !this.isDateAllowed(date);
+  };
+
+  private isDateAllowed(date: Date): boolean {
     const now = new Date();
     const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const oneYearFromNow = new Date(
@@ -140,12 +117,25 @@ export class CreateSecretSantaComponent {
       now.getDate()
     );
     return date >= startOfDay && date < oneYearFromNow;
-  };
+  }
+
+  protected nextBasicInfo(): void {
+    if (this.step1group.invalid) {
+      this.step1group.markAllAsTouched();
+      return;
+    }
+    this.currentStep.set(1);
+  }
 
   protected save(): void {
-    if (this.step1group.invalid || this.step2group.invalid) {
+    if (this.step1group.invalid) {
       this.step1group.markAllAsTouched();
+      this.currentStep.set(0);
+      return;
+    }
+    if (this.step2group.invalid) {
       this.step2group.markAllAsTouched();
+      this.currentStep.set(1);
       return;
     }
     const participants = this.drawSecretSanta();
@@ -184,6 +174,11 @@ export class CreateSecretSantaComponent {
       useSuggestion,
       maxSuggestions: useSuggestion ? maxSuggestions ?? undefined : undefined,
     });
+    this.currentStep.set(2);
+  }
+
+  protected previousStep(): void {
+    this.currentStep.update((step) => Math.max(0, step - 1));
   }
 
   private drawSecretSanta(): IParticipantSecretSanta[] {

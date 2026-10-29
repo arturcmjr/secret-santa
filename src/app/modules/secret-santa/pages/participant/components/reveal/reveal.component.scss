@@ -1,21 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
-
 .revelation-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1rem;
 
   .name-text {
     position: absolute;
     top: 25%;
     left: 52%;
     right: 11%;
-    bottom: 50%;
+    bottom: 48%;
     overflow: hidden;
-    font-size: 1.4rem;
-    color: #464646;
+    display: grid;
+    place-items: center;
+    font-size: clamp(1.1rem, 4vw, 1.6rem);
+    color: var(--color-base-content);
     text-align: center;
-    font-family: 'Caveat', cursive;
+    font-family: cursive;
   }
 }
 
@@ -23,24 +24,21 @@
   font-size: .8rem;
 }
 
-ul {
-  margin: 0;
-}
-
-p {
-  margin: .4rem 0;
-}
-
 .shake {
   animation: shake-animation 4.72s ease infinite;
   transform-origin: 50% 50%;
-  max-width: 300px;
-  transition: all 1s ease;
+  width: min(100%, 19rem);
+  height: auto;
+  transition: transform 180ms ease;
 
   &:hover {
     transform: translateY(-3px) scale(1.02);
-    cursor: pointer;
-    transition: all 1s ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shake {
+    animation: none;
   }
 }
 

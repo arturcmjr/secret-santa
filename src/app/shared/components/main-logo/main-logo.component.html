@@ -1,7 +1,9 @@
 
-  <a class="app-name" routerLink="/">
-    <img src="../../../../assets/img/illustrations/gift-white.svg">
-    <h1>SECRETO
-      <div>{{ 'LABELS.SECRET_SANTA' | translate}}</div>
-    </h1>
-  </a>
+<a class="brand-link" routerLink="/" aria-label="Secret Santa home">
+  <span class="brand-mark" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M20 12v8H4v-8m18-5H2v5h20V7ZM12 7v13m0-13H8.5a2.5 2.5 0 1 1 2.5-2.5V7Zm0 0h3.5a2.5 2.5 0 1 0-2.5-2.5V7Z" />
+    </svg>
+  </span>
+  <span class="brand-name">{{ "LABELS.SECRET_SANTA" | translate }}</span>
+</a>

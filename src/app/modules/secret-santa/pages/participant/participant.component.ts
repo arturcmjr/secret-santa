@@ -11,6 +11,7 @@ import { FirestoreError } from 'firebase/firestore';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
 import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
+import { ErrorIllustrationComponent } from '../../components/error-illustration/error-illustration.component';
 import {
   IParticipant,
   ISecretSanta,
@@ -31,11 +32,11 @@ enum ParticipantState {
     TranslatePipe,
     DefaultPageLayoutComponent,
     SpinnerOverlayComponent,
+    ErrorIllustrationComponent,
     RevealComponent,
     SuggestionsComponent,
   ],
   templateUrl: './participant.component.html',
-  styleUrl: './participant.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParticipantComponent {

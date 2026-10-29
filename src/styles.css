@@ -1,0 +1,139 @@
+@import "@angular/cdk/overlay-prebuilt.css";
+@import "tailwindcss";
+@source "../node_modules/ng-daisy-date-picker";
+
+@plugin "daisyui" {
+  themes: secret-santa-light --default, secret-santa-dark --prefersdark;
+}
+
+@plugin "daisyui/theme" {
+  name: "secret-santa-light";
+  default: true;
+  color-scheme: light;
+  --color-primary: #0f766e;
+  --color-primary-content: #ffffff;
+  --color-secondary: #e2e8f0;
+  --color-secondary-content: #334155;
+  --color-accent: #115e59;
+  --color-accent-content: #ffffff;
+  --color-neutral: #1e293b;
+  --color-neutral-content: #f8fafc;
+  --color-base-100: #ffffff;
+  --color-base-200: #f8fafc;
+  --color-base-300: #e2e8f0;
+  --color-base-content: #1e293b;
+  --color-info: #0369a1;
+  --color-info-content: #ffffff;
+  --color-success: #15803d;
+  --color-success-content: #ffffff;
+  --color-warning: #a16207;
+  --color-warning-content: #ffffff;
+  --color-error: #b91c1c;
+  --color-error-content: #ffffff;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.75rem;
+  --radius-box: 1rem;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "secret-santa-dark";
+  prefersdark: true;
+  color-scheme: dark;
+  --color-primary: #0f766e;
+  --color-primary-content: #ffffff;
+  --color-secondary: #3a3b3e;
+  --color-secondary-content: #e6e6e8;
+  --color-accent: #2dd4bf;
+  --color-accent-content: #042f2e;
+  --color-neutral: #e5e5e7;
+  --color-neutral-content: #202124;
+  --color-base-100: #303136;
+  --color-base-200: #202124;
+  --color-base-300: #48494f;
+  --color-base-content: #e5e5e7;
+  --color-info: #7dd3fc;
+  --color-info-content: #082f49;
+  --color-success: #86efac;
+  --color-success-content: #052e16;
+  --color-warning: #fcd34d;
+  --color-warning-content: #422006;
+  --color-error: #fca5a5;
+  --color-error-content: #450a0a;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.75rem;
+  --radius-box: 1rem;
+  --depth: 0;
+  --noise: 0;
+}
+
+@layer base {
+  html {
+    min-width: 20rem;
+  }
+
+  body {
+    @apply min-h-screen bg-base-200 text-base-content antialiased;
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+
+  button,
+  a,
+  input,
+  textarea {
+    font: inherit;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-base-content;
+  }
+}
+
+.page-width {
+  width: min(100% - 2rem, 68rem);
+  margin-inline: auto;
+}
+
+.text-secondary {
+  @apply text-base-content/65;
+}
+
+.warn-panel {
+  @apply alert alert-warning my-4;
+}
+
+.form-control-error {
+  @apply mt-1 text-sm text-error;
+}
+
+.field-label {
+  @apply label pb-1 font-medium text-base-content;
+}
+
+.page-heading {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.035em;
+}
+
+.skip-link {
+  @apply btn btn-primary sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100];
+}
+
+.input,
+.textarea,
+.select {
+  border: 1px solid var(--color-base-300);
+  background-color: var(--color-base-100);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: var(--color-primary);
+}
