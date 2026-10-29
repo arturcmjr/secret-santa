@@ -13,23 +13,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
-import { MatInput } from '@angular/material/input';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ButtonDirective } from '@shared/directives/button.directive';
 
 @Component({
   selector: 'app-list-input',
   imports: [
     ReactiveFormsModule,
-    MatButton,
-    MatIconButton,
-    MatFormField,
-    MatLabel,
-    MatError,
-    MatIcon,
-    MatInput,
+    ButtonDirective,
     TranslatePipe,
   ],
   templateUrl: './list-input.component.html',
@@ -48,6 +39,7 @@ export class ListInputComponent implements ControlValueAccessor {
   public readonly minLength = input<number>();
   public readonly hideNew = input(false);
 
+  protected readonly inputId = `list-input-${Math.random().toString(36).slice(2)}`;
   protected readonly value = signal<string[]>([]);
   protected readonly inputControl = new FormControl('');
 

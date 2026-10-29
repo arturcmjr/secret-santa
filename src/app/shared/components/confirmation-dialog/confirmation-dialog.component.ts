@@ -1,40 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-
-export class ConfirmDialogModel {
-  constructor(public title: string, public message: string) {}
-}
+import { ButtonDirective } from '@shared/directives/button.directive';
 
 @Component({
   selector: 'app-confirmation-dialog',
-  imports: [
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    TranslatePipe,
-  ],
+  imports: [TranslatePipe, ButtonDirective],
   templateUrl: './confirmation-dialog.component.html',
   styleUrl: './confirmation-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmationDialogComponent {
-  private readonly dialogRef = inject(MatDialogRef<ConfirmationDialogComponent>);
-  protected readonly data = inject<ConfirmDialogModel>(MAT_DIALOG_DATA);
-
-  protected onConfirm(): void {
-    this.dialogRef.close(true);
-  }
-
-  protected onDismiss(): void {
-    this.dialogRef.close(false);
-  }
+  public readonly title = input.required<string>();
+  public readonly message = input.required<string>();
+  public readonly confirmed = output<void>();
+  public readonly dismissed = output<void>();
 }

@@ -1,14 +1,16 @@
-:host {
-  .subtitle {
-    width: 100%;
-    text-align: center;
-    margin: 0;
-    margin-bottom: .8rem;
-    color: #7b7b7b;   
+.participant-card {
+  height: fit-content;
+  padding: clamp(1rem, 4vw, 2rem);
+}
 
-    span {
-      font-size: .8rem;
-      white-space: pre-line;
-    }
-  }
+.subtitle {
+  width: 100%;
+  margin: 0 0 0.8rem;
+  color: #526977;
+  text-align: center;
+}
+
+.subtitle span {
+  font-size: 0.875rem;
+  white-space: pre-line;
 }

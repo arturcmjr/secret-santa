@@ -1,0 +1,201 @@
+@import "tailwindcss";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+:root {
+  color-scheme: light;
+  --color-deep-red: #780000;
+  --color-crimson: #c1121f;
+  --color-cream: #fdf0d5;
+  --color-deep-blue: #003049;
+  --color-steel-blue: #669bbc;
+  --font-display: Georgia, "Times New Roman", serif;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  background: var(--color-cream);
+  color: var(--color-deep-blue);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--color-cream);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.page-width {
+  @apply mx-auto w-full max-w-3xl;
+}
+
+.ui-card {
+  border: 1px solid rgb(0 48 73 / 9%);
+  border-radius: 1.125rem;
+  background: #fffdfa;
+  box-shadow: 0 1rem 2.5rem rgb(0 48 73 / 8%);
+}
+
+.ui-button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, transform 140ms ease;
+}
+
+.ui-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.ui-button:focus-visible,
+.ui-input:focus-visible {
+  outline: 3px solid rgb(102 155 188 / 65%);
+  outline-offset: 2px;
+}
+
+.ui-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.ui-button-primary {
+  color: white;
+  background: var(--color-crimson);
+}
+
+.ui-button-primary:hover:not(:disabled) {
+  background: var(--color-deep-red);
+}
+
+.ui-button-secondary {
+  border-color: rgb(0 48 73 / 18%);
+  color: var(--color-deep-blue);
+  background: #fffdfa;
+}
+
+.ui-button-secondary:hover:not(:disabled) {
+  border-color: var(--color-steel-blue);
+  background: #f2f8fb;
+}
+
+.ui-button-quiet {
+  color: #526977;
+  background: transparent;
+}
+
+.ui-button-quiet:hover:not(:disabled) {
+  color: var(--color-deep-red);
+  background: rgb(193 18 31 / 8%);
+}
+
+.ui-button-danger {
+  color: white;
+  background: var(--color-deep-red);
+}
+
+.field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.field label {
+  color: var(--color-deep-blue);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.ui-input {
+  width: 100%;
+  min-height: 2.875rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgb(0 48 73 / 20%);
+  border-radius: 0.625rem;
+  color: var(--color-deep-blue);
+  background: white;
+}
+
+.ui-input::placeholder {
+  color: #71838d;
+}
+
+.ui-input.ng-invalid.ng-touched {
+  border-color: var(--color-crimson);
+}
+
+.ui-error {
+  margin: 0.1rem 0 0;
+  color: var(--color-crimson);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.field-hint {
+  color: #526977;
+  line-height: 1.4;
+}
+
+.ui-checkbox {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--color-crimson);
+}
+
+.text-secondary {
+  color: #526977;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.warn-panel {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  color: var(--color-deep-red);
+  background: #fff3e5;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -9,20 +9,20 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { ButtonDirective } from '@shared/directives/button.directive';
 import { ListInputComponent } from '@shared/components/list-input/list-input.component';
 import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import { minimumArrayLength } from '@shared/helpers/validators/minimum-array-length.validator';
+import { NotificationService } from '@shared/services/notification.service';
 import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
 
 @Component({
   selector: 'app-suggestions',
   imports: [
     ReactiveFormsModule,
-    MatButton,
     TranslatePipe,
+    ButtonDirective,
     ListInputComponent,
     SpinnerOverlayComponent,
   ],
@@ -36,7 +36,7 @@ export class SuggestionsComponent {
   public readonly suggestions = input<string[]>();
 
   private readonly ssService = inject(SecretSantaService);
-  private readonly snack = inject(MatSnackBar);
+  private readonly notification = inject(NotificationService);
   private readonly translate = inject(TranslateService);
 
   protected readonly suggestionsControl = new FormControl<string[]>([]);
@@ -78,10 +78,8 @@ export class SuggestionsComponent {
       .subscribe(() => {
         this.storedSuggestions.set([...suggestions]);
         this.isLoading.set(false);
-        this.snack.open(
-          this.translate.instant('MESSAGES.INFO_SUGGESTIONS_SAVED'),
-          '',
-          { duration: 2000 }
+        this.notification.show(
+          this.translate.instant('MESSAGES.INFO_SUGGESTIONS_SAVED')
         );
       });
   }

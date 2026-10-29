@@ -1,12 +1,10 @@
-<h1 mat-dialog-title>
-  {{ data.title | translate }}
-</h1>
-
-<div mat-dialog-content>
-  <p>{{ data.message | translate }}</p>
-</div>
-
-<div mat-dialog-actions>
-  <button mat-button (click)="onDismiss()">{{ "LABELS.NO" | translate}}</button>
-  <button mat-raised-button color="primary" (click)="onConfirm()">{{ "LABELS.YES" | translate}}</button>
+<div class="dialog-backdrop">
+  <section class="dialog-card" role="dialog" aria-modal="true" [attr.aria-label]="title() | translate">
+    <h2>{{ title() | translate }}</h2>
+    <p>{{ message() | translate }}</p>
+    <div class="dialog-actions">
+      <button appButton="secondary" type="button" (click)="dismissed.emit()">{{ "LABELS.NO" | translate }}</button>
+      <button appButton type="button" (click)="confirmed.emit()">{{ "LABELS.YES" | translate }}</button>
+    </div>
+  </section>
 </div>

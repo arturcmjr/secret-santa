@@ -1,0 +1,15 @@
+:host {
+  position: fixed;
+  z-index: 10000;
+  right: 1rem;
+  bottom: 1rem;
+}
+
+.notification {
+  max-width: min(28rem, calc(100vw - 2rem));
+  padding: 0.875rem 1.125rem;
+  border-radius: 0.75rem;
+  color: var(--color-cream);
+  background: var(--color-deep-blue);
+  box-shadow: 0 0.75rem 2rem rgb(0 48 73 / 20%);
+}

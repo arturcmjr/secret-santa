@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
-
 .revelation-container {
   display: flex;
   flex-direction: column;
@@ -12,11 +10,34 @@
     right: 11%;
     bottom: 50%;
     overflow: hidden;
-    font-size: 1.4rem;
-    color: #464646;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--color-deep-blue);
     text-align: center;
-    font-family: 'Caveat', cursive;
+    font-family: cursive;
   }
+}
+
+.revealed-gift {
+  position: relative;
+  width: min(100%, 28rem);
+}
+
+.revealed-gift img {
+  display: block;
+  width: 100%;
+}
+
+.gift-button {
+  display: grid;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  place-items: center;
+  cursor: pointer;
+}
+
+.gift-button img {
+  width: min(100%, 18rem);
 }
 
 .small-info {

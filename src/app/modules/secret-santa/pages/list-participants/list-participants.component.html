@@ -1,69 +1,71 @@
 <app-default-page-layout [title]="title()" [subTitle]="subtitle()">
   <div class="page-width">
     <div class="cards-container">
-      <div class="share-container">
+      <section class="share-container">
         <div class="info-and-btn">
           <div>
             <b>{{ "LABELS.SS_LINK" | translate }}</b>
             <p>{{ "MESSAGES.INFO_SS_LINK" | translate }}</p>
           </div>
-          <button mat-icon-button (click)="copyLinksUrl()">
-            <mat-icon>content_copy</mat-icon>
+          <button appButton="secondary" type="button" class="icon-button" [attr.aria-label]="'LABELS.COPY_LINK' | translate" (click)="copyLinksUrl()">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3M5 8h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2Z" /></svg>
           </button>
         </div>
         @if (isSuggesting()) {
-          <div class="info-and-btn">
-            <div>
-              <p>{{ "MESSAGES.INFO_CHECK_LOCK_SUGGESTIONS" | translate }}</p>
-            </div>
-            <button mat-icon-button (click)="lockSuggestions()">
-              <mat-icon>done_all</mat-icon>
+          <div class="info-and-btn lock-row">
+            <p>{{ "MESSAGES.INFO_CHECK_LOCK_SUGGESTIONS" | translate }}</p>
+            <button appButton="secondary" type="button" class="icon-button" [attr.aria-label]="'LABELS.LOCK_SUGGESTIONS' | translate" (click)="lockSuggestions()">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 9.5 17 19 7" /></svg>
             </button>
           </div>
         }
-      </div>
+      </section>
       @for (participant of participants(); track participant.id) {
-        <div class="share-container">
+        <section class="share-container">
           <div class="info-and-btn">
             <div>
               <b>{{ participant.name }}</b>
               @if (isSuggesting()) {
                 <div class="extra-info">
-                  <span>
-                    {{ "LABELS.SUGGESTIONS" | translate }}:
-                    @if (participantHasSuggested(participant)) {
-                      <mat-icon class="success">check_circle</mat-icon>
-                    } @else {
-                      <mat-icon class="danger">cancel</mat-icon>
-                    }
-                  </span>
+                  <span>{{ "LABELS.SUGGESTIONS" | translate }}:</span>
+                  @if (participantHasSuggested(participant)) {
+                    <span class="status success" aria-label="Complete">✓</span>
+                  } @else {
+                    <span class="status danger" aria-label="Not complete">×</span>
+                  }
                 </div>
               } @else {
                 @let revealedCount = revealedCounts()[participant.id!];
                 @if (revealedCount !== undefined) {
                   <div class="extra-info">
-                    <span>
-                      {{ "LABELS.REVEALED" | translate }}:
-                      @if (revealedCount > 0) {
-                        <mat-icon class="success">check_circle</mat-icon>
-                      } @else {
-                        <mat-icon class="danger">cancel</mat-icon>
-                      }
-                    </span>
+                    <span>{{ "LABELS.REVEALED" | translate }}:</span>
+                    @if (revealedCount > 0) {
+                      <span class="status success" aria-label="Complete">✓</span>
+                    } @else {
+                      <span class="status danger" aria-label="Not complete">×</span>
+                    }
                   </div>
                 } @else {
-                  <ngx-skeleton-loader [theme]="{ width: '150px' }" />
+                  <span class="skeleton" aria-label="Loading"></span>
                 }
               }
             </div>
-            <button mat-icon-button (click)="shareSanta(participant)">
-              <mat-icon>share</mat-icon>
+            <button appButton="secondary" type="button" class="icon-button" [attr.aria-label]="'LABELS.SHARE_PARTICIPANT' | translate : { name: participant.name }" (click)="shareSanta(participant)">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" /></svg>
             </button>
           </div>
-        </div>
+        </section>
       }
     </div>
     <app-error-illustration [errorCode]="errorCode()"></app-error-illustration>
   </div>
 </app-default-page-layout>
+@if (isLockConfirmationOpen()) {
+  <app-confirmation-dialog
+    [title]="'LABELS.CLOSE_SUGGESTIONS'"
+    [message]="'MESSAGES.INFO_LOCK_SUGGESTION_CONFIRMATION'"
+    (confirmed)="confirmLockSuggestions()"
+    (dismissed)="isLockConfirmationOpen.set(false)"
+  ></app-confirmation-dialog>
+}
 <app-spinner-overlay [isLoading]="isLoading()"></app-spinner-overlay>

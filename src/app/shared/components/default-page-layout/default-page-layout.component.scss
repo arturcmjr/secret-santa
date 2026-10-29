@@ -1,45 +1,51 @@
-.main-wrapper {
-  display: flex;
-  flex-direction: column;
+:host {
+  display: block;
   min-height: 100vh;
-  padding: 0;
+}
+
+.main-wrapper {
+  min-height: 100vh;
+  background: var(--color-cream);
 }
 
 .header {
-  width: 100vw;
-  background-color: #2af5db;
-  background-image: linear-gradient(90deg, #2af5db 0%, #08aeea 51%, #2af5db 99%);
-  height: 20vh;
   display: flex;
+  height: 8rem;
   align-items: center;
   justify-content: center;
+  padding: 0 1rem;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgb(102 155 188 / 35%), transparent 65%),
+    var(--color-deep-blue);
 }
 
 .page-container {
-  padding: 1rem;
-  z-index: 1;
-  background-color: #fcfcfc;
-  min-height: 80vh;
-  box-sizing: border-box;
-
   display: flex;
+  min-height: calc(100vh - 8rem);
   flex-direction: column;
+  padding: clamp(1.5rem, 4vw, 3rem) 1rem 3rem;
+}
 
-  h2.page-title {
-    text-align: center;
-    margin: .8rem 0;
-    color: #414141;
-  }
+.page-title {
+  margin: 0.25rem 0 0.75rem;
+  color: var(--color-deep-blue);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  text-align: center;
+}
 
-  h4.page-subtitle {
-    text-align: center;
-    color: #7b7b7b;
-    margin-top: -1rem;
-  }
+.page-subtitle {
+  max-width: 48rem;
+  margin: 0 auto 1.5rem;
+  color: #456170;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: center;
 }
 
 .page-body {
-  flex-grow: 1;
   display: flex;
+  flex-grow: 1;
   justify-content: center;
 }

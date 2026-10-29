@@ -1,18 +1,18 @@
-<div class="main-wrapper">
-  <div class="header">
-    <app-main-logo style="position: fixed;"></app-main-logo>
-  </div>
+<main class="main-wrapper">
+  <header class="header">
+    <app-main-logo></app-main-logo>
+  </header>
   <div class="page-container">
     @if (title(); as title) {
-      <h2 class="page-title">{{ title }}</h2>
+      <h1 class="page-title">{{ title }}</h1>
     }
     @if (subTitleTemplate(); as template) {
       <ng-container *ngTemplateOutlet="template"></ng-container>
     } @else if (subTitle(); as subTitle) {
-      <h4 class="page-subtitle">{{ subTitle }}</h4>
+      <h2 class="page-subtitle">{{ subTitle }}</h2>
     }
     <div class="page-body">
       <ng-content></ng-content>
     </div>
   </div>
-</div>
+</main>

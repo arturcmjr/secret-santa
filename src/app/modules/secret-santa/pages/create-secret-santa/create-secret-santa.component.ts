@@ -4,39 +4,21 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { MatButton } from '@angular/material/button';
-import {
-  MatDatepicker,
-  MatDatepickerInput,
-  MatDatepickerToggle,
-} from '@angular/material/datepicker';
-import { MatError, MatFormField, MatHint, MatLabel, MatSuffix } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
-import {
-  MatStep,
-  MatStepLabel,
-  MatStepper,
-  MatStepperNext,
-  MatStepperPrevious,
-} from '@angular/material/stepper';
-import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ButtonDirective } from '@shared/directives/button.directive';
 import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
 import { ListInputComponent } from '@shared/components/list-input/list-input.component';
 import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import { minimumArrayLength } from '@shared/helpers/validators/minimum-array-length.validator';
-import { MatFormErrorDirective } from '@shared/services/directives/mat-form-error.directive';
 import {
   ICreateSecretSanta,
   SecretSantaTypeEnum,
@@ -57,34 +39,23 @@ interface IConfirmationSummary {
   maxSuggestions?: number;
 }
 
+function asLocalDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 @Component({
   selector: 'app-create-secret-santa',
   imports: [
     DatePipe,
     ReactiveFormsModule,
-    CdkTextareaAutosize,
-    MatButton,
-    MatDatepicker,
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatError,
-    MatFormField,
-    MatHint,
-    MatInput,
-    MatLabel,
-    MatSlideToggle,
-    MatStep,
-    MatStepLabel,
-    MatStepper,
-    MatStepperNext,
-    MatStepperPrevious,
-    MatSuffix,
-    MatTooltip,
     TranslatePipe,
+    ButtonDirective,
     DefaultPageLayoutComponent,
     ListInputComponent,
     SpinnerOverlayComponent,
-    MatFormErrorDirective,
   ],
   templateUrl: './create-secret-santa.component.html',
   styleUrl: './create-secret-santa.component.scss',
@@ -95,7 +66,15 @@ export class CreateSecretSantaComponent {
   private readonly router = inject(Router);
 
   protected readonly isLoading = signal(false);
+  protected readonly activeStep = signal(0);
+  protected readonly steps = [
+    'LABELS.BASIC_INFO',
+    'LABELS.PARTICIPANTS',
+    'LABELS.CONFIRMATION',
+  ];
   protected readonly confirmationSummary = signal<IConfirmationSummary | undefined>(undefined);
+  protected readonly minimumDate = asLocalDate(new Date());
+  protected readonly maximumDate = this.getMaximumDate();
 
   protected readonly step1group = new FormGroup({
     name: new FormControl<string | null>(null, [
@@ -103,7 +82,10 @@ export class CreateSecretSantaComponent {
       Validators.minLength(5),
     ]),
     description: new FormControl<string | null>(null),
-    date: new FormControl<Date | null>(null, [Validators.required]),
+    date: new FormControl<string | null>(null, [
+      Validators.required,
+      this.dateRangeValidator(),
+    ]),
     useSuggestion: new FormControl(false, { nonNullable: true }),
     maxSuggestions: new FormControl<number | null>(
       { value: null, disabled: true },
@@ -117,30 +99,24 @@ export class CreateSecretSantaComponent {
     }),
   });
 
-  protected readonly useSuggestion = toSignal(
-    this.step1group.controls.useSuggestion.valueChanges,
-    { initialValue: this.step1group.controls.useSuggestion.value }
-  );
+  protected readonly useSuggestion = signal(false);
 
   constructor() {
     this.step1group.controls.useSuggestion.valueChanges.subscribe((value) => {
+      this.useSuggestion.set(value);
       const { maxSuggestions } = this.step1group.controls;
       if (value) maxSuggestions.enable();
       else maxSuggestions.disable();
     });
   }
 
-  protected readonly dateFilter = (date: Date | null): boolean => {
-    if (!date) return false;
-    const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const oneYearFromNow = new Date(
-      now.getFullYear() + 1,
-      now.getMonth(),
-      now.getDate()
-    );
-    return date >= startOfDay && date < oneYearFromNow;
-  };
+  protected onBasicsNext(): void {
+    if (this.step1group.invalid) {
+      this.step1group.markAllAsTouched();
+      return;
+    }
+    this.activeStep.set(1);
+  }
 
   protected save(): void {
     if (this.step1group.invalid || this.step2group.invalid) {
@@ -154,7 +130,7 @@ export class CreateSecretSantaComponent {
     const data: ICreateSecretSanta = {
       name: name!,
       description: description ?? '',
-      date: date!,
+      date: new Date(`${date}T00:00:00`),
       participants,
       maxSuggestions: useSuggestion ? maxSuggestions ?? undefined : undefined,
       type: useSuggestion
@@ -179,11 +155,29 @@ export class CreateSecretSantaComponent {
     this.confirmationSummary.set({
       name: name!,
       description: description ?? '',
-      date: date!,
+      date: new Date(`${date}T00:00:00`),
       participants: participantsControl.value,
       useSuggestion,
       maxSuggestions: useSuggestion ? maxSuggestions ?? undefined : undefined,
     });
+    this.activeStep.set(2);
+  }
+
+  private dateRangeValidator(): ValidatorFn {
+    return (control) => {
+      const value = control.value as string | null;
+      if (!value) return null;
+      return value >= this.minimumDate && value <= this.maximumDate
+        ? null
+        : { dateRange: true };
+    };
+  }
+
+  private getMaximumDate(): string {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() + 1);
+    date.setDate(date.getDate() - 1);
+    return asLocalDate(date);
   }
 
   private drawSecretSanta(): IParticipantSecretSanta[] {

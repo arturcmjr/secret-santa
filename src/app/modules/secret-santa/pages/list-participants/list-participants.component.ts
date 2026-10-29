@@ -8,20 +8,12 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { Clipboard } from '@angular/cdk/clipboard';
-import { MatIconButton } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
-import { MatIcon } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { FirestoreError } from 'firebase/firestore';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { NgxSkeletonLoaderComponent } from 'ngx-skeleton-loader';
 import { combineLatest } from 'rxjs';
-import {
-  ConfirmationDialogComponent,
-  ConfirmDialogModel,
-} from '@shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ButtonDirective } from '@shared/directives/button.directive';
 import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
 import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import {
@@ -30,15 +22,15 @@ import {
   SecretSantaTypeEnum,
 } from '@shared/services/secret-santa/secret-santa.interface';
 import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
+import { NotificationService } from '@shared/services/notification.service';
 import { ErrorIllustrationComponent } from '../../components/error-illustration/error-illustration.component';
 
 @Component({
   selector: 'app-list-participants',
   imports: [
-    MatIconButton,
-    MatIcon,
+    ButtonDirective,
     TranslatePipe,
-    NgxSkeletonLoaderComponent,
+    ConfirmationDialogComponent,
     DefaultPageLayoutComponent,
     SpinnerOverlayComponent,
     ErrorIllustrationComponent,
@@ -52,11 +44,9 @@ export class ListParticipantsComponent {
   public readonly secretSantaId = input<string>();
 
   private readonly service = inject(SecretSantaService);
-  private readonly clipboard = inject(Clipboard);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly notification = inject(NotificationService);
   private readonly translate = inject(TranslateService);
   private readonly titleService = inject(Title);
-  private readonly dialog = inject(MatDialog);
 
   protected readonly participants = signal<IParticipant[]>([]);
   protected readonly revealedCounts = signal<Record<string, number>>({});
@@ -65,6 +55,7 @@ export class ListParticipantsComponent {
   protected readonly subtitle = signal('');
   protected readonly errorCode = signal<string | null>(null);
   protected readonly secretSanta = signal<ISecretSanta | undefined>(undefined);
+  protected readonly isLockConfirmationOpen = signal(false);
   protected readonly isSuggesting = computed(
     () =>
       this.secretSanta()?.type === SecretSantaTypeEnum.Suggestions &&
@@ -132,32 +123,25 @@ export class ListParticipantsComponent {
   }
 
   protected copyLinksUrl(): void {
-    this.clipboard.copy(window.location.href);
-    this.notifyCopied();
+    this.copyToClipboard(window.location.href);
   }
 
   protected lockSuggestions(): void {
-    const dialogData = new ConfirmDialogModel(
-      'LABELS.CLOSE_SUGGESTIONS',
-      'MESSAGES.INFO_LOCK_SUGGESTION_CONFIRMATION'
-    );
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      maxWidth: '400px',
-      data: dialogData,
-    });
-    dialogRef.afterClosed().subscribe((dialogResult: boolean) => {
-      const secretSantaId = this.secretSantaId();
-      if (dialogResult !== true || !secretSantaId) return;
-      this.isLoading.set(true);
-      this.service.lockSuggestions(secretSantaId).subscribe(() => {
-        this.fetchData(secretSantaId);
-      });
+    this.isLockConfirmationOpen.set(true);
+  }
+
+  protected confirmLockSuggestions(): void {
+    this.isLockConfirmationOpen.set(false);
+    const secretSantaId = this.secretSantaId();
+    if (!secretSantaId) return;
+    this.isLoading.set(true);
+    this.service.lockSuggestions(secretSantaId).subscribe(() => {
+      this.fetchData(secretSantaId);
     });
   }
 
   protected copyParticipantToClipboard(participant: IParticipant): void {
-    this.clipboard.copy(this.getParticipantUrl(participant));
-    this.notifyCopied();
+    this.copyToClipboard(this.getParticipantUrl(participant));
   }
 
   protected participantHasSuggested(participant: IParticipant): boolean {
@@ -178,8 +162,33 @@ export class ListParticipantsComponent {
     }
   }
 
+  private copyToClipboard(text: string): void {
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(
+        () => this.notifyCopied(),
+        () => this.notifyCopyFailed()
+      );
+    } else {
+      const input = document.createElement('textarea');
+      input.value = text;
+      input.setAttribute('readonly', '');
+      input.style.position = 'fixed';
+      input.style.opacity = '0';
+      document.body.appendChild(input);
+      input.select();
+      const copied = document.execCommand('copy');
+      input.remove();
+      if (copied) this.notifyCopied();
+      else this.notifyCopyFailed();
+    }
+  }
+
   private notifyCopied(): void {
     const message = this.translate.instant('MESSAGES.INFO_CLIPBOARD_SUCCESS');
-    this.snackBar.open(message, '', { duration: 2000 });
+    this.notification.show(message);
+  }
+
+  private notifyCopyFailed(): void {
+    this.notification.show('Copy failed. Please copy the link manually.');
   }
 }

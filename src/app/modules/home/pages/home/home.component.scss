@@ -1,106 +1,126 @@
-@use '@angular/material' as mat;
-
-$icon-size: 5rem;
-$secondary-opacity: 0.7;
-
-.home-wrapper {
-  background-color: #2af5db;
-  background-image: linear-gradient(45deg, #2af5db 0%, #08AEEA 25%, #08aeea 75%, #2af5db 100%);
-  width: 100vw;
+:host {
+  display: block;
   min-height: 100vh;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
+  color: var(--color-cream);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgb(102 155 188 / 38%), transparent 58%),
+    var(--color-deep-blue);
 }
 
-.app-name-container {
-  height: 20vh;
-  opacity: $secondary-opacity;
+.home-wrapper {
+  min-height: 100vh;
+  padding: 1.25rem clamp(1.25rem, 5vw, 5rem) 4rem;
+}
+
+.home-header {
+  height: 7rem;
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 76rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 1.5rem 0 0.75rem;
+  color: var(--color-steel-blue);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
 }
 
 h1 {
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 1.8rem;
+  max-width: 48rem;
+  margin: 0;
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
   font-weight: 600;
-  margin: 0 1rem;
-  letter-spacing: 1px;
-}
-
-.step {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-
-  .step-number {
-    font-size: 1.4rem;
-    color: #fff;
-    background-color: mat.m2-get-color-from-palette(mat.$m2-red-palette, A200);
-    border-radius: 50%;
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .step-title {
-    font-size: 1.5rem;
-    font-weight: 500;
-    text-transform: uppercase;
-  }
-
-  mat-icon {
-    font-size: $icon-size;
-    color: #fff;
-    margin: 1.5rem 0;
-    height: $icon-size;
-    width: 100%;
-    text-align: center;
-    opacity: $secondary-opacity;
-  }
-
-  .step-description {
-    width: 400px;
-    max-width: 70%;
-    text-align: center;
-    font-size: 1.2em;
-    opacity: $secondary-opacity;
-  }
-}
-
-.bottom-info {
-  text-align: center;
-  font-size: 1.4rem;
-  margin: 1rem 2rem;
-}
-
-.create-btn-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-  padding-bottom: 2rem;
+  line-height: 1.08;
 }
 
 .steps-container {
-  display: flex;
-  flex-grow: 1;
-  justify-content: center;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-
-    .step {
-      margin-bottom: 2rem;
-    }
-  }
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+  margin: 3.5rem 0 2rem;
 }
 
-a {
-  text-decoration: none;
+.step {
+  position: relative;
+  display: flex;
+  min-height: 17rem;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.5rem;
+  border: 1px solid rgb(253 240 213 / 12%);
+  border-radius: 1.25rem;
+  background: rgb(253 240 213 / 6%);
+}
+
+.step-number {
+  position: absolute;
+  top: 1.125rem;
+  left: 1.25rem;
+  color: var(--color-steel-blue);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.step-icon {
+  display: grid;
+  width: 3.75rem;
+  height: 3.75rem;
+  margin: 0.75rem 0 1.25rem;
+  place-items: center;
+  border-radius: 1.125rem;
+  color: var(--color-cream);
+  background: var(--color-crimson);
+  font-size: 1.8rem;
+}
+
+.step-title {
+  margin: 0;
+  color: var(--color-cream);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.step-description {
+  max-width: 24rem;
+  margin: 0.75rem 0 0;
+  color: rgb(253 240 213 / 70%);
+  line-height: 1.65;
+}
+
+.bottom-info {
+  max-width: 40rem;
+  margin: 0.25rem 0 1.5rem;
+  color: rgb(253 240 213 / 78%);
+  line-height: 1.65;
+}
+
+@media (max-width: 700px) {
+  .home-wrapper {
+    padding-inline: 1rem;
+  }
+
+  .steps-container {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin: 2rem 0 1.5rem;
+  }
+
+  .step {
+    min-height: auto;
+    padding: 1.5rem;
+  }
 }

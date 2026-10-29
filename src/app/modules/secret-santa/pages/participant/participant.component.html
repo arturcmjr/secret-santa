@@ -2,7 +2,7 @@
   [title]="title() | translate"
   [subTitleTemplate]="subTitleTemplate"
 >
-  <div class="app-card fit-content page-width">
+  <div class="ui-card participant-card page-width">
     @if (participant(); as participant) {
       @if (secretSanta(); as secretSanta) {
         @switch (state()) {

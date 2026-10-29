@@ -1,4 +1,4 @@
-<small>
+<small class="suggestions-hint">
   {{ "MESSAGES.INFO_GIFT_SUGGESTIONS" | translate : { value: maxSuggestions() } }}
   <br />
 </small>
@@ -24,8 +24,8 @@
 
 <div class="action-btns">
   <button
-    mat-flat-button
-    color="primary"
+    appButton
+    type="button"
     [disabled]="!hasChanges()"
     (click)="save()"
   >
