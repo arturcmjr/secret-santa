@@ -15,14 +15,14 @@ import { LucideCheck, LucideCopy, LucideLink, LucideShare2 } from '@lucide/angul
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { combineLatest } from 'rxjs';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
-import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
-import { NotificationService } from '@shared/services/notification.service';
+import { DefaultPageLayoutComponent } from '@layout/default-page-layout/default-page-layout.component';
+import { NotificationService } from '@core/services/notification.service';
 import {
   IParticipant,
   ISecretSanta,
   SecretSantaTypeEnum,
-} from '@shared/services/secret-santa/secret-santa.interface';
-import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
+} from '@features/secret-santa/models/secret-santa.interface';
+import { SecretSantaService } from '@features/secret-santa/services/secret-santa.service';
 import { ErrorIllustrationComponent } from '../../components/error-illustration/error-illustration.component';
 
 @Component({

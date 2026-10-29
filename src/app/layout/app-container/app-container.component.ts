@@ -5,7 +5,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { filter, map, startWith } from 'rxjs';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
-import { SpinnerOverlayComponent } from '../spinner-overlay/spinner-overlay.component';
+import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 
 @Component({
   selector: 'app-container',

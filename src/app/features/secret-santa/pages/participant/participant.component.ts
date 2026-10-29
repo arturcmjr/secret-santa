@@ -9,16 +9,16 @@ import {
 } from '@angular/core';
 import { FirestoreError } from 'firebase/firestore';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
+import { DefaultPageLayoutComponent } from '@layout/default-page-layout/default-page-layout.component';
 import { ErrorIllustrationComponent } from '../../components/error-illustration/error-illustration.component';
 import {
   IParticipant,
   ISecretSanta,
   SecretSantaTypeEnum,
-} from '@shared/services/secret-santa/secret-santa.interface';
-import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
-import { RevealComponent } from './components/reveal/reveal.component';
-import { SuggestionsComponent } from './components/suggestions/suggestions.component';
+} from '@features/secret-santa/models/secret-santa.interface';
+import { SecretSantaService } from '@features/secret-santa/services/secret-santa.service';
+import { RevealComponent } from '@features/secret-santa/components/reveal/reveal.component';
+import { SuggestionsComponent } from '@features/secret-santa/components/suggestions/suggestions.component';
 
 enum ParticipantState {
   Suggesting,

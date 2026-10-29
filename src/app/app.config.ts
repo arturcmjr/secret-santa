@@ -8,7 +8,7 @@ import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { routes } from './app.routes';
-import { loadingInterceptor } from './shared/services/loading.interceptor';
+import { loadingInterceptor } from '@core/interceptors/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
