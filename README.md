@@ -1,5 +1,5 @@
 # Secret Santa
-Secret Santa Web App In Angular 13.x
+Secret Santa Web App In Angular 22
 > This app is part of my portfolio. If you liked it and are interested in working with me, here is my website where you can have a look at what I'm currently doing, see my other projects and get my resume. 
 > Please feel free to contact me at arturcmjr@gmail.com
 
@@ -15,7 +15,7 @@ This web page is a simple solution made to help my family with the traditional s
 - Easy to use
 
 ## Libraries and Frameworks
-- [Angular 13.x](https://angular.io/) base
+- [Angular 22](https://angular.io/) base
 - [Angular Material](https://material.angular.io/) Theme and style
 - [Flex Layout](https://github.com/angular/flex-layout/wiki/fxLayout-API) Responsiveness utilities
 - [NGX Translate](https://github.com/ngx-translate/core) Translation

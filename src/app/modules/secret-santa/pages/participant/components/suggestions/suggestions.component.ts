@@ -1,89 +1,88 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { ListInputComponent } from '@shared/components/list-input/list-input.component';
+import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import { minimumArrayLength } from '@shared/helpers/validators/minimum-array-length.validator';
 import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-suggestions',
+  imports: [
+    ReactiveFormsModule,
+    MatButton,
+    TranslatePipe,
+    ListInputComponent,
+    SpinnerOverlayComponent,
+  ],
   templateUrl: './suggestions.component.html',
   styleUrl: './suggestions.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SuggestionsComponent implements OnInit, OnDestroy {
-  @Input()
-  maxSuggestions: number;
+export class SuggestionsComponent {
+  public readonly participantId = input.required<string>();
+  public readonly maxSuggestions = input.required<number>();
+  public readonly suggestions = input<string[]>();
 
-  @Input('suggestions')
-  set storedSuggestionInput(value: string[] | undefined) {
-    this.storedSuggestions = value ? [...value] : undefined;
-    if (value) this.suggestionsControl.setValue(value);
-    this.checkForChanges();
-  }
+  private readonly ssService = inject(SecretSantaService);
+  private readonly snack = inject(MatSnackBar);
+  private readonly translate = inject(TranslateService);
 
-  protected get suggestionsCount(): number {
-    return this.suggestionsControl.value?.length ?? 0;
-  }
-  protected suggestionsControl = new FormControl<string[]>([]);
-  protected storedSuggestions?: string[] = [];
-  private subs = new Subscription();
-  protected hasChanges = false;
-  protected participantId: string;
-  protected isLoading = false;
+  protected readonly suggestionsControl = new FormControl<string[]>([]);
+  protected readonly storedSuggestions = signal<string[] | undefined>(undefined);
+  protected readonly isLoading = signal(false);
 
-  constructor(
-    private ssService: SecretSantaService,
-    private activatedRoute: ActivatedRoute,
-    private snack: MatSnackBar,
-    private translate: TranslateService
-  ) {
-    this.activatedRoute.params.subscribe((params) => {
-      const { participantId } = params || {};
-      this.participantId = participantId;
+  private readonly currentSuggestions = toSignal(
+    this.suggestionsControl.valueChanges,
+    { initialValue: this.suggestionsControl.value }
+  );
+  protected readonly suggestionsCount = computed(
+    () => this.currentSuggestions()?.length ?? 0
+  );
+  protected readonly hasChanges = computed(() => {
+    const stored = this.storedSuggestions();
+    if (!stored) return true;
+    return JSON.stringify(this.currentSuggestions() ?? []) !== JSON.stringify(stored);
+  });
+
+  constructor() {
+    effect(() => {
+      const value = this.suggestions();
+      this.storedSuggestions.set(value ? [...value] : undefined);
+      if (value) this.suggestionsControl.setValue([...value]);
+    });
+    effect(() => {
+      this.suggestionsControl.setValidators([
+        minimumArrayLength(this.maxSuggestions()),
+      ]);
+      this.suggestionsControl.updateValueAndValidity();
     });
   }
 
-  private checkForChanges(): void {
-    const current = this.suggestionsControl.value || [];
-    if (!this.storedSuggestions) {
-      this.hasChanges = true;
-      return;
-    }
-    this.hasChanges =
-      JSON.stringify(current) !== JSON.stringify(this.storedSuggestions);
-  }
-
   protected save(): void {
-    this.isLoading = true;
+    this.isLoading.set(true);
     const suggestions = this.suggestionsControl.value || [];
     this.ssService
-      .setParticipantSuggestions(this.participantId, suggestions)
+      .setParticipantSuggestions(this.participantId(), suggestions)
       .subscribe(() => {
-        this.storedSuggestions = [...suggestions];
-        this.hasChanges = false;
-        this.isLoading = false;
+        this.storedSuggestions.set([...suggestions]);
+        this.isLoading.set(false);
         this.snack.open(
           this.translate.instant('MESSAGES.INFO_SUGGESTIONS_SAVED'),
           '',
           { duration: 2000 }
         );
       });
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
-  }
-
-  ngOnInit(): void {
-    this.subs.add(
-      this.suggestionsControl.valueChanges.subscribe((value) => {
-        this.checkForChanges();
-      })
-    );
-    this.suggestionsControl.setValidators([
-      minimumArrayLength(this.maxSuggestions),
-    ]);
   }
 }

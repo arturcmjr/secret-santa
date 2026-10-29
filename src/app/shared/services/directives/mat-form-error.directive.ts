@@ -1,62 +1,51 @@
 import {
+  DestroyRef,
   Directive,
-  Input,
-  OnInit,
-  OnDestroy,
   ElementRef,
+  inject,
+  input,
+  OnInit,
   Renderer2,
 } from '@angular/core';
-import { FormGroupDirective, AbstractControl } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AbstractControl, FormGroupDirective } from '@angular/forms';
 import { extractTouchedChanges } from '@shared/util/extract-touch-changes';
-import { Subscription } from 'rxjs';
 
 @Directive({
   selector: 'mat-error[formError]',
 })
-export class MatFormErrorDirective implements OnInit, OnDestroy {
-  @Input() for: string;
-  @Input() error: string;
+export class MatFormErrorDirective implements OnInit {
+  public readonly for = input.required<string>();
+  public readonly error = input.required<string>();
 
-  private control: AbstractControl;
-  private subs = new Subscription();
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly renderer = inject(Renderer2);
+  private readonly formGroupDirective = inject(FormGroupDirective);
+  private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-    private formGroupDirective: FormGroupDirective
-  ) {}
+  private control?: AbstractControl;
 
-  ngOnInit() {
-    this.control = this.formGroupDirective.form.get(
-      this.for
-    ) as AbstractControl;
+  ngOnInit(): void {
+    this.control = this.formGroupDirective.form.get(this.for()) ?? undefined;
+    if (!this.control) return;
 
-    if (this.control) {
-      const touchedChanges$ = extractTouchedChanges(this.control);
-      this.subs.add(
-        touchedChanges$.subscribe(() => {
-          this.updateErrorVisibility();
-        })
-      );
-      this.subs.add(
-        this.control.statusChanges.subscribe(() => {
-          this.updateErrorVisibility();
-        })
-      );
+    extractTouchedChanges(this.control)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.updateErrorVisibility());
+    this.control.statusChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.updateErrorVisibility());
 
-      this.updateErrorVisibility();
-    }
+    this.updateErrorVisibility();
   }
 
-  ngOnDestroy() {
-    this.subs.unsubscribe();
-  }
-
-  private updateErrorVisibility() {
-    if (this.control.touched && this.control.hasError(this.error)) {
-      this.renderer.setStyle(this.el.nativeElement, 'display', 'block');
-    } else {
-      this.renderer.setStyle(this.el.nativeElement, 'display', 'none');
-    }
+  private updateErrorVisibility(): void {
+    const visible =
+      !!this.control?.touched && this.control.hasError(this.error());
+    this.renderer.setStyle(
+      this.el.nativeElement,
+      'display',
+      visible ? 'block' : 'none'
+    );
   }
 }

@@ -1,4 +1,4 @@
-<app-default-page-layout [title]="title" [subTitle]="subtitle">
+<app-default-page-layout [title]="title()" [subTitle]="subtitle()">
   <div class="page-width">
     <div class="cards-container">
       <div class="share-container">
@@ -11,57 +11,59 @@
             <mat-icon>content_copy</mat-icon>
           </button>
         </div>
-        @if(isSuggesting) {
-        <div class="info-and-btn">
-          <div>
-            <p>{{ "MESSAGES.INFO_CHECK_LOCK_SUGGESTIONS" | translate }}</p>
+        @if (isSuggesting()) {
+          <div class="info-and-btn">
+            <div>
+              <p>{{ "MESSAGES.INFO_CHECK_LOCK_SUGGESTIONS" | translate }}</p>
+            </div>
+            <button mat-icon-button (click)="lockSuggestions()">
+              <mat-icon>done_all</mat-icon>
+            </button>
           </div>
-          <button mat-icon-button (click)="lockSuggestions()">
-            <mat-icon>done_all</mat-icon>
-          </button>
-        </div>
         }
       </div>
-      <div
-        class="share-container"
-        *ngFor="let participant of participants; index as i"
-      >
-        <div class="info-and-btn">
-          <div>
-            <b>{{ participant.name }}</b>
-            @if(isSuggesting) {
-            <div class="extra-info">
-              <span>
-                {{ "LABELS.SUGGESTIONS" | translate }}:
-                @if(participantHasSuggested(participant)) {
-                <mat-icon class="success">check_circle</mat-icon>
+      @for (participant of participants(); track participant.id) {
+        <div class="share-container">
+          <div class="info-and-btn">
+            <div>
+              <b>{{ participant.name }}</b>
+              @if (isSuggesting()) {
+                <div class="extra-info">
+                  <span>
+                    {{ "LABELS.SUGGESTIONS" | translate }}:
+                    @if (participantHasSuggested(participant)) {
+                      <mat-icon class="success">check_circle</mat-icon>
+                    } @else {
+                      <mat-icon class="danger">cancel</mat-icon>
+                    }
+                  </span>
+                </div>
+              } @else {
+                @let revealedCount = revealedCounts()[participant.id!];
+                @if (revealedCount !== undefined) {
+                  <div class="extra-info">
+                    <span>
+                      {{ "LABELS.REVEALED" | translate }}:
+                      @if (revealedCount > 0) {
+                        <mat-icon class="success">check_circle</mat-icon>
+                      } @else {
+                        <mat-icon class="danger">cancel</mat-icon>
+                      }
+                    </span>
+                  </div>
                 } @else {
-                <mat-icon class="danger">cancel</mat-icon>
+                  <ngx-skeleton-loader [theme]="{ width: '150px' }" />
                 }
-              </span>
+              }
             </div>
-            } @else { @if(participant.revealedCount !== undefined) {
-            <div class="extra-info">
-              <span>
-                {{ "LABELS.REVEALED" | translate }}:
-                @if(participant.revealedCount > 0) {
-                <mat-icon class="success">check_circle</mat-icon>
-                } @else {
-                <mat-icon class="danger">cancel</mat-icon>
-                }
-              </span>
-            </div>
-            } @else {
-            <ngx-skeleton-loader [theme]="{ width: '150px' }" />
-            } }
+            <button mat-icon-button (click)="shareSanta(participant)">
+              <mat-icon>share</mat-icon>
+            </button>
           </div>
-          <button mat-icon-button (click)="shareSanta(participant)">
-            <mat-icon>share</mat-icon>
-          </button>
         </div>
-      </div>
+      }
     </div>
-    <app-error-illustration [errorCode]="errorCode"></app-error-illustration>
+    <app-error-illustration [errorCode]="errorCode()"></app-error-illustration>
   </div>
 </app-default-page-layout>
-<app-spinner-overlay [isLoading]="isLoading"></app-spinner-overlay>
+<app-spinner-overlay [isLoading]="isLoading()"></app-spinner-overlay>

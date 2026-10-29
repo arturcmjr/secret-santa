@@ -1,33 +1,38 @@
 <app-default-page-layout
-  [title]="title | translate"
+  [title]="title() | translate"
   [subTitleTemplate]="subTitleTemplate"
 >
   <div class="app-card fit-content page-width">
-    @if(participant && secretSanta) { @switch (state) { @case
-    (ParticipantState.Suggesting) {
-    <!-- ----------------------------- suggesting ------------------------------ -->
-    <app-suggestions
-      [maxSuggestions]="secretSanta.maxSuggestions!"
-      [suggestions]="participant.suggestions"
-    ></app-suggestions>
-    } @case (ParticipantState.Reveal) {
-    <!-- ------------------------------- reveal -------------------------------- -->
-    <app-reveal 
-      [participant]="participant" 
-      [type]="secretSanta.type"
-      [secretSantaId]="secretSantaId"
-    ></app-reveal>
-    } } }
+    @if (participant(); as participant) {
+      @if (secretSanta(); as secretSanta) {
+        @switch (state()) {
+          @case (ParticipantState.Suggesting) {
+            <app-suggestions
+              [participantId]="participantId()!"
+              [maxSuggestions]="secretSanta.maxSuggestions!"
+              [suggestions]="participant.suggestions"
+            ></app-suggestions>
+          }
+          @case (ParticipantState.Reveal) {
+            <app-reveal
+              [participant]="participant"
+              [type]="secretSanta.type"
+              [secretSantaId]="secretSantaId()!"
+            ></app-reveal>
+          }
+        }
+      }
+    }
   </div>
 </app-default-page-layout>
-<app-spinner-overlay [isLoading]="isLoading"></app-spinner-overlay>
+<app-spinner-overlay [isLoading]="isLoading()"></app-spinner-overlay>
 
 <ng-template #subTitleTemplate>
-  @if(secretSanta) {
-  <p class="subtitle">
-    <b>{{ secretSanta.name }}</b>
-    <br />
-    <span> {{ secretSanta.description }}</span>
-  </p>
+  @if (secretSanta(); as secretSanta) {
+    <p class="subtitle">
+      <b>{{ secretSanta.name }}</b>
+      <br />
+      <span> {{ secretSanta.description }}</span>
+    </p>
   }
 </ng-template>

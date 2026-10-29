@@ -1,138 +1,170 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+  untracked,
+} from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, OnInit } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { FirestoreError } from '@firebase/firestore';
-import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationDialogComponent, ConfirmDialogModel } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
+import { FirestoreError } from 'firebase/firestore';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { NgxSkeletonLoaderComponent } from 'ngx-skeleton-loader';
+import { combineLatest } from 'rxjs';
 import {
-  IParticipant as IParticipantBase,
+  ConfirmationDialogComponent,
+  ConfirmDialogModel,
+} from '@shared/components/confirmation-dialog/confirmation-dialog.component';
+import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
+import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
+import {
+  IParticipant,
   ISecretSanta,
   SecretSantaTypeEnum,
 } from '@shared/services/secret-santa/secret-santa.interface';
 import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
-import { combineLatest } from 'rxjs';
-
-export interface IParticipant extends IParticipantBase {
-  revealedCount?: number;
-}
+import { ErrorIllustrationComponent } from '../../components/error-illustration/error-illustration.component';
 
 @Component({
   selector: 'app-list-participants',
+  imports: [
+    MatIconButton,
+    MatIcon,
+    TranslatePipe,
+    NgxSkeletonLoaderComponent,
+    DefaultPageLayoutComponent,
+    SpinnerOverlayComponent,
+    ErrorIllustrationComponent,
+  ],
   templateUrl: './list-participants.component.html',
-  styleUrls: ['./list-participants.component.scss'],
+  styleUrl: './list-participants.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListParticipantsComponent implements OnInit {
-  protected participants: IParticipant[] = [];
-  protected isLoading = false;
-  protected title: string;
-  protected subtitle: string;
-  protected errorCode: string | null = null;
-  protected SecretSantaType = SecretSantaTypeEnum;
-  protected secretSanta?: ISecretSanta;
-  protected isSuggesting = false;
-  private secretSantaId?: string;
+export class ListParticipantsComponent {
+  // bound from the `:secretSantaId` route param
+  public readonly secretSantaId = input<string>();
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private service: SecretSantaService,
-    private clipboard: Clipboard,
-    private snackBar: MatSnackBar,
-    private translate: TranslateService,
-    private titleService: Title,
-    private dialog: MatDialog,
-  ) {}
+  private readonly service = inject(SecretSantaService);
+  private readonly clipboard = inject(Clipboard);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translate = inject(TranslateService);
+  private readonly titleService = inject(Title);
+  private readonly dialog = inject(MatDialog);
 
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params) => {
-      const { secretSantaId } = params || {};
-      this.secretSantaId = secretSantaId;
-      if (secretSantaId) this.fetchData(secretSantaId);
+  protected readonly participants = signal<IParticipant[]>([]);
+  protected readonly revealedCounts = signal<Record<string, number>>({});
+  protected readonly isLoading = signal(false);
+  protected readonly title = signal('');
+  protected readonly subtitle = signal('');
+  protected readonly errorCode = signal<string | null>(null);
+  protected readonly secretSanta = signal<ISecretSanta | undefined>(undefined);
+  protected readonly isSuggesting = computed(
+    () =>
+      this.secretSanta()?.type === SecretSantaTypeEnum.Suggestions &&
+      !this.secretSanta()?.suggestionsLocked
+  );
+
+  constructor() {
+    effect(() => {
+      const secretSantaId = this.secretSantaId();
+      if (secretSantaId) untracked(() => this.fetchData(secretSantaId));
     });
   }
 
   private fetchData(secretSantaId: string): void {
-    this.isLoading = true;
+    this.isLoading.set(true);
+    this.errorCode.set(null);
     const participants$ = this.service.getParticipants(secretSantaId);
     const secretSanta$ = this.service.getSecretSanta(secretSantaId);
 
     combineLatest([participants$, secretSanta$]).subscribe({
       next: ([participants, secretSanta]) => {
-        this.secretSanta = secretSanta;
-        this.participants = participants;
-        this.isSuggesting = secretSanta?.type === SecretSantaTypeEnum.Suggestions &&
-        !secretSanta?.suggestionsLocked;
-        const title = this.translate.instant( 'MESSAGES.INFO_PARTICIPANTS_LIST', { name: secretSanta.name, } );
-        if(this.isSuggesting) {
-          this.subtitle = this.translate.instant('MESSAGES.INFO_SHARE_SUGGESTIONS');
+        this.secretSanta.set(secretSanta);
+        this.participants.set(participants);
+        const title = this.translate.instant('MESSAGES.INFO_PARTICIPANTS_LIST', {
+          name: secretSanta.name,
+        });
+        if (this.isSuggesting()) {
+          this.subtitle.set(
+            this.translate.instant('MESSAGES.INFO_SHARE_SUGGESTIONS')
+          );
         } else {
-          this.subtitle = this.translate.instant('MESSAGES.INFO_SHARE_REVEAL');
-          this.fetchRevelationsCount();
+          this.subtitle.set(
+            this.translate.instant('MESSAGES.INFO_SHARE_REVEAL')
+          );
+          this.fetchRevelationsCount(participants);
         }
         this.titleService.setTitle(title);
-
-        this.title = title;
-        this.isLoading = false;
+        this.title.set(title);
+        this.isLoading.set(false);
       },
       error: (error: FirestoreError) => {
-        this.errorCode = error?.code || 'UNKNOWN';
-        this.isLoading = false;
+        this.errorCode.set(error?.code || 'UNKNOWN');
+        this.isLoading.set(false);
       },
     });
   }
 
-
-  private fetchRevelationsCount(): void {
-    this.participants.forEach((participant) => {
+  private fetchRevelationsCount(participants: IParticipant[]): void {
+    this.revealedCounts.set({});
+    participants.forEach((participant) => {
       this.service
         .getRevelationCount(participant.revelationRef.id)
         .subscribe((count) => {
-          participant.revealedCount = count;
+          if (!participant.id) return;
+          this.revealedCounts.update((counts) => ({
+            ...counts,
+            [participant.id!]: count,
+          }));
         });
     });
   }
 
   private getParticipantUrl(participant: IParticipant): string {
-    const baseUrl = window.location.origin;
-    return `${baseUrl}/participant/${participant.id}`;
+    return `${window.location.origin}/participant/${participant.id}`;
   }
 
   protected copyLinksUrl(): void {
-    const url = window.location.href;
-    this.clipboard.copy(url);
-    const message = this.translate.instant('MESSAGES.INFO_CLIPBOARD_SUCCESS');
-    this.snackBar.open(message, '', { duration: 2000 });
-  }
-  
-  protected lockSuggestions(): void {
-    const dialogData = new ConfirmDialogModel("LABELS.CLOSE_SUGGESTIONS", "MESSAGES.INFO_LOCK_SUGGESTION_CONFIRMATION");
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      maxWidth: "400px",
-      data: dialogData
-    });
-    dialogRef.afterClosed().subscribe((dialogResult: boolean) => {
-      this.isLoading = true;
-      if(dialogResult === true && this.secretSantaId) {
-        this.service.lockSuggestions(this.secretSantaId).subscribe(() => {
-          this.fetchData(this.secretSantaId!);
-        });
-      }
-    });
-  }
-  
-  protected copyParticipantToClipboard(participant: IParticipant): void {
-    this.clipboard.copy(this.getParticipantUrl(participant));
-    const message = this.translate.instant('MESSAGES.INFO_CLIPBOARD_SUCCESS');
-    this.snackBar.open(message, '', { duration: 2000 });
+    this.clipboard.copy(window.location.href);
+    this.notifyCopied();
   }
 
-  public participantHasSuggested(participant: IParticipant): boolean {
+  protected lockSuggestions(): void {
+    const dialogData = new ConfirmDialogModel(
+      'LABELS.CLOSE_SUGGESTIONS',
+      'MESSAGES.INFO_LOCK_SUGGESTION_CONFIRMATION'
+    );
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData,
+    });
+    dialogRef.afterClosed().subscribe((dialogResult: boolean) => {
+      const secretSantaId = this.secretSantaId();
+      if (dialogResult !== true || !secretSantaId) return;
+      this.isLoading.set(true);
+      this.service.lockSuggestions(secretSantaId).subscribe(() => {
+        this.fetchData(secretSantaId);
+      });
+    });
+  }
+
+  protected copyParticipantToClipboard(participant: IParticipant): void {
+    this.clipboard.copy(this.getParticipantUrl(participant));
+    this.notifyCopied();
+  }
+
+  protected participantHasSuggested(participant: IParticipant): boolean {
     return Array.isArray(participant.suggestions);
   }
 
-  public shareSanta(participant: IParticipant): void {
+  protected shareSanta(participant: IParticipant): void {
     if (navigator.share) {
       const title: string = this.translate.instant('MESSAGES.INFO_SHARE_TITLE', {
         name: participant.name,
@@ -144,5 +176,10 @@ export class ListParticipantsComponent implements OnInit {
     } else {
       this.copyParticipantToClipboard(participant);
     }
+  }
+
+  private notifyCopied(): void {
+    const message = this.translate.instant('MESSAGES.INFO_CLIPBOARD_SUCCESS');
+    this.snackBar.open(message, '', { duration: 2000 });
   }
 }

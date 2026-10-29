@@ -1,4 +1,12 @@
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import {
   IParticipant,
   IRevelation,
@@ -8,36 +16,35 @@ import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.s
 
 @Component({
   selector: 'app-reveal',
+  imports: [TranslatePipe, SpinnerOverlayComponent],
   templateUrl: './reveal.component.html',
   styleUrl: './reveal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RevealComponent {
-  @Input()
-  participant: IParticipant;
+  public readonly participant = input.required<IParticipant>();
+  public readonly type = input.required<SecretSantaTypeEnum>();
+  public readonly secretSantaId = input.required<string>();
 
-  @Input()
-  type: SecretSantaTypeEnum;
+  private readonly secretSanta = inject(SecretSantaService);
 
-  @Input()
-  secretSantaId: string;
-
-  protected isLoading: boolean = false;
-  protected revelation: IRevelation;
-  protected suggestions?: string[];
+  protected readonly isLoading = signal(false);
+  protected readonly revelation = signal<IRevelation | undefined>(undefined);
+  protected readonly suggestions = signal<string[] | undefined>(undefined);
   protected readonly SecretSantaTypeEnum = SecretSantaTypeEnum;
 
-  constructor(private secretSanta: SecretSantaService) {}
-
   protected revealSecretSanta(): void {
-    this.isLoading = true;
+    this.isLoading.set(true);
     this.secretSanta
-      .revealSecretSanta(this.participant)
+      .revealSecretSanta(this.participant())
       .subscribe((revelation) => {
-        this.secretSanta.getRevelationSuggestions(this.secretSantaId, revelation.name).subscribe((suggestions) => {
-          this.suggestions = suggestions;
-          this.isLoading = false;
-        });
-        this.revelation = revelation;
+        this.secretSanta
+          .getRevelationSuggestions(this.secretSantaId(), revelation.name)
+          .subscribe((suggestions) => {
+            this.suggestions.set(suggestions);
+            this.isLoading.set(false);
+          });
+        this.revelation.set(revelation);
       });
   }
 }
