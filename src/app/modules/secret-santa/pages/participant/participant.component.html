@@ -5,8 +5,8 @@
   @if (errorCode()) {
     <app-error-illustration [errorCode]="errorCode()"></app-error-illustration>
   } @else {
-    <section class="card page-width border border-base-300 bg-base-100 shadow-sm">
-      <div class="card-body p-5 sm:p-8">
+    <section class="card border border-base-300 bg-base-100 shadow-sm">
+      <div class="card-body p-4 sm:p-8">
         @if (participant(); as participant) {
           @if (secretSanta(); as secretSanta) {
             @switch (state()) {

@@ -28,6 +28,7 @@
   animation: shake-animation 4.72s ease infinite;
   transform-origin: 50% 50%;
   width: min(100%, 19rem);
+  height: auto;
   transition: transform 180ms ease;
 
   &:hover {

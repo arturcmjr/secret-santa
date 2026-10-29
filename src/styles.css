@@ -43,24 +43,24 @@
   color-scheme: dark;
   --color-primary: #0f766e;
   --color-primary-content: #ffffff;
-  --color-secondary: #334155;
-  --color-secondary-content: #e2e8f0;
-  --color-accent: #2dd4bf;
-  --color-accent-content: #042f2e;
-  --color-neutral: #e2e8f0;
-  --color-neutral-content: #0f172a;
-  --color-base-100: #0f172a;
-  --color-base-200: #111c2f;
-  --color-base-300: #334155;
-  --color-base-content: #e2e8f0;
-  --color-info: #38bdf8;
-  --color-info-content: #082f49;
-  --color-success: #4ade80;
-  --color-success-content: #052e16;
-  --color-warning: #facc15;
-  --color-warning-content: #422006;
-  --color-error: #f87171;
-  --color-error-content: #450a0a;
+  --color-secondary: #51483a;
+  --color-secondary-content: #f5efe5;
+  --color-accent: #d6aa68;
+  --color-accent-content: #302311;
+  --color-neutral: #f2eadc;
+  --color-neutral-content: #29251f;
+  --color-base-100: #302c26;
+  --color-base-200: #25221e;
+  --color-base-300: #4a443b;
+  --color-base-content: #f2eadc;
+  --color-info: #7bc5bd;
+  --color-info-content: #142a27;
+  --color-success: #9dc58a;
+  --color-success-content: #1c2a17;
+  --color-warning: #e4ba70;
+  --color-warning-content: #35280f;
+  --color-error: #df8c7c;
+  --color-error-content: #351a16;
   --radius-selector: 0.5rem;
   --radius-field: 0.75rem;
   --radius-box: 1rem;
@@ -123,4 +123,17 @@
 
 .skip-link {
   @apply btn btn-primary sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100];
+}
+
+.input,
+.textarea,
+.select {
+  border: 1px solid var(--color-base-300);
+  background-color: var(--color-base-100);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: var(--color-primary);
 }
