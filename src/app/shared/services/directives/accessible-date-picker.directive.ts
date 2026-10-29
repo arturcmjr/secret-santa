@@ -19,6 +19,7 @@ export class AccessibleDatePickerDirective implements AfterViewInit, OnDestroy {
   private readonly renderer = inject(Renderer2);
   private trigger?: HTMLElement;
   private subscription?: Subscription;
+  private removeDocumentListener?: () => void;
 
   private readonly handleKeydown = (event: KeyboardEvent): void => {
     if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'ArrowDown') {
@@ -44,6 +45,16 @@ export class AccessibleDatePickerDirective implements AfterViewInit, OnDestroy {
     );
     this.renderer.setAttribute(this.trigger, 'aria-expanded', 'false');
     this.trigger.addEventListener('keydown', this.handleKeydown);
+    this.removeDocumentListener = this.renderer.listen(
+      'document',
+      'keydown',
+      (event: KeyboardEvent) => {
+        if (event.key !== 'Escape' || !this.picker.isOpen) return;
+        event.preventDefault();
+        this.picker.close();
+        this.trigger?.focus();
+      }
+    );
     this.subscription = this.picker.openChange.subscribe((isOpen) => {
       this.renderer.setAttribute(this.trigger!, 'aria-expanded', String(isOpen));
     });
@@ -51,6 +62,7 @@ export class AccessibleDatePickerDirective implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.trigger?.removeEventListener('keydown', this.handleKeydown);
+    this.removeDocumentListener?.();
     this.subscription?.unsubscribe();
   }
 }
