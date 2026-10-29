@@ -11,11 +11,11 @@ import {
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Title } from '@angular/platform-browser';
 import { FirestoreError } from 'firebase/firestore';
+import { LucideCheck, LucideCopy, LucideLink, LucideShare2 } from '@lucide/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { combineLatest } from 'rxjs';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
-import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import { NotificationService } from '@shared/services/notification.service';
 import {
   IParticipant,
@@ -29,8 +29,11 @@ import { ErrorIllustrationComponent } from '../../components/error-illustration/
   selector: 'app-list-participants',
   imports: [
     TranslatePipe,
+    LucideCheck,
+    LucideCopy,
+    LucideLink,
+    LucideShare2,
     DefaultPageLayoutComponent,
-    SpinnerOverlayComponent,
     ErrorIllustrationComponent,
     ConfirmationDialogComponent,
   ],
@@ -49,7 +52,6 @@ export class ListParticipantsComponent {
 
   protected readonly participants = signal<IParticipant[]>([]);
   protected readonly revealedCounts = signal<Record<string, number>>({});
-  protected readonly isLoading = signal(false);
   protected readonly title = signal('');
   protected readonly subtitle = signal('');
   protected readonly errorCode = signal<string | null>(null);
@@ -69,7 +71,6 @@ export class ListParticipantsComponent {
   }
 
   private fetchData(secretSantaId: string): void {
-    this.isLoading.set(true);
     this.errorCode.set(null);
     const participants$ = this.service.getParticipants(secretSantaId);
     const secretSanta$ = this.service.getSecretSanta(secretSantaId);
@@ -93,11 +94,9 @@ export class ListParticipantsComponent {
         }
         this.titleService.setTitle(title);
         this.title.set(title);
-        this.isLoading.set(false);
       },
       error: (error: FirestoreError) => {
         this.errorCode.set(error?.code || 'UNKNOWN');
-        this.isLoading.set(false);
       },
     });
   }
@@ -134,7 +133,6 @@ export class ListParticipantsComponent {
     this.isConfirmingLock.set(false);
     const secretSantaId = this.secretSantaId();
     if (!confirmed || !secretSantaId) return;
-    this.isLoading.set(true);
     this.service.lockSuggestions(secretSantaId).subscribe(() => {
       this.fetchData(secretSantaId);
     });

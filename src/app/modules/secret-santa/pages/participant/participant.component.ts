@@ -10,7 +10,6 @@ import {
 import { FirestoreError } from 'firebase/firestore';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
-import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import { ErrorIllustrationComponent } from '../../components/error-illustration/error-illustration.component';
 import {
   IParticipant,
@@ -31,7 +30,6 @@ enum ParticipantState {
   imports: [
     TranslatePipe,
     DefaultPageLayoutComponent,
-    SpinnerOverlayComponent,
     ErrorIllustrationComponent,
     RevealComponent,
     SuggestionsComponent,
@@ -49,7 +47,6 @@ export class ParticipantComponent {
   protected readonly secretSanta = signal<ISecretSanta | undefined>(undefined);
   protected readonly participant = signal<IParticipant | undefined>(undefined);
   protected readonly secretSantaId = signal<string | undefined>(undefined);
-  protected readonly isLoading = signal(true);
   protected readonly errorCode = signal<string | undefined>(undefined);
   protected readonly title = signal(this.translate.instant('LABELS.PARTICIPANT'));
   protected readonly state = signal<ParticipantState | undefined>(undefined);
@@ -63,7 +60,6 @@ export class ParticipantComponent {
   }
 
   private fetchParticipant(participantId: string): void {
-    this.isLoading.set(true);
     this.service.getParticipant(participantId).subscribe({
       next: (participant) => {
         this.participant.set(participant);
@@ -77,7 +73,6 @@ export class ParticipantComponent {
       },
       error: (error: FirestoreError) => {
         this.errorCode.set(error?.code || 'UNKNOWN');
-        this.isLoading.set(false);
       },
     });
   }
@@ -99,11 +94,9 @@ export class ParticipantComponent {
         } else {
           this.state.set(ParticipantState.Reveal);
         }
-        this.isLoading.set(false);
       },
       error: (error: FirestoreError) => {
         this.errorCode.set(error?.code || 'UNKNOWN');
-        this.isLoading.set(false);
       },
     });
   }

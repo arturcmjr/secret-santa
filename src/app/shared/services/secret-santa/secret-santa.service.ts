@@ -14,6 +14,7 @@ import {
 } from 'firebase/firestore';
 import { from, Observable, map, switchMap } from 'rxjs';
 import { FirebaseService } from '../firebase.service';
+import { LoadingService } from '../loading.service';
 import {
   ICreateSecretSanta,
   ISecretSanta,
@@ -27,6 +28,7 @@ import {
 })
 export class SecretSantaService {
   private readonly database: Firestore = inject(FirebaseService).getDatabase();
+  private readonly loading = inject(LoadingService);
 
   public createSecretSanta(
     data: ICreateSecretSanta
@@ -53,7 +55,7 @@ export class SecretSantaService {
     });
 
     const batchCommand = batch.commit();
-    return from(batchCommand).pipe(map(() => secretSantaRef));
+    return this.loading.track(from(batchCommand).pipe(map(() => secretSantaRef)));
   }
 
   public getParticipant(participantId: string): Observable<IParticipant> {
@@ -63,7 +65,7 @@ export class SecretSantaService {
       participantId
     ) as DocumentReference<IParticipant>;
     const docQuery = getDoc(ref);
-    return from(docQuery).pipe(map((doc) => doc.data() as IParticipant));
+    return this.loading.track(from(docQuery).pipe(map((doc) => doc.data() as IParticipant)));
   }
 
   public getRevelationSuggestions(secretSantaId: string, participantName: string): Observable<string[] | undefined> {
@@ -74,7 +76,7 @@ export class SecretSantaService {
       where('name', '==', participantName)
     );
     const docsQuery = getDocs(quer);
-    return from(docsQuery).pipe(
+    return this.loading.track(from(docsQuery).pipe(
       map((docs) => {
         const data = docs.docs.map((doc) => {
           const participant = doc.data() as IParticipant;
@@ -83,19 +85,19 @@ export class SecretSantaService {
         }) as IParticipant[];
         return data[0]?.suggestions;
       })
-    );
+    ));
   }
 
   public setParticipantSuggestions(participantId: string, suggestions: string[]): Observable<void> {
     const ref = doc(this.database, 'participants', participantId);
     const docCommand = setDoc(ref, { suggestions }, { merge: true });
-    return from(docCommand);
+    return this.loading.track(from(docCommand));
   }
 
   public lockSuggestions(secretSantaId: string): Observable<void> {
     const ref = doc(this.database, 'secretSantas', secretSantaId);
     const docCommand = setDoc(ref, { suggestionsLocked: true }, { merge: true });
-    return from(docCommand);
+    return this.loading.track(from(docCommand));
   }
 
   public getRevelationCount(revelationId: string): Observable<number> {
@@ -105,10 +107,10 @@ export class SecretSantaService {
       revelationId
     ) as DocumentReference<IRevelation>;
     const docQuery = getDoc(ref);
-    return from(docQuery).pipe(
+    return this.loading.track(from(docQuery).pipe(
       map((doc) => doc.data() as IRevelation),
       map((revelation) => revelation.revealedCount)
-    );
+    ));
   }
 
   private increaseRevelationCount(
@@ -122,12 +124,12 @@ export class SecretSantaService {
       },
       { merge: true }
     );
-    return from(docCommand);
+    return this.loading.track(from(docCommand));
   }
 
   public revealSecretSanta(participant: IParticipant): Observable<IRevelation> {
     const docObs = from(getDoc(participant.revelationRef));
-    return docObs.pipe(
+    return this.loading.track(docObs.pipe(
       map((doc) => doc.data() as IRevelation),
       switchMap((revelation) => {
         const count = revelation.revealedCount + 1;
@@ -136,13 +138,13 @@ export class SecretSantaService {
           count
         ).pipe(map(() => revelation));
       })
-    );
+    ));
   }
 
   public getSecretSanta(secretSantaId: string): Observable<ISecretSanta> {
     const docs = doc(this.database, 'secretSantas', secretSantaId);
     const docQuery = getDoc(docs);
-    return from(docQuery).pipe(map((doc) => doc.data() as ISecretSanta));
+    return this.loading.track(from(docQuery).pipe(map((doc) => doc.data() as ISecretSanta)));
   }
 
   public getParticipants(secretSantaId: string): Observable<IParticipant[]> {
@@ -154,7 +156,7 @@ export class SecretSantaService {
     );
 
     const docsQuery = getDocs(quer);
-    return from(docsQuery).pipe(
+    return this.loading.track(from(docsQuery).pipe(
       map((docs) => {
         const data = docs.docs.map((doc) => {
           const participant = doc.data() as IParticipant;
@@ -163,6 +165,6 @@ export class SecretSantaService {
         }) as IParticipant[];
         return data;
       })
-    );
+    ));
   }
 }

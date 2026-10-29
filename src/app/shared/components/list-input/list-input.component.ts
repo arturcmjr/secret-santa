@@ -15,10 +15,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LucidePlus, LucideTrash } from '@lucide/angular';
 
 @Component({
   selector: 'app-list-input',
-  imports: [ReactiveFormsModule, TranslatePipe],
+  imports: [ReactiveFormsModule, TranslatePipe, LucidePlus, LucideTrash],
   templateUrl: './list-input.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

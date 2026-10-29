@@ -11,7 +11,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ListInputComponent } from '@shared/components/list-input/list-input.component';
-import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import { minimumArrayLength } from '@shared/helpers/validators/minimum-array-length.validator';
 import { NotificationService } from '@shared/services/notification.service';
 import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
@@ -22,7 +21,6 @@ import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.s
     ReactiveFormsModule,
     TranslatePipe,
     ListInputComponent,
-    SpinnerOverlayComponent,
   ],
   templateUrl: './suggestions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,7 +36,6 @@ export class SuggestionsComponent {
 
   protected readonly suggestionsControl = new FormControl<string[]>([]);
   protected readonly storedSuggestions = signal<string[] | undefined>(undefined);
-  protected readonly isLoading = signal(false);
 
   private readonly currentSuggestions = toSignal(
     this.suggestionsControl.valueChanges,
@@ -68,13 +65,11 @@ export class SuggestionsComponent {
   }
 
   protected save(): void {
-    this.isLoading.set(true);
     const suggestions = this.suggestionsControl.value || [];
     this.ssService
       .setParticipantSuggestions(this.participantId(), suggestions)
       .subscribe(() => {
         this.storedSuggestions.set([...suggestions]);
-        this.isLoading.set(false);
         this.notification.show(
           this.translate.instant('MESSAGES.INFO_SUGGESTIONS_SAVED'),
           'success'

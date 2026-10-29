@@ -6,7 +6,6 @@ import {
   signal,
 } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import {
   IParticipant,
   IRevelation,
@@ -16,7 +15,7 @@ import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.s
 
 @Component({
   selector: 'app-reveal',
-  imports: [TranslatePipe, SpinnerOverlayComponent],
+  imports: [TranslatePipe],
   templateUrl: './reveal.component.html',
   styleUrl: './reveal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,13 +27,11 @@ export class RevealComponent {
 
   private readonly secretSanta = inject(SecretSantaService);
 
-  protected readonly isLoading = signal(false);
   protected readonly revelation = signal<IRevelation | undefined>(undefined);
   protected readonly suggestions = signal<string[] | undefined>(undefined);
   protected readonly SecretSantaTypeEnum = SecretSantaTypeEnum;
 
   protected revealSecretSanta(): void {
-    this.isLoading.set(true);
     this.secretSanta
       .revealSecretSanta(this.participant())
       .subscribe((revelation) => {
@@ -42,7 +39,6 @@ export class RevealComponent {
           .getRevelationSuggestions(this.secretSantaId(), revelation.name)
           .subscribe((suggestions) => {
             this.suggestions.set(suggestions);
-            this.isLoading.set(false);
           });
         this.revelation.set(revelation);
       });

@@ -1,9 +1,7 @@
 <dialog #dialog class="modal" aria-labelledby="confirm-title" (cancel)="onCancel($event)">
   <div class="modal-box max-w-md border border-base-300 bg-base-100 p-6 sm:p-8">
     <div class="mb-5 grid size-11 place-items-center rounded-full bg-warning/15 text-warning">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.3 3.9 2.8 17.2A2 2 0 0 0 4.5 20h15a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z" />
-      </svg>
+      <svg lucideTriangleAlert class="size-6"></svg>
     </div>
     <h2 id="confirm-title" class="page-heading text-xl font-semibold">{{ title() | translate }}</h2>
     <p class="mt-3 leading-7 text-base-content/65">{{ message() | translate }}</p>

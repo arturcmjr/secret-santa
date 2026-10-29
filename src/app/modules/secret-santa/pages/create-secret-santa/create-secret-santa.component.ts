@@ -14,13 +14,14 @@ import {
 } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Router } from '@angular/router';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { LucideArrowRight, LucideCalendarDays } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { DaisyDatePickerComponent } from 'ng-daisy-date-picker';
 import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
 import { ListInputComponent } from '@shared/components/list-input/list-input.component';
-import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
 import { minimumArrayLength } from '@shared/helpers/validators/minimum-array-length.validator';
-import { AccessibleDatePickerDirective } from '@shared/services/directives/accessible-date-picker.directive';
 import {
   ICreateSecretSanta,
   SecretSantaTypeEnum,
@@ -47,21 +48,22 @@ interface IConfirmationSummary {
     DatePipe,
     ReactiveFormsModule,
     CdkTextareaAutosize,
-    DaisyDatePickerComponent,
-    AccessibleDatePickerDirective,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    LucideArrowRight,
+    LucideCalendarDays,
     TranslatePipe,
     DefaultPageLayoutComponent,
     ListInputComponent,
-    SpinnerOverlayComponent,
   ],
   templateUrl: './create-secret-santa.component.html',
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateSecretSantaComponent {
   private readonly secretSantaService = inject(SecretSantaService);
   private readonly router = inject(Router);
 
-  protected readonly isLoading = signal(false);
   protected readonly confirmationSummary = signal<IConfirmationSummary | undefined>(undefined);
   protected readonly currentStep = signal(0);
 
@@ -104,8 +106,8 @@ export class CreateSecretSantaComponent {
     });
   }
 
-  protected readonly dateFilter = (date: Date): boolean => {
-    return !this.isDateAllowed(date);
+  protected readonly dateFilter = (date: Date | null): boolean => {
+    return date !== null && this.isDateAllowed(date);
   };
 
   private isDateAllowed(date: Date): boolean {
@@ -151,9 +153,7 @@ export class CreateSecretSantaComponent {
         ? SecretSantaTypeEnum.Suggestions
         : SecretSantaTypeEnum.Default,
     };
-    this.isLoading.set(true);
     this.secretSantaService.createSecretSanta(data).subscribe((res) => {
-      this.isLoading.set(false);
       this.router.navigate([`/share/${res.id}`]);
     });
   }

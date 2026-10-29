@@ -7,26 +7,19 @@
       <div class="card-body gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-5 sm:p-6">
         <div class="max-w-xl">
           <div class="mb-2 flex items-center gap-2 text-sm font-semibold text-primary">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10 13a5 5 0 0 0 7.1 0l3-3A5 5 0 0 0 13 2.9l-1.7 1.7m2.7 6.4a5 5 0 0 0-7.1 0l-3 3A5 5 0 0 0 11 21.1l1.7-1.7" />
-            </svg>
+            <svg lucideLink class="size-4"></svg>
             <h2 id="share-links-heading">{{ "LABELS.SS_LINK" | translate }}</h2>
           </div>
           <p class="text-sm leading-6 text-base-content/65">{{ "MESSAGES.INFO_SS_LINK" | translate }}</p>
         </div>
         <div class="flex flex-wrap gap-2 sm:shrink-0">
           <button class="btn btn-outline" type="button" (click)="copyLinksUrl()">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-4">
-              <rect x="8" y="8" width="13" height="13" rx="2" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" />
-            </svg>
+            <svg lucideCopy class="size-4"></svg>
             {{ "LABELS.COPY_LINK" | translate }}
           </button>
           @if (isSuggesting()) {
             <button class="btn btn-primary" type="button" (click)="lockSuggestions()">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12.5 9.5 17 19 7.5" />
-              </svg>
+              <svg lucideCheck class="size-4"></svg>
               {{ "LABELS.CLOSE_SUGGESTIONS" | translate }}
             </button>
           }
@@ -76,12 +69,7 @@
                 [attr.aria-label]="'MESSAGES.INFO_SHARE_TITLE' | translate : { name: participant.name }"
                 (click)="shareSanta(participant)"
               >
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-4">
-                  <circle cx="18" cy="5" r="3" />
-                  <circle cx="6" cy="12" r="3" />
-                  <circle cx="18" cy="19" r="3" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m8.7 10.7 6.6-4.4m-6.6 7 6.6 4.4" />
-                </svg>
+                <svg lucideShare2 class="size-4"></svg>
                 <span class="hidden sm:inline">{{ "LABELS.SHARE" | translate }}</span>
               </button>
             </div>
@@ -96,7 +84,6 @@
     <app-error-illustration [errorCode]="errorCode()"></app-error-illustration>
   </div>
 </app-default-page-layout>
-<app-spinner-overlay [isLoading]="isLoading()"></app-spinner-overlay>
 
 <ng-template #subTitleTemplate>
   @if (secretSanta(); as secretSanta) {

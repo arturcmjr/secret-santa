@@ -11,9 +11,7 @@
         [attr.aria-label]="'LABELS.REMOVE' | translate : { name: item }"
         (click)="removeItem(i)"
       >
-        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-4">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16m-10 4v6m4-6v6M6 7l1 14h10l1-14M9 7V4h6v3" />
-        </svg>
+        <svg lucideTrash class="size-4"></svg>
       </button>
     </div>
   }
@@ -41,9 +39,7 @@
       }
     </div>
     <button class="btn btn-outline btn-square mt-0.5" type="button" [attr.aria-label]="'LABELS.ADD' | translate" (click)="addItem()">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-5">
-        <path stroke-linecap="round" d="M12 5v14m-7-7h14" />
-      </svg>
+      <svg lucidePlus class="size-5"></svg>
     </button>
   </div>
 }
