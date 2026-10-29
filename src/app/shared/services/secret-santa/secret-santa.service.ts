@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { generateUniqueId } from '@shared/helpers/utils/generate-unique-id';
 import {
   collection,
@@ -26,11 +26,7 @@ import {
   providedIn: 'root',
 })
 export class SecretSantaService {
-  private database: Firestore;
-
-  constructor(private firebaseService: FirebaseService) {
-    this.database = this.firebaseService.getDatabase();
-  }
+  private readonly database: Firestore = inject(FirebaseService).getDatabase();
 
   public createSecretSanta(
     data: ICreateSecretSanta

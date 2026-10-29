@@ -1,17 +1,47 @@
-import { Component, OnInit } from '@angular/core';
 import {
-  AbstractControl,
-  UntypedFormControl,
-  UntypedFormGroup,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { DatePipe } from '@angular/common';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { MatButton } from '@angular/material/button';
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerToggle,
+} from '@angular/material/datepicker';
+import { MatError, MatFormField, MatHint, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import {
+  MatStep,
+  MatStepLabel,
+  MatStepper,
+  MatStepperNext,
+  MatStepperPrevious,
+} from '@angular/material/stepper';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { DefaultPageLayoutComponent } from '@shared/components/default-page-layout/default-page-layout.component';
+import { ListInputComponent } from '@shared/components/list-input/list-input.component';
+import { SpinnerOverlayComponent } from '@shared/components/spinner-overlay/spinner-overlay.component';
+import { minimumArrayLength } from '@shared/helpers/validators/minimum-array-length.validator';
+import { MatFormErrorDirective } from '@shared/services/directives/mat-form-error.directive';
 import {
   ICreateSecretSanta,
   SecretSantaTypeEnum,
 } from '@shared/services/secret-santa/secret-santa.interface';
 import { SecretSantaService } from '@shared/services/secret-santa/secret-santa.service';
-import { minimumArrayLength } from 'src/app/shared/helpers/validators/minimum-array-length.validator';
 
 interface IParticipantSecretSanta {
   name: string;
@@ -29,119 +59,81 @@ interface IConfirmationSummary {
 
 @Component({
   selector: 'app-create-secret-santa',
+  imports: [
+    DatePipe,
+    ReactiveFormsModule,
+    CdkTextareaAutosize,
+    MatButton,
+    MatDatepicker,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatError,
+    MatFormField,
+    MatHint,
+    MatInput,
+    MatLabel,
+    MatSlideToggle,
+    MatStep,
+    MatStepLabel,
+    MatStepper,
+    MatStepperNext,
+    MatStepperPrevious,
+    MatSuffix,
+    MatTooltip,
+    TranslatePipe,
+    DefaultPageLayoutComponent,
+    ListInputComponent,
+    SpinnerOverlayComponent,
+    MatFormErrorDirective,
+  ],
   templateUrl: './create-secret-santa.component.html',
-  styleUrls: ['./create-secret-santa.component.scss'],
+  styleUrl: './create-secret-santa.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateSecretSantaComponent implements OnInit {
-  public isLoading = false;
-  public step1group = new UntypedFormGroup({
-    name: new UntypedFormControl(null, [
+export class CreateSecretSantaComponent {
+  private readonly secretSantaService = inject(SecretSantaService);
+  private readonly router = inject(Router);
+
+  protected readonly isLoading = signal(false);
+  protected readonly confirmationSummary = signal<IConfirmationSummary | undefined>(undefined);
+
+  protected readonly step1group = new FormGroup({
+    name: new FormControl<string | null>(null, [
       Validators.required,
       Validators.minLength(5),
     ]),
-    description: new UntypedFormControl(null),
-    date: new UntypedFormControl(null, [Validators.required]),
-    useSuggestion: new UntypedFormControl(false),
+    description: new FormControl<string | null>(null),
+    date: new FormControl<Date | null>(null, [Validators.required]),
+    useSuggestion: new FormControl(false, { nonNullable: true }),
+    maxSuggestions: new FormControl<number | null>(
+      { value: null, disabled: true },
+      [Validators.required, Validators.min(1)]
+    ),
   });
-  protected step2group = new UntypedFormGroup({
-    participants: new UntypedFormControl([], [minimumArrayLength(4)]),
+  protected readonly step2group = new FormGroup({
+    participants: new FormControl<string[]>([], {
+      nonNullable: true,
+      validators: [minimumArrayLength(4)],
+    }),
   });
-  protected confirmationSummary?: IConfirmationSummary;
 
-  constructor(
-    private secretSantaService: SecretSantaService,
-    private router: Router
-  ) {}
+  protected readonly useSuggestion = toSignal(
+    this.step1group.controls.useSuggestion.valueChanges,
+    { initialValue: this.step1group.controls.useSuggestion.value }
+  );
 
-  ngOnInit(): void {
-    const useSuggestionControl = this.step1group.get('useSuggestion');
-    useSuggestionControl?.valueChanges.subscribe((value) => {
-      if (value) {
-        this.step1group.addControl(
-          'maxSuggestions',
-          new UntypedFormControl(null, [Validators.required, Validators.min(1)])
-        );
-      } else {
-        this.step1group.removeControl('maxSuggestions');
-      }
+  constructor() {
+    this.step1group.controls.useSuggestion.valueChanges.subscribe((value) => {
+      const { maxSuggestions } = this.step1group.controls;
+      if (value) maxSuggestions.enable();
+      else maxSuggestions.disable();
     });
   }
 
-  public formGroupHasError(
-    group: UntypedFormGroup,
-    controlName: string,
-    error?: string
-  ): boolean {
-    const control = group.get(controlName);
-    if (!control) return false;
-    return this.formControlHasError(control, error);
-  }
-
-  public formControlHasError(
-    control: AbstractControl,
-    error?: string
-  ): boolean {
-    if (!control) return false;
-    return (
-      (control.touched || control.dirty) &&
-      (error ? control.hasError(error) : control.invalid)
-    );
-  }
-
-  public save(): void {
-    if (this.step1group.invalid || this.step2group.invalid) {
-      this.step1group.markAllAsTouched();
-      this.step2group.markAllAsTouched();
-      return;
-    }
-    const participants = this.drawSecretSanta();
-    const { name, description, date, useSuggestion, maxSuggestions } = this.step1group.value;
-    const data: ICreateSecretSanta = {
-      name,
-      description,
-      date,
-      participants,
-      maxSuggestions,
-      type: useSuggestion
-        ? SecretSantaTypeEnum.Suggestions
-        : SecretSantaTypeEnum.Default,
-    };
-    this.isLoading = true;
-    this.secretSantaService.createSecretSanta(data).subscribe((res) => {
-      this.isLoading = false;
-      this.router.navigate([`/share/${res.id}`]);
-    });
-  }
-
-  private drawSecretSanta(): IParticipantSecretSanta[] {
-    const initialParticipants: string[] = [
-      ...this.step2group.value.participants,
-    ];
-    let participants: IParticipantSecretSanta[] = [];
-    do {
-      participants = [];
-      const allParticipants: string[] = [...initialParticipants];
-      let options: string[] = [...initialParticipants];
-      allParticipants.forEach((entry) => {
-        const secretSanta = options[Math.floor(Math.random() * options.length)];
-        participants.push({
-          name: entry,
-          secretSanta,
-        });
-        options.splice(options.indexOf(secretSanta), 1);
-      });
-    } while (this.someoneGotHimself(participants));
-    return participants;
-  }
-
-  public dateFilter: (date: Date | null) => boolean = (date: Date | null) => {
+  protected readonly dateFilter = (date: Date | null): boolean => {
     if (!date) return false;
     const now = new Date();
-    const startOfDay = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const oneYearFromNow = new Date(
       now.getFullYear() + 1,
       now.getMonth(),
@@ -150,30 +142,68 @@ export class CreateSecretSantaComponent implements OnInit {
     return date >= startOfDay && date < oneYearFromNow;
   };
 
-  protected onParticipantsNext() : void {
-    const participantsControl = this.step2group.get('participants');
-    if(participantsControl?.invalid) {
+  protected save(): void {
+    if (this.step1group.invalid || this.step2group.invalid) {
+      this.step1group.markAllAsTouched();
+      this.step2group.markAllAsTouched();
+      return;
+    }
+    const participants = this.drawSecretSanta();
+    const { name, description, date, useSuggestion, maxSuggestions } =
+      this.step1group.getRawValue();
+    const data: ICreateSecretSanta = {
+      name: name!,
+      description: description ?? '',
+      date: date!,
+      participants,
+      maxSuggestions: useSuggestion ? maxSuggestions ?? undefined : undefined,
+      type: useSuggestion
+        ? SecretSantaTypeEnum.Suggestions
+        : SecretSantaTypeEnum.Default,
+    };
+    this.isLoading.set(true);
+    this.secretSantaService.createSecretSanta(data).subscribe((res) => {
+      this.isLoading.set(false);
+      this.router.navigate([`/share/${res.id}`]);
+    });
+  }
+
+  protected onParticipantsNext(): void {
+    const participantsControl = this.step2group.controls.participants;
+    if (participantsControl.invalid) {
       participantsControl.markAsTouched();
       return;
-    } else {
-      const { name, description, date, useSuggestion, maxSuggestions } = this.step1group.value;
-      const participants = this.step2group.value.participants;
-      this.confirmationSummary = {
-        name,
-        description,
-        date,
-        participants,
-        useSuggestion,
-        maxSuggestions,
-      };
     }
+    const { name, description, date, useSuggestion, maxSuggestions } =
+      this.step1group.getRawValue();
+    this.confirmationSummary.set({
+      name: name!,
+      description: description ?? '',
+      date: date!,
+      participants: participantsControl.value,
+      useSuggestion,
+      maxSuggestions: useSuggestion ? maxSuggestions ?? undefined : undefined,
+    });
+  }
+
+  private drawSecretSanta(): IParticipantSecretSanta[] {
+    const initialParticipants = [...this.step2group.controls.participants.value];
+    let participants: IParticipantSecretSanta[] = [];
+    do {
+      participants = [];
+      const options = [...initialParticipants];
+      initialParticipants.forEach((name) => {
+        const secretSanta = options[Math.floor(Math.random() * options.length)];
+        participants.push({ name, secretSanta });
+        options.splice(options.indexOf(secretSanta), 1);
+      });
+    } while (this.someoneGotHimself(participants));
+    return participants;
   }
 
   private someoneGotHimself(participants: IParticipantSecretSanta[]): boolean {
-    for (let i = 0; i < participants.length; i++) {
-      const participant = participants[i];
-      if (participant.name === participant.secretSanta) return true;
-    }
-    return false;
+    return participants.some(
+      (participant) => participant.name === participant.secretSanta
+    );
   }
 }

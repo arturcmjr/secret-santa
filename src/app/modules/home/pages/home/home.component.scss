@@ -1,5 +1,4 @@
 @use '@angular/material' as mat;
-@use 'src/styles' as *;
 
 $icon-size: 5rem;
 $secondary-opacity: 0.7;
@@ -37,7 +36,7 @@ h1 {
   .step-number {
     font-size: 1.4rem;
     color: #fff;
-    background-color: mat.get-color-from-palette($secret-santa-accent);
+    background-color: mat.m2-get-color-from-palette(mat.$m2-red-palette, A200);
     border-radius: 50%;
     font-weight: 500;
     margin-bottom: 1.5rem;

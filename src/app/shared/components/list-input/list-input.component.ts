@@ -1,68 +1,96 @@
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  forwardRef,
+  input,
+  signal,
+} from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
   NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list-input',
+  imports: [
+    ReactiveFormsModule,
+    MatButton,
+    MatIconButton,
+    MatFormField,
+    MatLabel,
+    MatError,
+    MatIcon,
+    MatInput,
+    TranslatePipe,
+  ],
   templateUrl: './list-input.component.html',
   styleUrl: './list-input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: ListInputComponent,
+      useExisting: forwardRef(() => ListInputComponent),
       multi: true,
     },
   ],
 })
 export class ListInputComponent implements ControlValueAccessor {
-  @Input()
-  label: string;
+  public readonly label = input<string>('');
+  public readonly minLength = input<number>();
+  public readonly hideNew = input(false);
 
-  @Input("minLength")
-  set minLengthInput(value: number) {
-    this.minLength = value;
-    this.inputControl.setValidators(Validators.minLength(value));
+  protected readonly value = signal<string[]>([]);
+  protected readonly inputControl = new FormControl('');
+
+  private onChange?: (value: string[]) => void;
+  private onTouched?: () => void;
+
+  constructor() {
+    effect(() => {
+      const minLength = this.minLength();
+      this.inputControl.setValidators(
+        minLength === undefined ? null : Validators.minLength(minLength)
+      );
+      this.inputControl.updateValueAndValidity();
+    });
   }
 
-  @Input()
-  hideNew: boolean = false;
-
-  protected minLength?: number;
-  protected value: string[] = [];
-  protected onChange: (value: string[]) => void;
-  protected onTouched: () => void;
-  protected inputControl = new FormControl('');
   protected addItem(): void {
-    if (this.hideNew) return;
+    if (this.hideNew()) return;
 
-    if (this.inputControl.invalid || !this.inputControl.value) {
+    const newItem = this.inputControl.value;
+    if (this.inputControl.invalid || !newItem) {
       this.inputControl.markAsTouched();
       return;
     }
-    const newItem = this.inputControl.value;
-    if (this.value.includes(newItem)) {
+    if (this.value().includes(newItem)) {
       this.inputControl.setErrors({ duplicate: true });
       this.inputControl.markAsTouched();
       return;
-    } else {
-      this.inputControl.setErrors({ duplicate: false });
     }
     this.inputControl.reset();
-    this.value.push(newItem);
-    this.onChange?.(this.value);
+    this.value.update((items) => [...items, newItem]);
+    this.onChange?.(this.value());
+    this.onTouched?.();
   }
 
   protected removeItem(index: number): void {
-    this.value.splice(index, 1);
-    this.onChange?.(this.value);
+    this.value.update((items) => items.filter((_, i) => i !== index));
+    this.onChange?.(this.value());
+    this.onTouched?.();
   }
 
-  writeValue(value: string[]): void {
-    this.value = value;
+  writeValue(value: string[] | null): void {
+    this.value.set(value ?? []);
   }
 
   registerOnChange(fn: (value: string[]) => void): void {
@@ -71,9 +99,5 @@ export class ListInputComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    // do nothing
   }
 }

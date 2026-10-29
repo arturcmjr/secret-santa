@@ -1,13 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-spinner-overlay',
+  imports: [MatProgressSpinner],
   templateUrl: './spinner-overlay.component.html',
-  styleUrls: ['./spinner-overlay.component.scss']
+  styleUrl: './spinner-overlay.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerOverlayComponent {
-  @Input() public isLoading: boolean;
-
-  constructor() { }
-
+  public readonly isLoading = input<boolean>(false);
 }

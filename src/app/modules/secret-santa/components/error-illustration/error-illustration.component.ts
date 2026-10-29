@@ -1,17 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-error-illustration',
+  imports: [TranslatePipe],
   templateUrl: './error-illustration.component.html',
-  styleUrls: ['./error-illustration.component.scss']
+  styleUrl: './error-illustration.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ErrorIllustrationComponent implements OnInit {
-  @Input() errorCode: string | null;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class ErrorIllustrationComponent {
+  public readonly errorCode = input<string | null | undefined>(null);
 }

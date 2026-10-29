@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-main-logo',
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './main-logo.component.html',
-  styleUrls: ['./main-logo.component.scss']
+  styleUrl: './main-logo.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainLogoComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class MainLogoComponent {}

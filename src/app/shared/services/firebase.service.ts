@@ -7,12 +7,9 @@ import { Firestore, getFirestore } from 'firebase/firestore';
   providedIn: 'root',
 })
 export class FirebaseService {
-  private db: Firestore;
-
-  constructor() {
-    const app = initializeApp(environment.firebaseConfig);
-    this.db = getFirestore(app);
-  }
+  private readonly db: Firestore = getFirestore(
+    initializeApp(environment.firebaseConfig)
+  );
 
   public getDatabase(): Firestore {
     return this.db;

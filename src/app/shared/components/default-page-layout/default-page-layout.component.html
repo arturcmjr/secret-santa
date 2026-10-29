@@ -3,11 +3,13 @@
     <app-main-logo style="position: fixed;"></app-main-logo>
   </div>
   <div class="page-container">
-    <h2 *ngIf="title" class="page-title">{{title}}</h2>
-    @if(subTitleTemplate) {
-      <ng-container *ngTemplateOutlet="subTitleTemplate"></ng-container>
-    } @else {
-      <h4 *ngIf="subTitle" class="page-subtitle">{{subTitle}}</h4>
+    @if (title(); as title) {
+      <h2 class="page-title">{{ title }}</h2>
+    }
+    @if (subTitleTemplate(); as template) {
+      <ng-container *ngTemplateOutlet="template"></ng-container>
+    } @else if (subTitle(); as subTitle) {
+      <h4 class="page-subtitle">{{ subTitle }}</h4>
     }
     <div class="page-body">
       <ng-content></ng-content>

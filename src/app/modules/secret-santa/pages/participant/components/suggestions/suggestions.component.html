@@ -1,5 +1,5 @@
 <small>
-  {{ "MESSAGES.INFO_GIFT_SUGGESTIONS" | translate : { value: maxSuggestions } }}
+  {{ "MESSAGES.INFO_GIFT_SUGGESTIONS" | translate : { value: maxSuggestions() } }}
   <br />
 </small>
 <h3>{{ "LABELS.SUGGESTIONS" | translate }}</h3>
@@ -7,28 +7,30 @@
   [label]="'LABELS.SUGGESTION' | translate"
   [formControl]="suggestionsControl"
   [minLength]="2"
-  [hideNew]="suggestionsCount >= maxSuggestions"
+  [hideNew]="suggestionsCount() >= maxSuggestions()"
 ></app-list-input>
 
-@if(suggestionsCount === 0) { @if(storedSuggestions?.length === 0) {
-<p class="warn-panel">
-  {{ "MESSAGES.INFO_NO_SUGGESTIONS" | translate }}
-</p>
-} @else {
-<p class="warn-panel">
-  {{ "MESSAGES.INFO_SAVING_WITHOUT_SUGGESTIONS" | translate }}
-</p>
-} }
+@if (suggestionsCount() === 0) {
+  @if (storedSuggestions()?.length === 0) {
+    <p class="warn-panel">
+      {{ "MESSAGES.INFO_NO_SUGGESTIONS" | translate }}
+    </p>
+  } @else {
+    <p class="warn-panel">
+      {{ "MESSAGES.INFO_SAVING_WITHOUT_SUGGESTIONS" | translate }}
+    </p>
+  }
+}
 
 <div class="action-btns">
   <button
     mat-flat-button
     color="primary"
-    [disabled]="!hasChanges"
+    [disabled]="!hasChanges()"
     (click)="save()"
   >
     {{ "LABELS.SAVE" | translate }}
   </button>
 </div>
 
-<app-spinner-overlay [isLoading]="isLoading"></app-spinner-overlay>
+<app-spinner-overlay [isLoading]="isLoading()"></app-spinner-overlay>
