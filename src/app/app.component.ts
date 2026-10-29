@@ -1,19 +1,22 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ThemeService } from '@shared/services/theme.service';
+import { ToastComponent } from '@shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet, ToastComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'secret-santa';
-
-  constructor(translate: TranslateService) {
+  constructor() {
+    inject(ThemeService);
+    const translate = inject(TranslateService);
     const defaultLang = 'en';
-    translate.setDefaultLang(defaultLang);
-
-    const lang = translate.getBrowserLang() || defaultLang;
-    translate.use(lang);
+    translate.setFallbackLang(defaultLang);
+    translate.use(translate.getBrowserLang() || defaultLang);
   }
 }

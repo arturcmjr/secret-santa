@@ -1,20 +1,105 @@
-<app-default-page-layout [title]="title" [subTitle]="'PARTICIPANTS.SUBTITLE' | translate">
-  <div class="page-width">
-    <div fxLayout="column" fxLayoutAlign="start none" fxLayoutGap="13px">
-      <div class="share-container" *ngFor="let participant of participants; index as i"
-        fxLayoutAlign="space-between center">
-        <div style="max-width: 88%;">
-          <b>{{ participant.name}}</b><br>
-          <div class="revelation-url" (click)="copyToClipboard(participant)">{{getParticipantUrl(participant)}}</div>
+<app-default-page-layout
+  [title]="title() | translate"
+  [subTitleTemplate]="subTitleTemplate"
+>
+  <div class="space-y-4 sm:space-y-5">
+    <section class="card border border-base-300 bg-base-100 shadow-sm" aria-labelledby="share-links-heading">
+      <div class="card-body gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-5 sm:p-6">
+        <div class="max-w-xl">
+          <div class="mb-2 flex items-center gap-2 text-sm font-semibold text-primary">
+            <svg lucideLink class="size-4"></svg>
+            <h2 id="share-links-heading">{{ "LABELS.SS_LINK" | translate }}</h2>
+          </div>
+          <p class="text-sm leading-6 text-base-content/65">{{ "MESSAGES.INFO_SS_LINK" | translate }}</p>
         </div>
-        <div fxLayoutAlign="center center">
-          <button mat-icon-button (click)="shareSanta(participant)">
-            <mat-icon>share</mat-icon>
+        <div class="flex flex-wrap gap-2 sm:shrink-0">
+          <button class="btn btn-outline" type="button" (click)="copyLinksUrl()">
+            <svg lucideCopy class="size-4"></svg>
+            {{ "LABELS.COPY_LINK" | translate }}
           </button>
+          @if (isSuggesting()) {
+            <button class="btn btn-primary" type="button" (click)="lockSuggestions()">
+              <svg lucideCheck class="size-4"></svg>
+              {{ "LABELS.CLOSE_SUGGESTIONS" | translate }}
+            </button>
+          }
         </div>
       </div>
-    </div>
-    <app-error-illustration [errorCode]="errorCode"></app-error-illustration>
+    </section>
+
+    @if (isSuggesting()) {
+      <p class="text-sm leading-6 text-base-content/65">{{ "MESSAGES.INFO_CHECK_LOCK_SUGGESTIONS" | translate }}</p>
+    }
+
+    <section class="overflow-hidden rounded-2xl border border-base-300 bg-base-100" [attr.aria-label]="'LABELS.PARTICIPANTS' | translate">
+      <ul class="divide-y divide-base-300">
+        @for (participant of participants(); track participant.id) {
+          <li class="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-6">
+            <div class="min-w-0">
+              <h3 class="truncate font-semibold">{{ participant.name }}</h3>
+              @if (isSuggesting()) {
+                <div class="mt-1 flex items-center gap-2 text-sm">
+                  <span class="text-base-content/60">{{ "LABELS.SUGGESTIONS" | translate }}</span>
+                  @if (participantHasSuggested(participant)) {
+                    <span class="badge badge-success badge-sm">{{ "LABELS.ADDED" | translate }}</span>
+                  } @else {
+                    <span class="badge badge-ghost badge-sm">{{ "LABELS.WAITING" | translate }}</span>
+                  }
+                </div>
+              } @else {
+                @let revealedCount = revealedCounts()[participant.id!];
+                <div class="mt-1 flex items-center gap-2 text-sm">
+                  <span class="text-base-content/60">{{ "LABELS.REVEALED" | translate }}</span>
+                  @if (revealedCount !== undefined) {
+                    @if (revealedCount > 0) {
+                      <span class="badge badge-success badge-sm">{{ "LABELS.OPENED" | translate }}</span>
+                    } @else {
+                      <span class="badge badge-ghost badge-sm">{{ "LABELS.NOT_OPENED_YET" | translate }}</span>
+                    }
+                  } @else {
+                    <span class="skeleton h-5 w-20" aria-label="Loading reveal status"></span>
+                  }
+                </div>
+              }
+            </div>
+            <div class="flex shrink-0 items-center gap-2">
+              <button
+                class="btn btn-ghost btn-sm"
+                type="button"
+                [attr.aria-label]="'MESSAGES.INFO_SHARE_TITLE' | translate : { name: participant.name }"
+                (click)="shareSanta(participant)"
+              >
+                <svg lucideShare2 class="size-4"></svg>
+                <span class="hidden sm:inline">{{ "LABELS.SHARE" | translate }}</span>
+              </button>
+            </div>
+          </li>
+        } @empty {
+          <li class="px-6 py-10 text-center text-base-content/60">
+            {{ "MESSAGES.INFO_NO_PARTICIPANTS" | translate }}
+          </li>
+        }
+      </ul>
+    </section>
+    <app-error-illustration [errorCode]="errorCode()"></app-error-illustration>
   </div>
 </app-default-page-layout>
-<app-spinner-overlay [isLoading]="isLoading"></app-spinner-overlay>
+
+<ng-template #subTitleTemplate>
+  @if (secretSanta(); as secretSanta) {
+    <p class="mb-8 max-w-2xl text-base text-base-content/65">
+      <span class="font-medium text-base-content">{{ secretSanta.name }}</span>
+      @if (secretSanta.description) {
+        <span class="mt-1 block">{{ secretSanta.description }}</span>
+      }
+    </p>
+  }
+</ng-template>
+
+@if (isConfirmingLock()) {
+  <app-confirmation-dialog
+    [title]="'LABELS.CLOSE_SUGGESTIONS'"
+    [message]="'MESSAGES.INFO_LOCK_SUGGESTION_CONFIRMATION'"
+    (result)="onLockConfirmation($event)"
+  ></app-confirmation-dialog>
+}

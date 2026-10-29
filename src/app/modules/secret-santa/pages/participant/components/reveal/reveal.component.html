@@ -1,0 +1,65 @@
+<div class="revelation-container">
+  @if (revelation(); as revelation) {
+    <div class="relative mx-auto w-full max-w-sm">
+      <img
+        src="/assets/img/illustrations/gift-opened.svg"
+        alt=""
+        class="block h-auto w-full"
+      />
+      <div class="name-text">{{ revelation.name }}</div>
+    </div>
+    <p
+      class="text-center"
+      [innerHTML]="
+        'MESSAGES.INFO_REVELED' | translate : { name: revelation.name }
+      "
+    ></p>
+    @if (type() === SecretSantaTypeEnum.Suggestions) {
+      @if (suggestions()?.length) {
+        <p
+          class="text-center"
+          [innerHTML]="
+            'MESSAGES.INFO_REVEALED_SUGGESTIONS'
+              | translate : { name: revelation.name }
+          "
+        ></p>
+        <ul class="flex flex-wrap justify-center gap-2">
+          @for (suggestion of suggestions(); track suggestion) {
+            <li class="badge badge-outline h-9 border-base-300 px-4">{{ suggestion }}</li>
+          }
+        </ul>
+      } @else {
+        <p class="text-center">
+          {{
+            "MESSAGES.INFO_REVEALED_NO_SUGGESTIONS"
+              | translate : { name: revelation.name }
+          }}
+        </p>
+      }
+    }
+    @if (revelation.revealedCount > 0) {
+      <p class="text-secondary text-center small-info">
+        {{
+          "MESSAGES.INFO_REVEALED_BEFORE"
+            | translate : { count: revelation.revealedCount }
+        }}
+      </p>
+    }
+  } @else {
+    <button
+      class="mx-auto block cursor-pointer rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+      type="button"
+      [attr.aria-label]="'MESSAGES.INFO_REVEAL_INSTRUCTIONS' | translate"
+      (click)="revealSecretSanta()"
+    >
+      <img
+        src="/assets/img/illustrations/gift.svg"
+        alt=""
+        class="shake block h-auto"
+      />
+    </button>
+    <p class="text-secondary text-center">
+      {{ "MESSAGES.INFO_REVEAL_INSTRUCTIONS" | translate }}
+    </p>
+  }
+</div>

@@ -1,4 +1,8 @@
-<div class="overlay" [class.hidden]="!isLoading">
-  <mat-progress-spinner color="accent" mode="indeterminate" [diameter]="45"></mat-progress-spinner>
-  <!-- TODO: remove the old spinner from assets folder <img src="../../../../assets/img/others/dual-ball-spinner.svg" alt="" width="100px"> -->
+<div
+  class="fixed inset-0 z-90 grid place-items-center bg-base-100/70 backdrop-blur-[2px] transition-opacity"
+  [class.invisible]="!isLoading()"
+  [attr.aria-hidden]="!isLoading()"
+  [attr.aria-busy]="isLoading()"
+>
+  <span class="loading loading-spinner loading-lg text-primary" role="status" [attr.aria-label]="'MESSAGES.INFO_LOADING' | translate"></span>
 </div>

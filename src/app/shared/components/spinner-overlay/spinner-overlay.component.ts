@@ -1,13 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LoadingService } from '@shared/services/loading.service';
 
 @Component({
   selector: 'app-spinner-overlay',
+  imports: [TranslatePipe],
   templateUrl: './spinner-overlay.component.html',
-  styleUrls: ['./spinner-overlay.component.scss']
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerOverlayComponent {
-  @Input() public isLoading: boolean;
-
-  constructor() { }
-
+  protected readonly isLoading = inject(LoadingService).isLoading;
 }

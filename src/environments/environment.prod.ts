@@ -1,6 +1,5 @@
 export const environment = {
   production: true,
-  appUrl: 'https://arju-secret-santa.web.app/',
   firebaseConfig: {
     apiKey: 'AIzaSyBygS6EvetxOt6b1gtEv1kudh8Nek6h2yQ',
     authDomain: 'arju-secret-santa.firebaseapp.com',
@@ -10,7 +9,5 @@ export const environment = {
     appId: '1:908249212112:web:d7c735ccc74fdf176fead5',
     measurementId: 'G-N9B763KS2Y',
   },
-  recaptcha: {
-    siteKey: '6Lf4qF0gAAAAAAlFcse-Qu8-YzxE2dVHzeT4z983',
-  },
+  passwordHash: 'f8a3efa277479cbace56f4cfdd7d8371ee2630ab9436f841b0d9ab6a58ee2a98',
 };

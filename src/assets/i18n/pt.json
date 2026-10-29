@@ -8,49 +8,19 @@
     "REVELATION": "Você tirou o(a) <b>{{name}}</b>!",
     "REVEALED_BEFORE": "Já foi revelado {{count}} vezes antes. Se não foi você, alguém com o link pode saber quem você tirou."
   },
-  "PARTICIPANTS" : {
+  "PARTICIPANTS": {
     "TITLE": "Participantes {{name}}",
     "SUBTITLE": "Envie os links para os participantes",
     "SHARE_TITLE": "Revelar o amigo oculto do(a) {{name}}",
     "CLIPBOARD_SUCCESS": "Link copiado para a área de transferência"
   },
-  "CREATE" : {
-    "TITLE": "Criar um novo amigo oculto",
-    "FORM": {
-      "STEP_1": "Informações Básicas",
-      "STEP_2": "Participantes",
-      "STEP_3": "Confirmação",
-      "NAME_PLACEHOLDER": "Nome do amigo oculto",
-      "NAME_LABEL": "Nome",
-      "NAME_REQUIRED": "Nome é obrigatório",
-      "NAME_MINLENGTH": "Nome deve ter no mínimo 5 caracteres",
-      "DESCRIPTION_LABEL": "Descrição",
-      "DESCRIPTION_PLACEHOLDER": "Curta descrição do amigo oculto",
-      "DATE_LABEL": "Data",
-      "DATE_REQUIRED": "Data é obrigatória",
-      "DATE_NOTALLOWED": "Data precisa ser entre hoje e daqui a 1 ano",
-      "DATE_INVALID": "Data inválida",
-      "DATE_HINT": "Os dados não estarão disponíveis 2 dias após a data",
-      "PARTICIPANTS_LABEL": "Nome",
-      "PARTICIPANTS_PLACEHOLDER": "Nome do participante",
-      "PARTICIPANTS_MINLENGTH": "Nome do participante deve ter no mínimo 3 caracteres",
-      "PARTICIPANTS_DUPLICATE": "Participante já existe",
-      "PARTICIPANTS_MINARRAY": "É necessário pelo menos 4 participantes"
-    },
-    "CONFIRMATION" : {
-      "MESSAGE": "Tudo pronto, revise as informações e clique em pronto para criar o amigo oculto",
-      "NAME": "Nome:",
-      "DESCRIPTION": "Descrição:",
-      "DATE": "Data:",
-      "PARTICIPANTS": "Participantes:",
-      "CAPTCHA_REQUIRED": "Por favor, confirme o captcha"
-    },
-    "NEXT": "Próximo",	
-    "PREVIOUS": "Anterior",
-    "DONE": "Pronto"
-  },
-  "HOME" : {
-    "TITLE": "amigo oculto em 3 simples passos",
+  "HOME": {
+    "TITLE": "Um amigo oculto especial, em três passos simples",
+    "EYEBROW": "Mais espaço para a magia das festas",
+    "PROMISE": "Reúna todo mundo para trocar presentes sem o trabalho de organizar. O sorteio é feito de forma justa e cada participante recebe um link privado.",
+    "CARD_EYEBROW": "Uma tradição mais simples",
+    "CARD_TITLE": "Da organização à surpresa",
+    "STEPS_COUNT": "3 passos",
     "STEP_1": {
       "TITLE": "informações básicas",
       "DESCRIPTION": "Preencha informações básicas do amigo oculto."
@@ -63,10 +33,10 @@
       "TITLE": "envie os links",
       "DESCRIPTION": "Pronto! Agora basta enviar os link para que eles descubram quem tiraram."
     },
-    "BOTTOM_TEXT": "Sem cadastro, sem custo e sem limites. Crie agora mesmo seu amigo oculto.",
+    "BOTTOM_TEXT": "Sem cadastro e sem custo. Só mais alegria.",
     "CREATE_BUTTON": "CRIAR AMIGO OCULTO"
   },
-  "ERRORS" : {
+  "ERRORS": {
     "GENERIC": {
       "TITLE": "Algo Deu Errado",
       "MESSAGE": "Estamos Com Problema, Tente Novamente Mais Tarde"
@@ -76,5 +46,84 @@
       "MESSAGE": "Recurso Não Encontrado ou Falta de Permissão",
       "HINT": "Lembrando que os dados somente estão disponíveis até 2 dias após a data do amigo oculto"
     }
+  },
+  "SUGGESTIONS": {
+    "SUBTITLE": "Nos dê uma dica de que presente gostaria de ganhar"
+  },
+  "INPUTS": {
+    "LIST": {
+      "DUPLICATE": "{{name}} já existe"
+    },
+    "GENERIC": {
+      "MIN_LENGTH": "{{name}} deve ter no mínimo {{length}} caracteres"
+    }
+  },
+  "LABELS": {
+    "BASIC_INFO": "Informações Básicas",
+    "ADD": "Adicionar",
+    "ADDED": "Adicionado",
+    "CLOSE_SUGGESTIONS": "Encerrar Sugestões",
+    "CONFIRMATION": "Confirmação",
+    "COPY_LINK": "Copiar link",
+    "CREATE": "Criar",
+    "DATE": "Data",
+    "DESCRIPTION": "Descrição",
+    "DONE": "Concluído",
+    "MAX_SUGGESTIONS": "Máximo de Sugestões",
+    "NAME": "Nome",
+    "NEXT": "Próximo",
+    "NO": "Não",
+    "NOT_OPENED_YET": "Ainda Não Aberto",
+    "OPENED": "Aberto",
+    "OPENED_TIMES": "Aberto {{count}} vezes",
+    "PARTICIPANT": "Participante",
+    "PARTICIPANTS": "Participantes",
+    "PREVIOUS": "Anterior",
+    "REMOVE": "Remover {{name}}",
+    "REVEALED": "Revelado",
+    "SAVE": "Salvar",
+    "SECRET_SANTA": "Amigo Secreto",
+    "SHARE": "Compartilhar",
+    "SKIP_TO_CONTENT": "Pular para o conteúdo",
+    "SS_LINK": "Link do Amigo Secreto",
+    "SS_SHORT_DESCRIPTION": "Descrição curta do Amigo Secreto",
+    "SS_TITLE": "Título do Amigo Secreto",
+    "SUGGESTION": "Sugestão",
+    "SUGGESTIONS": "Sugestões",
+    "TITLE": "Título",
+    "USE_SUGGESTIONS": "Usar Sugestões",
+    "WAITING": "Aguardando",
+    "YES": "Sim"
+  },
+  "MESSAGES": {
+    "INFO_AVAILABLE_DATE": "Os dados não estarão disponíveis 2 dias após a data",
+    "INFO_CHECK_LOCK_SUGGESTIONS": "Quando todos tiverem adicionado suas sugestões, clique no ícone de pronto ao lado para permitir que revelem seu Amigo Secreto",
+    "INFO_CLIPBOARD_SUCCESS": "Link copiado para a área de transferência",
+    "INFO_CREATE_CONFIRMATION": "Tudo pronto, revise as informações e clique em concluído para criar o Amigo Secreto",
+    "INFO_GIFT_SUGGESTIONS": "Agora é hora de nos contar algumas sugestões de presentes, compartilhe até {{value}} presentes que você gostaria de receber, você pode deixar em branco se quiser manter uma surpresa. Você pode editar até que o responsável pelo Amigo Secreto sorteie os nomes",
+    "INFO_LOCK_SUGGESTION_CONFIRMATION": "Tem certeza de que deseja fechar as sugestões? Verifique se todos adicionaram suas sugestões, pois depois disso você não poderá alterá-las. Clique em \"Sim\" para tornar o Amigo Secreto disponível para revelação",
+    "INFO_NO_SUGGESTIONS": "Você não deu nenhuma sugestão",
+    "INFO_NO_PARTICIPANTS": "Nenhum participante encontrado.",
+    "INFO_PARTICIPANT_SS": "Amigo Secreto de {{name}}",
+    "INFO_PARTICIPANTS_LIST": "Participantes de {{name}}",
+    "INFO_REVEALED_BEFORE": "Foi revelado {{count}} vezes antes, mantenha seu link em um lugar seguro, pois qualquer pessoa com seu link pode revelar seu amigo secreto",
+    "INFO_REVEALED_NO_SUGGESTIONS": "{{name}} não deu nenhuma sugestão, seja criativo!",
+    "INFO_REVEALED_SUGGESTIONS": "Aqui estão algumas sugestões de presentes de {{name}}:",
+    "INFO_REVEAL_INSTRUCTIONS": "Clique no presente acima para ver quem você tirou",
+    "INFO_SAVING_WITHOUT_SUGGESTIONS": "Se você salvar assim, significa que você aceita surpresas e não quer dar nenhuma dica ao seu Amigo Secreto",
+    "INFO_SHARE_REVEAL": "Compartilhe os links com os participantes para que possam revelar quem tiraram",
+    "INFO_SHARE_SUGGESTIONS": "É hora dos participantes adicionarem suas sugestões!",
+    "INFO_SHARE_TITLE": "Revele o amigo secreto de {{name}}",
+    "INFO_SS_LINK": "Compartilhe os links com os participantes. Você também deve copiar o link desta página e salvar em algum lugar seguro, pois pode precisar desses links novamente",
+    "INFO_SUGGESTIONS_SAVED": "Sugestões salvas com sucesso",
+    "INFO_LOADING": "Carregando",
+    "INFO_USE_SUGGESTIONS": "Os participantes poderão compartilhar sugestões de presentes antes de revelar quem tiraram.",
+    "INTO_PARTICIPANT_SUGGESTIONS": "Sugestões de {{name}}",
+    "VALIDATION_CUSTOM_01": "A data deve estar entre hoje e 1 ano a partir de agora",
+    "VALIDATION_INVALID": "{{field}} é inválido",
+    "VALIDATION_MIN_LENGTH": "{{field}} deve ter pelo menos {{length}} caracteres",
+    "VALIDATION_MIN_VALUE": "{{field}} deve ser no mínimo {{value}}",
+    "VALIDATION_REQUIRED": "{{field}} é obrigatório",
+    "INFO_REVELED": "Você tirou <b>{{name}}</b>! Hora do presente!"
   }
 }

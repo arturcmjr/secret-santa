@@ -1,14 +1,21 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
+/* To learn more about this file see: https://angular.dev/reference/configs/workspace-config. */
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "paths": {
-      "@env" : ["./src/environments/environment.ts"],
-      "@shared/*" : ["./src/app/shared/*"],
-      "@modules/*" : ["./src/app/modules/*"],
-      "@services/*" : ["./src/app/shared/services/*"],
+      "@env": [
+        "./src/environments/environment.ts"
+      ],
+      "@shared/*": [
+        "./src/app/shared/*"
+      ],
+      "@modules/*": [
+        "./src/app/modules/*"
+      ],
+      "@services/*": [
+        "./src/app/shared/services/*"
+      ]
     },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -19,19 +26,18 @@
     "strictPropertyInitialization": false,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
-    "target": "es2017",
-    "module": "es2020",
+    "target": "ES2022",
+    "module": "es2022",
     "lib": [
-      "es2020",
+      "es2022",
+      "esnext.temporal",
       "dom"
     ]
   },
   "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
