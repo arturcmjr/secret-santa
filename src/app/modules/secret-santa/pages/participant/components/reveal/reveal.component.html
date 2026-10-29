@@ -1,6 +1,6 @@
 <div class="revelation-container">
   @if (revelation(); as revelation) {
-    <div style="position: relative">
+    <div class="relative mx-auto w-full max-w-sm">
       <img
         src="../../../assets/img/illustrations/gift-opened.svg"
         alt=""
@@ -23,9 +23,11 @@
               | translate : { name: revelation.name }
           "
         ></p>
-        @for (suggestion of suggestions(); track suggestion) {
-          <b>{{ suggestion }}</b>
-        }
+        <ul class="flex flex-wrap justify-center gap-2">
+          @for (suggestion of suggestions(); track suggestion) {
+            <li class="badge badge-outline h-9 border-base-300 px-4">{{ suggestion }}</li>
+          }
+        </ul>
       } @else {
         <p class="text-center">
           {{
@@ -44,12 +46,18 @@
       </p>
     }
   } @else {
-    <img
-      src="../../../assets/img/illustrations/gift.svg"
-      alt=""
-      class="shake"
+    <button
+      class="mx-auto block cursor-pointer rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+      type="button"
+      [attr.aria-label]="'MESSAGES.INFO_REVEAL_INSTRUCTIONS' | translate"
       (click)="revealSecretSanta()"
-    />
+    >
+      <img
+        src="../../../assets/img/illustrations/gift.svg"
+        alt=""
+        class="shake"
+      />
+    </button>
     <p class="text-secondary text-center">
       {{ "MESSAGES.INFO_REVEAL_INSTRUCTIONS" | translate }}
     </p>

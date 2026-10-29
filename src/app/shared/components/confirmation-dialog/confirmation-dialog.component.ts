@@ -1,40 +1,37 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatButton } from '@angular/material/button';
 import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+  input,
+  output,
+} from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-
-export class ConfirmDialogModel {
-  constructor(public title: string, public message: string) {}
-}
 
 @Component({
   selector: 'app-confirmation-dialog',
-  imports: [
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    TranslatePipe,
-  ],
+  imports: [TranslatePipe],
   templateUrl: './confirmation-dialog.component.html',
-  styleUrl: './confirmation-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfirmationDialogComponent {
-  private readonly dialogRef = inject(MatDialogRef<ConfirmationDialogComponent>);
-  protected readonly data = inject<ConfirmDialogModel>(MAT_DIALOG_DATA);
+export class ConfirmationDialogComponent implements AfterViewInit {
+  @ViewChild('dialog') private dialog?: ElementRef<HTMLDialogElement>;
+  readonly title = input.required<string>();
+  readonly message = input.required<string>();
+  readonly result = output<boolean>();
 
-  protected onConfirm(): void {
-    this.dialogRef.close(true);
+  ngAfterViewInit(): void {
+    this.dialog?.nativeElement.showModal();
   }
 
-  protected onDismiss(): void {
-    this.dialogRef.close(false);
+  protected onCancel(event: Event): void {
+    event.preventDefault();
+    this.finish(false);
+  }
+
+  protected finish(confirmed: boolean): void {
+    this.dialog?.nativeElement.close();
+    this.result.emit(confirmed);
   }
 }

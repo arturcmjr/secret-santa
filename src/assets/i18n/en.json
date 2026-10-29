@@ -1,6 +1,11 @@
 {
   "HOME": {
-    "TITLE": "secret santa on 3 easy steps",
+    "TITLE": "A thoughtful Secret Santa, in three simple steps",
+    "EYEBROW": "Make room for a little holiday magic",
+    "PROMISE": "Bring everyone together for a gift exchange without the organizing headache. Names are drawn fairly, and every participant gets a private link.",
+    "CARD_EYEBROW": "A little tradition, made easy",
+    "CARD_TITLE": "From setup to surprise",
+    "STEPS_COUNT": "3 steps",
     "STEP_1": {
       "TITLE": "basic information",
       "DESCRIPTION": "Fill in the basic information about your Secret Santa."
@@ -13,7 +18,7 @@
       "TITLE": "send the links",
       "DESCRIPTION": "Done! Now just send the link so they can discover who they got."
     },
-    "BOTTOM_TEXT": "No register, no costs and no limits. Create now your secret santa",
+    "BOTTOM_TEXT": "No account, no cost. Just a little more joy.",
     "CREATE_BUTTON": "CREATE SECRET SANTA"
   },
   "ERRORS": {
@@ -29,8 +34,11 @@
   },
   "LABELS": {
     "BASIC_INFO": "Basic Information",
+    "ADD": "Add",
+    "ADDED": "Added",
     "CLOSE_SUGGESTIONS": "Close Suggestions",
     "CONFIRMATION": "Confirmation",
+    "COPY_LINK": "Copy link",
     "CREATE": "Create",
     "DATE": "Date",
     "DESCRIPTION": "Description",
@@ -45,9 +53,12 @@
     "PARTICIPANT": "Participant",
     "PARTICIPANTS": "Participants",
     "PREVIOUS": "Previous",
+    "REMOVE": "Remove {{name}}",
     "REVEALED": "Revealed",
     "SAVE": "Save",
     "SECRET_SANTA": "Secret Santa",
+    "SHARE": "Share",
+    "SKIP_TO_CONTENT": "Skip to content",
     "SS_LINK": "Secret Santa Link",
     "SS_SHORT_DESCRIPTION": "Short description of Secret Santa",
     "SS_TITLE": "Secret Santa Title",
@@ -55,6 +66,7 @@
     "SUGGESTIONS": "Suggestions",
     "TITLE": "Title",
     "USE_SUGGESTIONS": "Use Suggestions",
+    "WAITING": "Waiting",
     "YES": "Yes"
   },
   "MESSAGES": {
@@ -65,6 +77,7 @@
     "INFO_GIFT_SUGGESTIONS": "Now is time to tell us some gift suggestions, share up to {{value}} gifts that you would like to receive, you can leave it blank if you want to keep it a surprise. You can edit it until the responsible for the Secret Santa draw the names",
     "INFO_LOCK_SUGGESTION_CONFIRMATION": "Are you sure you want to close the suggestions? Double check if everyone has added their suggestions, because after that you can't change it. Click \"Yes\" to make the Secret Santa available to reveal",
     "INFO_NO_SUGGESTIONS": "You chose gave no suggestion",
+    "INFO_NO_PARTICIPANTS": "No participants were found.",
     "INFO_PARTICIPANT_SS": "{{name}}'s Secret Santa",
     "INFO_PARTICIPANTS_LIST": "{{name}}'s participants",
     "INFO_REVEALED_BEFORE": "It was revealed {{count}} times before, keep your link somewhere safe, because anyone with your link can reveal your secret santa",
@@ -77,11 +90,13 @@
     "INFO_SHARE_TITLE": "Reveal {{name}}'s secret santa",
     "INFO_SS_LINK": "Share the links with the participants. You should also copy this page link it and save somewhere safe, because you might need this links again",
     "INFO_SUGGESTIONS_SAVED": "Suggestions saved successfully",
+    "INFO_LOADING": "Loading",
+    "INFO_USE_SUGGESTIONS": "Participants can share gift ideas before they reveal their Secret Santa.",
     "INTO_PARTICIPANT_SUGGESTIONS": "{{name}}'s suggestions",
     "VALIDATION_CUSTOM_01": "Date must be between today and 1 year from now",
     "VALIDATION_INVALID": "{{field}} is invalid",
     "VALIDATION_MIN_LENGTH": "{{field}} must be at least {{length}} characters",
-    "VALIDATION_MIN_VALUE": "{{field}} must be greater than {{value}}",
+    "VALIDATION_MIN_VALUE": "{{field}} must be at least {{value}}",
     "VALIDATION_REQUIRED": "{{field}} is required",
     "INFO_REVELED": "You got <b>{{name}}</b>! Gift time!"
   }

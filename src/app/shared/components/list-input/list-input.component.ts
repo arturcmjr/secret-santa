@@ -5,6 +5,7 @@ import {
   forwardRef,
   input,
   signal,
+  computed,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -13,27 +14,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
-import { MatInput } from '@angular/material/input';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list-input',
-  imports: [
-    ReactiveFormsModule,
-    MatButton,
-    MatIconButton,
-    MatFormField,
-    MatLabel,
-    MatError,
-    MatIcon,
-    MatInput,
-    TranslatePipe,
-  ],
+  imports: [ReactiveFormsModule, TranslatePipe],
   templateUrl: './list-input.component.html',
-  styleUrl: './list-input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -50,6 +36,9 @@ export class ListInputComponent implements ControlValueAccessor {
 
   protected readonly value = signal<string[]>([]);
   protected readonly inputControl = new FormControl('');
+  protected readonly inputId = computed(
+    () => `list-input-${this.label().toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+  );
 
   private onChange?: (value: string[]) => void;
   private onTouched?: () => void;

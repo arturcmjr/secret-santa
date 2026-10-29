@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-spinner-overlay',
-  imports: [MatProgressSpinner],
+  imports: [TranslatePipe],
   templateUrl: './spinner-overlay.component.html',
-  styleUrl: './spinner-overlay.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerOverlayComponent {

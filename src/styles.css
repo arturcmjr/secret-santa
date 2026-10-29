@@ -1,5 +1,6 @@
 @import "@angular/cdk/overlay-prebuilt.css";
 @import "tailwindcss";
+@source "../node_modules/ng-daisy-date-picker";
 
 @plugin "daisyui" {
   themes: secret-santa-light --default, secret-santa-dark --prefersdark;
@@ -75,7 +76,7 @@
   body {
     @apply min-h-screen bg-base-200 text-base-content antialiased;
     margin: 0;
-    font-family: "DM Sans", system-ui, sans-serif;
+    font-family: ui-sans-serif, system-ui, sans-serif;
   }
 
   button,
@@ -116,7 +117,7 @@
 }
 
 .page-heading {
-  font-family: "DM Sans", system-ui, sans-serif;
+  font-family: ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -0.035em;
 }
 
