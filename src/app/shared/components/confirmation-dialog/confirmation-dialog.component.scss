@@ -9,21 +9,21 @@
   min-height: 100%;
   padding: 1rem;
   place-items: center;
-  background: rgb(0 48 73 / 55%);
+  background: rgb(47 36 32 / 55%);
 }
 
 .dialog-card {
   width: min(100%, 28rem);
   padding: 1.5rem;
-  border: 1px solid rgb(0 48 73 / 8%);
+  border: 1px solid var(--color-line);
   border-radius: 1rem;
-  background: var(--color-cream);
-  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 20%);
+  background: var(--color-surface);
+  box-shadow: 0 1.5rem 4rem rgb(47 36 32 / 25%);
 }
 
 .dialog-card h2 {
   margin: 0;
-  color: var(--color-deep-blue);
+  color: var(--color-ink);
   font-size: 1.25rem;
 }
 

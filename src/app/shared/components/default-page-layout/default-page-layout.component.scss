@@ -5,7 +5,7 @@
 
 .main-wrapper {
   min-height: 100vh;
-  background: var(--color-cream);
+  background: var(--color-bg);
 }
 
 .header {
@@ -14,9 +14,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 1rem;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgb(102 155 188 / 35%), transparent 65%),
-    var(--color-deep-blue);
+  background: var(--color-ink);
 }
 
 .page-container {
@@ -28,8 +26,7 @@
 
 .page-title {
   margin: 0.25rem 0 0.75rem;
-  color: var(--color-deep-blue);
-  font-family: var(--font-display);
+  color: var(--color-ink);
   font-size: clamp(1.75rem, 4vw, 2.5rem);
   text-align: center;
 }
@@ -37,7 +34,8 @@
 .page-subtitle {
   max-width: 48rem;
   margin: 0 auto 1.5rem;
-  color: #456170;
+  color: var(--color-muted);
+  font-family: var(--font-sub);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.6;

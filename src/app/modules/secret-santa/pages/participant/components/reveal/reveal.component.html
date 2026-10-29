@@ -2,9 +2,9 @@
   @if (revelation(); as revelation) {
     <div class="revealed-gift">
       <img
-        src="../../../assets/img/illustrations/gift-opened.svg"
+        src="assets/img/illustrations/gift-opened.svg"
         alt=""
-        width="100%"
+        
       />
       <div class="name-text">{{ revelation.name }}</div>
     </div>
@@ -46,7 +46,7 @@
   } @else {
     <button class="gift-button" type="button" [attr.aria-label]="'LABELS.REVEAL_SECRET_SANTA' | translate" (click)="revealSecretSanta()">
       <img
-        src="../../../assets/img/illustrations/gift.svg"
+        src="assets/img/illustrations/gift.svg"
         alt=""
         class="shake"
       />

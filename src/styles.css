@@ -2,19 +2,28 @@
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
 
+/* Design tokens: one terracotta accent on a warm cream/brown neutral scale. */
 :root {
   color-scheme: light;
-  --color-deep-red: #780000;
-  --color-crimson: #c1121f;
-  --color-cream: #fdf0d5;
-  --color-deep-blue: #003049;
-  --color-steel-blue: #669bbc;
-  --font-display: Georgia, "Times New Roman", serif;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --color-accent: #b9532c;
+  --color-accent-strong: #933d1c;
+  --color-accent-soft: rgb(185 83 44 / 10%);
+  --color-ink: #2f2420;
+  --color-muted: #7a6a5f;
+  --color-bg: #faf3e8;
+  --color-surface: #fffcf7;
+  --color-line: rgb(47 36 32 / 14%);
+
+  --font-heading: "Libre Baskerville", Georgia, "Times New Roman", serif;
+  --font-sub: Raleway, "Segoe UI", sans-serif;
+  --font-body: Montserrat, "Segoe UI", sans-serif;
+
+  font-family: var(--font-body);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  background: var(--color-cream);
-  color: var(--color-deep-blue);
+  background: var(--color-bg);
+  color: var(--color-ink);
 }
 
 * {
@@ -30,7 +39,8 @@ body {
 }
 
 body {
-  background: var(--color-cream);
+  background: var(--color-bg);
+  line-height: 1.6;
 }
 
 button,
@@ -43,15 +53,28 @@ a {
   color: inherit;
 }
 
+h1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+h2,
+h3,
+h4,
+label,
+.ui-button {
+  font-family: var(--font-sub);
+}
+
 .page-width {
   @apply mx-auto w-full max-w-3xl;
 }
 
 .ui-card {
-  border: 1px solid rgb(0 48 73 / 9%);
-  border-radius: 1.125rem;
-  background: #fffdfa;
-  box-shadow: 0 1rem 2.5rem rgb(0 48 73 / 8%);
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: var(--color-surface);
+  box-shadow: 0 1rem 2.5rem rgb(47 36 32 / 7%);
 }
 
 .ui-button {
@@ -60,12 +83,12 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.625rem 1.125rem;
+  padding: 0.625rem 1.25rem;
   border: 1px solid transparent;
   border-radius: 0.75rem;
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: 650;
+  font-weight: 700;
   line-height: 1.25;
   text-align: center;
   text-decoration: none;
@@ -78,48 +101,49 @@ a {
 
 .ui-button:focus-visible,
 .ui-input:focus-visible {
-  outline: 3px solid rgb(102 155 188 / 65%);
+  outline: 3px solid rgb(185 83 44 / 35%);
   outline-offset: 2px;
 }
 
 .ui-button:disabled {
   cursor: not-allowed;
-  opacity: 0.55;
+  opacity: 0.5;
 }
 
 .ui-button-primary {
-  color: white;
-  background: var(--color-crimson);
+  color: var(--color-surface);
+  background: var(--color-accent);
 }
 
 .ui-button-primary:hover:not(:disabled) {
-  background: var(--color-deep-red);
+  background: var(--color-accent-strong);
 }
 
 .ui-button-secondary {
-  border-color: rgb(0 48 73 / 18%);
-  color: var(--color-deep-blue);
-  background: #fffdfa;
+  border-color: var(--color-line);
+  color: var(--color-ink);
+  background: var(--color-surface);
 }
 
 .ui-button-secondary:hover:not(:disabled) {
-  border-color: var(--color-steel-blue);
-  background: #f2f8fb;
+  border-color: var(--color-accent);
+  color: var(--color-accent-strong);
+  background: var(--color-accent-soft);
 }
 
 .ui-button-quiet {
-  color: #526977;
+  color: var(--color-muted);
   background: transparent;
 }
 
 .ui-button-quiet:hover:not(:disabled) {
-  color: var(--color-deep-red);
-  background: rgb(193 18 31 / 8%);
+  color: var(--color-accent-strong);
+  background: var(--color-accent-soft);
 }
 
 .ui-button-danger {
-  color: white;
-  background: var(--color-deep-red);
+  color: var(--color-surface);
+  background: var(--color-accent-strong);
 }
 
 .field {
@@ -131,49 +155,50 @@ a {
 }
 
 .field label {
-  color: var(--color-deep-blue);
+  color: var(--color-ink);
   font-size: 0.875rem;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .ui-input {
   width: 100%;
   min-height: 2.875rem;
   padding: 0.7rem 0.8rem;
-  border: 1px solid rgb(0 48 73 / 20%);
+  border: 1px solid var(--color-line);
   border-radius: 0.625rem;
-  color: var(--color-deep-blue);
-  background: white;
+  color: var(--color-ink);
+  background: var(--color-surface);
 }
 
 .ui-input::placeholder {
-  color: #71838d;
+  color: var(--color-muted);
+  opacity: 0.7;
 }
 
 .ui-input.ng-invalid.ng-touched {
-  border-color: var(--color-crimson);
+  border-color: var(--color-accent);
 }
 
 .ui-error {
   margin: 0.1rem 0 0;
-  color: var(--color-crimson);
+  color: var(--color-accent-strong);
   font-size: 0.8125rem;
   line-height: 1.4;
 }
 
 .field-hint {
-  color: #526977;
+  color: var(--color-muted);
   line-height: 1.4;
 }
 
 .ui-checkbox {
   width: 1.125rem;
   height: 1.125rem;
-  accent-color: var(--color-crimson);
+  accent-color: var(--color-accent);
 }
 
 .text-secondary {
-  color: #526977;
+  color: var(--color-muted);
 }
 
 .text-center {
@@ -184,8 +209,8 @@ a {
   width: 100%;
   padding: 1rem;
   border-radius: 0.75rem;
-  color: var(--color-deep-red);
-  background: #fff3e5;
+  color: var(--color-accent-strong);
+  background: var(--color-accent-soft);
   text-align: center;
 }
 

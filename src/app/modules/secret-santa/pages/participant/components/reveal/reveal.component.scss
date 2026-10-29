@@ -11,9 +11,9 @@
     bottom: 50%;
     overflow: hidden;
     font-size: clamp(1rem, 3vw, 1.4rem);
-    color: var(--color-deep-blue);
+    color: var(--color-ink);
     text-align: center;
-    font-family: cursive;
+    font-family: var(--font-heading);
   }
 }
 
@@ -37,7 +37,7 @@
 }
 
 .gift-button img {
-  width: min(100%, 18rem);
+  width: min(18rem, 70vw);
 }
 
 .small-info {
@@ -55,7 +55,7 @@ p {
 .shake {
   animation: shake-animation 4.72s ease infinite;
   transform-origin: 50% 50%;
-  max-width: 300px;
+  max-width: none;
   transition: all 1s ease;
 
   &:hover {

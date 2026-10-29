@@ -11,10 +11,10 @@
 
 .share-container {
   padding: 1rem 1.125rem;
-  border: 1px solid rgb(0 48 73 / 8%);
+  border: 1px solid var(--color-line);
   border-radius: 1rem;
-  background: #fffdfa;
-  box-shadow: 0 0.5rem 1.5rem rgb(0 48 73 / 6%);
+  background: var(--color-surface);
+  box-shadow: 0 0.5rem 1.5rem rgb(47 36 32 / 6%);
 }
 
 .info-and-btn {
@@ -30,14 +30,14 @@
 
 .info-and-btn p {
   margin: 0.25rem 0 0;
-  color: #526977;
+  color: var(--color-muted);
   line-height: 1.5;
 }
 
 .lock-row {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
-  border-top: 1px solid rgb(0 48 73 / 10%);
+  border-top: 1px solid var(--color-line);
 }
 
 .icon-button {
@@ -62,7 +62,7 @@
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.25rem;
-  color: #526977;
+  color: var(--color-muted);
   font-size: 0.875rem;
 }
 
@@ -77,13 +77,13 @@
 }
 
 .success {
-  color: #176b42;
-  background: #e5f5ec;
+  color: var(--color-surface);
+  background: var(--color-accent);
 }
 
 .danger {
-  color: var(--color-deep-red);
-  background: #fae7e8;
+  color: var(--color-muted);
+  background: var(--color-line);
 }
 
 .skeleton {
@@ -92,7 +92,7 @@
   height: 0.875rem;
   margin-top: 0.5rem;
   border-radius: 1rem;
-  background: linear-gradient(90deg, #e6edf0 25%, #f5f8f9 50%, #e6edf0 75%);
+  background: linear-gradient(90deg, var(--color-line) 25%, var(--color-accent-soft) 50%, var(--color-line) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
 }
