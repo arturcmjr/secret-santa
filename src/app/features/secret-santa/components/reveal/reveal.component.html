@@ -1,13 +1,17 @@
 <div class="revelation-container">
-  @if (revelation(); as revelation) {
-    <div class="relative mx-auto w-full max-w-sm">
-      <img
-        src="/assets/img/illustrations/gift-opened.svg"
-        alt=""
-        class="block h-auto w-full"
-      />
+  <div class="relative mx-auto w-full max-w-xs">
+    <canvas
+      #presentAnimation
+      class="present-animation"
+      width="320"
+      height="320"
+      aria-hidden="true"
+    ></canvas>
+    @if (revelation(); as revelation) {
       <div class="name-text">{{ revelation.name }}</div>
-    </div>
+    }
+  </div>
+  @if (revelation(); as revelation) {
     <p
       class="text-center"
       [innerHTML]="
@@ -46,20 +50,28 @@
       </p>
     }
   } @else {
+    @if (animationError()) {
+      <p class="text-center text-error" role="alert">
+        {{ "MESSAGES.INFO_REVEAL_ANIMATION_ERROR" | translate }}
+      </p>
+    } @else if (animationReady()) {
+      <p class="text-secondary text-center">
+        {{ "MESSAGES.INFO_REVEAL_INSTRUCTIONS" | translate }}
+      </p>
+    } @else {
+      <p class="text-secondary text-center" role="status">
+        {{ "MESSAGES.INFO_REVEAL_ANIMATION_LOADING" | translate }}
+      </p>
+    }
     <button
-      class="mx-auto block cursor-pointer rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+      class="btn btn-primary btn-lg w-full max-w-sm"
       type="button"
-      [attr.aria-label]="'MESSAGES.INFO_REVEAL_INSTRUCTIONS' | translate"
+      [disabled]="!animationReady() || animationError() || isRevealing()"
       (click)="revealSecretSanta()"
     >
-      <img
-        src="/assets/img/illustrations/gift.svg"
-        alt=""
-        class="shake block h-auto"
-      />
+      {{
+        (isRevealing() ? "LABELS.REVEALING" : "LABELS.REVEAL") | translate
+      }}
     </button>
-    <p class="text-secondary text-center">
-      {{ "MESSAGES.INFO_REVEAL_INSTRUCTIONS" | translate }}
-    </p>
   }
 </div>
