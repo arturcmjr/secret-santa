@@ -22,6 +22,7 @@ import {
   ISecretSanta,
   SecretSantaTypeEnum,
 } from '@features/secret-santa/models/secret-santa.interface';
+import { SavedLinksService } from '@core/services/saved-links.service';
 import { SecretSantaService } from '@features/secret-santa/services/secret-santa.service';
 import { ErrorIllustrationComponent } from '../../components/error-illustration/error-illustration.component';
 
@@ -49,6 +50,7 @@ export class ListParticipantsComponent {
   private readonly notification = inject(NotificationService);
   private readonly translate = inject(TranslateService);
   private readonly titleService = inject(Title);
+  private readonly savedLinks = inject(SavedLinksService);
 
   protected readonly participants = signal<IParticipant[]>([]);
   protected readonly revealedCounts = signal<Record<string, number>>({});
@@ -78,6 +80,7 @@ export class ListParticipantsComponent {
     combineLatest([participants$, secretSanta$]).subscribe({
       next: ([participants, secretSanta]) => {
         this.secretSanta.set(secretSanta);
+        this.savedLinks.registerManage(secretSantaId, secretSanta.name, secretSanta.date);
         this.participants.set(participants);
         const title = this.translate.instant('MESSAGES.INFO_PARTICIPANTS_LIST', {
           name: secretSanta.name,

@@ -16,6 +16,7 @@ import {
   ISecretSanta,
   SecretSantaTypeEnum,
 } from '@features/secret-santa/models/secret-santa.interface';
+import { SavedLinksService } from '@core/services/saved-links.service';
 import { SecretSantaService } from '@features/secret-santa/services/secret-santa.service';
 import { RevealComponent } from '@features/secret-santa/components/reveal/reveal.component';
 import { SuggestionsComponent } from '@features/secret-santa/components/suggestions/suggestions.component';
@@ -43,6 +44,7 @@ export class ParticipantComponent {
 
   private readonly service = inject(SecretSantaService);
   private readonly translate = inject(TranslateService);
+  private readonly savedLinks = inject(SavedLinksService);
 
   protected readonly secretSanta = signal<ISecretSanta | undefined>(undefined);
   protected readonly participant = signal<IParticipant | undefined>(undefined);
@@ -81,6 +83,14 @@ export class ParticipantComponent {
     this.service.getSecretSanta(secretSantaId).subscribe({
       next: (secretSanta) => {
         this.secretSanta.set(secretSanta);
+        if (participant.id) {
+          this.savedLinks.registerReveal(
+            participant.id,
+            participant.name,
+            secretSanta.name,
+            secretSanta.date
+          );
+        }
         if (
           secretSanta.type === SecretSantaTypeEnum.Suggestions &&
           !secretSanta.suggestionsLocked
