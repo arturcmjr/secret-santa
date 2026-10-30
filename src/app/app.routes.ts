@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { savedLinksRedirectGuard } from '@core/guards/saved-links-redirect.guard';
 import { AppContainerComponent } from './layout/app-container/app-container.component';
 
 export const routes: Routes = [
@@ -8,11 +9,28 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        pathMatch: 'full',
+        data: { hideFooter: true },
+        canActivate: [savedLinksRedirectGuard],
+        loadComponent: () =>
+          import('./features/home/pages/home/home.component').then(
+            (m) => m.HomeComponent
+          ),
+      },
+      {
+        path: 'start',
         data: { hideFooter: true },
         loadComponent: () =>
           import('./features/home/pages/home/home.component').then(
             (m) => m.HomeComponent
           ),
+      },
+      {
+        path: 'my-secret-santas',
+        loadComponent: () =>
+          import(
+            './features/dashboard/pages/dashboard/dashboard.component'
+          ).then((m) => m.DashboardComponent),
       },
       {
         path: 'create',

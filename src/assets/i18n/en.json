@@ -103,5 +103,21 @@
     "VALIDATION_MIN_VALUE": "{{field}} must be at least {{value}}",
     "VALIDATION_REQUIRED": "{{field}} is required",
     "INFO_REVELED": "You got <b>{{name}}</b>! Gift time!"
+  },
+  "DASHBOARD": {
+    "TITLE": "My Secret Santas",
+    "SUBTITLE": "Events you opened on this device, kept here until the big day.",
+    "REVEAL_BADGE": "Your reveal",
+    "MANAGE_BADGE": "Manager link",
+    "REVEAL_FOR": "Your reveal page",
+    "OPEN_REVEAL": "Open reveal",
+    "OPEN_MANAGE": "Open links",
+    "COPY_LINK": "Copy link",
+    "REMOVE": "Remove from list",
+    "EMPTY_TITLE": "Nothing here yet",
+    "EMPTY_TEXT": "Secret Santa events you open or manage will show up here automatically, and disappear on the event day.",
+    "LEARN_MORE": "How it works",
+    "DATE_ON": "On {{date}}",
+    "LOCAL_NOTE": "Saved only in this browser."
   }
 }

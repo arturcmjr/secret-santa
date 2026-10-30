@@ -129,5 +129,21 @@
     "VALIDATION_MIN_VALUE": "{{field}} deve ser no mínimo {{value}}",
     "VALIDATION_REQUIRED": "{{field}} é obrigatório",
     "INFO_REVELED": "Você tirou <b>{{name}}</b>! Hora do presente!"
+  },
+  "DASHBOARD": {
+    "TITLE": "Meus Amigos Ocultos",
+    "SUBTITLE": "Eventos que você abriu neste dispositivo, guardados até o grande dia.",
+    "REVEAL_BADGE": "Sua revelação",
+    "MANAGE_BADGE": "Link do organizador",
+    "REVEAL_FOR": "Sua página de revelação",
+    "OPEN_REVEAL": "Abrir revelação",
+    "OPEN_MANAGE": "Abrir links",
+    "COPY_LINK": "Copiar link",
+    "REMOVE": "Remover da lista",
+    "EMPTY_TITLE": "Nada por aqui ainda",
+    "EMPTY_TEXT": "Os amigos ocultos que você abrir ou organizar aparecem aqui automaticamente e somem no dia do evento.",
+    "LEARN_MORE": "Como funciona",
+    "DATE_ON": "Em {{date}}",
+    "LOCAL_NOTE": "Salvo apenas neste navegador."
   }
 }
