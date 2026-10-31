@@ -71,7 +71,7 @@ export class ParticipantComponent {
           })
         );
         this.secretSantaId.set(participant.secretSantaRef.id);
-        this.fetchSecretSanta(participant.secretSantaRef.id, participant);
+        this.fetchSecretSanta(participant.secretSantaRef.id, participant, participantId);
       },
       error: (error: FirestoreError) => {
         this.errorCode.set(error?.code || 'UNKNOWN');
@@ -79,18 +79,20 @@ export class ParticipantComponent {
     });
   }
 
-  private fetchSecretSanta(secretSantaId: string, participant: IParticipant): void {
+  private fetchSecretSanta(
+    secretSantaId: string,
+    participant: IParticipant,
+    participantId: string
+  ): void {
     this.service.getSecretSanta(secretSantaId).subscribe({
       next: (secretSanta) => {
         this.secretSanta.set(secretSanta);
-        if (participant.id) {
-          this.savedLinks.registerReveal(
-            participant.id,
-            participant.name,
-            secretSanta.name,
-            secretSanta.date
-          );
-        }
+        this.savedLinks.registerReveal(
+          participantId,
+          participant.name,
+          secretSanta.name,
+          secretSanta.date
+        );
         if (
           secretSanta.type === SecretSantaTypeEnum.Suggestions &&
           !secretSanta.suggestionsLocked

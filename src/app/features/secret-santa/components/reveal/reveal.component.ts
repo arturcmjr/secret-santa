@@ -23,8 +23,6 @@ import { SecretSantaService } from '@features/secret-santa/services/secret-santa
 
 const SHAKE_LAST_FRAME = 2;
 const SHAKE_SPEED = 0.4;
-const SHAKE_CYCLES = 3;
-const SHAKE_PAUSE_MS = 1500;
 const NAME_VISIBLE_FRAME = 21;
 
 @Component({
@@ -54,8 +52,6 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
 
   private animation?: DotLottie;
   private isShaking = false;
-  private shakeCycles = 0;
-  private shakePauseTimeout?: ReturnType<typeof setTimeout>;
   private pendingRevelation?: IRevelation;
   private pendingSuggestions?: string[];
 
@@ -72,7 +68,6 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
       this.animationReady.set(true);
     });
     this.animation.addEventListener('loadError', () => this.animationError.set(true));
-    this.animation.addEventListener('loop', () => this.onShakeCycle());
     this.animation.addEventListener('frame', ({ currentFrame }) => {
       if (!this.isShaking && currentFrame >= NAME_VISIBLE_FRAME) {
         this.showPendingRevelation();
@@ -82,7 +77,6 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    clearTimeout(this.shakePauseTimeout);
     this.animation?.destroy();
   }
 
@@ -115,8 +109,6 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  // Bouncing over the first frames (0,1,2,1,0,...) makes the present look like it is shaking,
-  // in bursts followed by a pause, like a ringing phone
   private startShakeLoop(): void {
     const animation = this.animation;
     if (!animation) {
@@ -124,28 +116,11 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
     }
 
     this.isShaking = true;
-    this.shakeCycles = 0;
     animation.setSegment(0, SHAKE_LAST_FRAME);
     animation.setMode('bounce');
     animation.setLoop(true);
     animation.setSpeed(SHAKE_SPEED);
     animation.play();
-  }
-
-  private onShakeCycle(): void {
-    const animation = this.animation;
-    if (!animation || !this.isShaking || ++this.shakeCycles < SHAKE_CYCLES) {
-      return;
-    }
-
-    animation.pause();
-    animation.setFrame(0);
-    this.shakeCycles = 0;
-    this.shakePauseTimeout = setTimeout(() => {
-      if (this.isShaking) {
-        this.animation?.play();
-      }
-    }, SHAKE_PAUSE_MS);
   }
 
   private playOpening(): void {
@@ -155,7 +130,6 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
     }
 
     this.isShaking = false;
-    clearTimeout(this.shakePauseTimeout);
     animation.setLoop(false);
     animation.setSpeed(1);
     animation.setMode('forward');

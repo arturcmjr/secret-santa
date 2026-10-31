@@ -65,7 +65,7 @@
     "CLOSE_SUGGESTIONS": "Encerrar Sugestões",
     "CONFIRMATION": "Confirmação",
     "COPY_LINK": "Copiar link",
-    "CREATE": "Criar",
+    "CREATE_NEW": "Criar Novo",
     "DATE": "Data",
     "DESCRIPTION": "Descrição",
     "DONE": "Concluído",
@@ -131,6 +131,7 @@
     "INFO_REVELED": "Você tirou <b>{{name}}</b>! Hora do presente!"
   },
   "DASHBOARD": {
+    "NEW": "Novo Amigo Oculto",
     "TITLE": "Meus Amigos Ocultos",
     "SUBTITLE": "Eventos que você abriu neste dispositivo, guardados até o grande dia.",
     "REVEAL_BADGE": "Sua revelação",

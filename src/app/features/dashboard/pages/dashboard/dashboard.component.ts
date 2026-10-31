@@ -5,6 +5,7 @@ import {
   LucideCopy,
   LucideExternalLink,
   LucideGift,
+  LucidePlus,
   LucideSettings2,
   LucideX,
 } from '@lucide/angular';
@@ -28,6 +29,7 @@ import {
     LucideSettings2,
     LucideX,
     DefaultPageLayoutComponent,
+    LucidePlus,
   ],
   templateUrl: './dashboard.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
