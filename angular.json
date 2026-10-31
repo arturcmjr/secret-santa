@@ -48,8 +48,13 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/favicon.svg",
+              "src/assets",
+              {
+                "glob": "dotlottie-player.wasm",
+                "input": "node_modules/@lottiefiles/dotlottie-web/dist",
+                "output": "assets/anim"
+              }
             ],
             "styles": [
               "src/styles.css"

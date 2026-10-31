@@ -1,0 +1,83 @@
+<app-default-page-layout
+  [title]="'DASHBOARD.TITLE' | translate"
+  [subTitle]="'DASHBOARD.SUBTITLE' | translate"
+>
+  @if (links().length === 0) {
+    <section class="rounded-2xl border border-dashed border-base-300 bg-base-100 px-6 py-12 text-center">
+      <span class="mx-auto mb-5 grid size-14 place-items-center rounded-full bg-primary/10 text-primary">
+        <svg lucideGift class="size-7" aria-hidden="true"></svg>
+      </span>
+      <h2 class="page-heading mb-2 text-2xl font-semibold">{{ "DASHBOARD.EMPTY_TITLE" | translate }}</h2>
+      <p class="mx-auto mb-6 max-w-md text-base-content/65">{{ "DASHBOARD.EMPTY_TEXT" | translate }}</p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a class="btn btn-primary" routerLink="/create">{{ "LABELS.CREATE" | translate }}</a>
+        <a class="btn btn-ghost" routerLink="/start">{{ "DASHBOARD.LEARN_MORE" | translate }}</a>
+      </div>
+    </section>
+  } @else {
+    <ul class="grid gap-4 md:grid-cols-2">
+      @for (link of links(); track trackKey(link)) {
+        <li
+          class="flex flex-col gap-4 rounded-2xl border bg-base-100 p-5 shadow-sm"
+          [class.border-primary/30]="link.type === SavedLinkType.Reveal"
+          [class.border-base-300]="link.type === SavedLinkType.Manage"
+          [class.border-dashed]="link.type === SavedLinkType.Manage"
+        >
+          <div class="flex items-start justify-between gap-3">
+            @if (link.type === SavedLinkType.Reveal) {
+              <span class="badge badge-primary badge-soft gap-1.5">
+                <svg lucideGift class="size-3.5" aria-hidden="true"></svg>
+                {{ "DASHBOARD.REVEAL_BADGE" | translate }}
+              </span>
+            } @else {
+              <span class="badge badge-outline gap-1.5">
+                <svg lucideSettings2 class="size-3.5" aria-hidden="true"></svg>
+                {{ "DASHBOARD.MANAGE_BADGE" | translate }}
+              </span>
+            }
+            <button
+              type="button"
+              class="btn btn-ghost btn-xs btn-square -mr-1 -mt-1"
+              [attr.aria-label]="'DASHBOARD.REMOVE' | translate"
+              (click)="remove(link)"
+            >
+              <svg lucideX class="size-4" aria-hidden="true"></svg>
+            </button>
+          </div>
+
+          <div class="min-w-0 flex-1">
+            @if (link.type === SavedLinkType.Reveal) {
+              <p class="truncate text-sm text-base-content/65">{{ link.name }}</p>
+              <h2 class="page-heading break-words text-3xl font-semibold text-primary">{{ link.participantName }}</h2>
+            } @else {
+              <h2 class="page-heading break-words text-2xl font-semibold">{{ link.name }}</h2>
+            }
+            <p class="mt-1 text-sm text-base-content/65">
+              {{ "DASHBOARD.DATE_ON" | translate: { date: formatDate(link.eventDate) } }}
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <a class="btn btn-sm" [class.btn-primary]="link.type === SavedLinkType.Reveal" [routerLink]="link.path">
+              <svg lucideExternalLink class="size-4" aria-hidden="true"></svg>
+              {{ (link.type === SavedLinkType.Reveal ? "DASHBOARD.OPEN_REVEAL" : "DASHBOARD.OPEN_MANAGE") | translate }}
+            </a>
+            @if (link.type === SavedLinkType.Manage) {
+              <button type="button" class="btn btn-sm btn-ghost" (click)="copy(link)">
+                <svg lucideCopy class="size-4" aria-hidden="true"></svg>
+                {{ "DASHBOARD.COPY_LINK" | translate }}
+              </button>
+            }
+          </div>
+        </li>
+      }
+    </ul>
+    <p class="my-6 text-center text-xs text-base-content/50">{{ "DASHBOARD.LOCAL_NOTE" | translate }}</p>
+    <!-- <div class="mb-6 flex justify-center block md:hidden">
+      <a class="btn btn-primary" routerLink="/create">
+        <svg lucidePlus class="size-4" aria-hidden="true"></svg>
+        {{ "DASHBOARD.NEW" | translate }}
+      </a>
+    </div> -->
+  }
+</app-default-page-layout>

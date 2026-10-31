@@ -1,0 +1,77 @@
+<div class="revelation-container">
+  <div class="relative mx-auto w-full max-w-xs">
+    <canvas
+      #presentAnimation
+      class="present-animation"
+      width="320"
+      height="320"
+      aria-hidden="true"
+    ></canvas>
+    @if (revelation(); as revelation) {
+      <div class="name-text">{{ revelation.name }}</div>
+    }
+  </div>
+  @if (revelation(); as revelation) {
+    <p
+      class="text-center"
+      [innerHTML]="
+        'MESSAGES.INFO_REVELED' | translate : { name: revelation.name }
+      "
+    ></p>
+    @if (type() === SecretSantaTypeEnum.Suggestions) {
+      @if (suggestions()?.length) {
+        <p
+          class="text-center"
+          [innerHTML]="
+            'MESSAGES.INFO_REVEALED_SUGGESTIONS'
+              | translate : { name: revelation.name }
+          "
+        ></p>
+        <ul class="flex flex-wrap justify-center gap-2">
+          @for (suggestion of suggestions(); track suggestion) {
+            <li class="badge badge-outline h-9 border-base-300 px-4">{{ suggestion }}</li>
+          }
+        </ul>
+      } @else {
+        <p class="text-center">
+          {{
+            "MESSAGES.INFO_REVEALED_NO_SUGGESTIONS"
+              | translate : { name: revelation.name }
+          }}
+        </p>
+      }
+    }
+    @if (revelation.revealedCount > 0) {
+      <p class="text-secondary text-center small-info">
+        {{
+          "MESSAGES.INFO_REVEALED_BEFORE"
+            | translate : { count: revelation.revealedCount }
+        }}
+      </p>
+    }
+  } @else {
+    @if (animationError()) {
+      <p class="text-center text-error" role="alert">
+        {{ "MESSAGES.INFO_REVEAL_ANIMATION_ERROR" | translate }}
+      </p>
+    } @else if (animationReady()) {
+      <p class="text-secondary text-center">
+        {{ "MESSAGES.INFO_REVEAL_INSTRUCTIONS" | translate }}
+      </p>
+    } @else {
+      <p class="text-secondary text-center" role="status">
+        {{ "MESSAGES.INFO_REVEAL_ANIMATION_LOADING" | translate }}
+      </p>
+    }
+    <button
+      class="btn btn-primary btn-lg w-full max-w-sm"
+      type="button"
+      [disabled]="!animationReady() || animationError() || isRevealing()"
+      (click)="revealSecretSanta()"
+    >
+      {{
+        (isRevealing() ? "LABELS.REVEALING" : "LABELS.REVEAL") | translate
+      }}
+    </button>
+  }
+</div>

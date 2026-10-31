@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ThemeService } from '@shared/services/theme.service';
+import { ThemeService } from '@core/services/theme.service';
 import { ToastComponent } from '@shared/components/toast/toast.component';
 
 @Component({

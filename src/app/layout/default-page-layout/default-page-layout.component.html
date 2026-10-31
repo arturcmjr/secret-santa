@@ -1,0 +1,15 @@
+<div class="page-width py-9 md:py-12">
+  <div class="mx-auto max-w-4xl">
+    @if (title(); as title) {
+      <h1 class="page-heading mb-2 text-3xl font-semibold md:text-4xl">{{ title }}</h1>
+    }
+    @if (subTitleTemplate(); as template) {
+      <ng-container *ngTemplateOutlet="template"></ng-container>
+    } @else if (subTitle(); as subTitle) {
+      <p class="mb-8 max-w-2xl text-base text-base-content/65">{{ subTitle }}</p>
+    }
+    <div class="page-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

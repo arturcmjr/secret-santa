@@ -8,10 +8,11 @@ import {
   output,
 } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LucideTriangleAlert } from '@lucide/angular';
 
 @Component({
   selector: 'app-confirmation-dialog',
-  imports: [TranslatePipe],
+  imports: [TranslatePipe, LucideTriangleAlert],
   templateUrl: './confirmation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

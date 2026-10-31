@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LoadingService } from '@core/services/loading.service';
 
 @Component({
   selector: 'app-spinner-overlay',
@@ -8,5 +9,5 @@ import { TranslatePipe } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerOverlayComponent {
-  public readonly isLoading = input<boolean>(false);
+  protected readonly isLoading = inject(LoadingService).isLoading;
 }

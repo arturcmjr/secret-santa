@@ -1,0 +1,11 @@
+<div class="flex min-h-screen flex-col">
+  <a class="skip-link" href="#main-content">{{ "LABELS.SKIP_TO_CONTENT" | translate }}</a>
+  <app-header></app-header>
+  <main id="main-content" class="flex flex-1 flex-col">
+    <router-outlet></router-outlet>
+  </main>
+  @if (showFooter()) {
+    <app-footer></app-footer>
+  }
+  <app-spinner-overlay></app-spinner-overlay>
+</div>
