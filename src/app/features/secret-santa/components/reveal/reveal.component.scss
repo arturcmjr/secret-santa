@@ -10,17 +10,41 @@
     height: auto;
   }
 
+  .fallback-name {
+    margin: 0;
+    padding: 1rem 0;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
   .name-text {
     position: absolute;
-    inset: 0;
-    padding: 0 15%;
+    width: 38%;
+    left: 31%;
+    top: 37%;
+    height: 20%;
     overflow: hidden;
-    display: grid;
-    place-items: center;
-    font-size: clamp(1.1rem, 4vw, 1.6rem);
-    color: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3b2f1e;
     text-align: center;
-    font-family: cursive;
+    font-family: 'Caveat', cursive;
+    font-weight: 600;
+    line-height: 1;
+
+    span {
+      display: block;
+      flex: none;
+      width: min-content;
+      max-width: none;
+      white-space: normal;
+      padding: 0 0.1em;
+    }
   }
 }
 

@@ -6,6 +6,7 @@ export interface ICreateSecretSanta {
   date: Date;
   type: SecretSantaTypeEnum;
   maxSuggestions?: number;
+  suggestionsDescription?: string;
   participants: ICreateSecretSantaParticipant[];
 }
 
@@ -28,6 +29,7 @@ export interface ISecretSanta {
   date: Date;
   type: SecretSantaTypeEnum;
   maxSuggestions?: number;
+  suggestionsDescription?: string;
   suggestionsLocked?: boolean;
 }
 

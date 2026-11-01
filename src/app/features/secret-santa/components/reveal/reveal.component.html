@@ -1,14 +1,23 @@
 <div class="revelation-container">
   <div class="relative mx-auto w-full max-w-xs">
-    <canvas
-      #presentAnimation
-      class="present-animation"
-      width="320"
-      height="320"
-      aria-hidden="true"
-    ></canvas>
-    @if (revelation(); as revelation) {
-      <div class="name-text">{{ revelation.name }}</div>
+    @if (animationError()) {
+      @if (revelation(); as revelation) {
+        <p class="fallback-name">{{ revelation.name }}</p>
+      }
+    } @else {
+      <canvas
+        #presentAnimation
+        class="present-animation"
+        width="320"
+        height="320"
+        aria-hidden="true"
+      ></canvas>
+      @if (revelation(); as revelation) {
+        <div #nameBox class="name-text">
+          <span #nameLabel>{{ revelation.name }}</span>
+        </div>
+        <div class="bianco"></div>
+      }
     }
   </div>
   @if (revelation(); as revelation) {
@@ -50,11 +59,7 @@
       </p>
     }
   } @else {
-    @if (animationError()) {
-      <p class="text-center text-error" role="alert">
-        {{ "MESSAGES.INFO_REVEAL_ANIMATION_ERROR" | translate }}
-      </p>
-    } @else if (animationReady()) {
+    @if (animationReady() || animationError()) {
       <p class="text-secondary text-center">
         {{ "MESSAGES.INFO_REVEAL_INSTRUCTIONS" | translate }}
       </p>
@@ -66,7 +71,7 @@
     <button
       class="btn btn-primary btn-lg w-full max-w-sm"
       type="button"
-      [disabled]="!animationReady() || animationError() || isRevealing()"
+      [disabled]="(!animationReady() && !animationError()) || isRevealing()"
       (click)="revealSecretSanta()"
     >
       {{

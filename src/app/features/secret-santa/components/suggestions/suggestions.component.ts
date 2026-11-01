@@ -28,6 +28,7 @@ import { SecretSantaService } from '@features/secret-santa/services/secret-santa
 export class SuggestionsComponent {
   public readonly participantId = input.required<string>();
   public readonly maxSuggestions = input.required<number>();
+  public readonly description = input<string>();
   public readonly suggestions = input<string[]>();
 
   private readonly ssService = inject(SecretSantaService);

@@ -33,12 +33,19 @@ export class SecretSantaService {
   public createSecretSanta(
     data: ICreateSecretSanta
   ): Observable<DocumentReference> {
-    const { name, description, date, participants, type, maxSuggestions } = data;
+    const { name, description, date, participants, type, maxSuggestions, suggestionsDescription } = data;
 
     const db = this.database;
     const batch = writeBatch(db);
     const secretSantaRef = doc(db, 'secretSantas', generateUniqueId());
-    batch.set(secretSantaRef, { name, description, date, type, maxSuggestions });
+    batch.set(secretSantaRef, {
+      name,
+      description,
+      date,
+      type,
+      maxSuggestions,
+      ...(suggestionsDescription ? { suggestionsDescription } : {}),
+    });
 
     participants.forEach((participant) => {
       const revelationRef = doc(db, 'revelations', generateUniqueId());

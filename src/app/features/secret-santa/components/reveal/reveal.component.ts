@@ -3,12 +3,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  effect,
   ElementRef,
   inject,
   input,
   OnDestroy,
   signal,
   ViewChild,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -24,6 +26,7 @@ import { SecretSantaService } from '@features/secret-santa/services/secret-santa
 const SHAKE_LAST_FRAME = 2;
 const SHAKE_SPEED = 0.4;
 const NAME_VISIBLE_FRAME = 21;
+const MAX_NAME_FONT_SIZE = 40;
 
 @Component({
   selector: 'app-reveal',
@@ -50,24 +53,62 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
   protected readonly isRevealing = signal(false);
   protected readonly SecretSantaTypeEnum = SecretSantaTypeEnum;
 
+  private readonly nameBox = viewChild<ElementRef<HTMLElement>>('nameBox');
+  private readonly nameLabel = viewChild<ElementRef<HTMLElement>>('nameLabel');
+
   private animation?: DotLottie;
+
+  constructor() {
+    effect(() => {
+      const box = this.nameBox()?.nativeElement;
+      const label = this.nameLabel()?.nativeElement;
+      if (box && label) {
+        document.fonts.load('600 20px Caveat').finally(() => this.fitName(box, label));
+      }
+    });
+  }
+
+  private fitName(box: HTMLElement, label: HTMLElement): void {
+    let low = 8;
+    let high = Math.min(box.clientHeight, MAX_NAME_FONT_SIZE);
+    while (high - low > 0.5) {
+      const mid = (low + high) / 2;
+      box.style.fontSize = `${mid}px`;
+      const { width, height } = label.getBoundingClientRect();
+      if (width <= box.clientWidth && height <= box.clientHeight) {
+        low = mid;
+      } else {
+        high = mid;
+      }
+    }
+    box.style.fontSize = `${low}px`;
+  }
   private isShaking = false;
   private pendingRevelation?: IRevelation;
   private pendingSuggestions?: string[];
 
   public ngAfterViewInit(): void {
-    DotLottie.setWasmUrl('/assets/anim/dotlottie-player.wasm');
-    this.animation = new DotLottie({
-      canvas: this.presentAnimation.nativeElement,
-      src: '/assets/anim/present_opening.lottie',
-      autoplay: false,
-      loop: false,
-    });
+    try {
+      DotLottie.setWasmUrl('/assets/anim/dotlottie-player.wasm');
+      this.animation = new DotLottie({
+        canvas: this.presentAnimation.nativeElement,
+        src: '/assets/anim/present_opening.lottie',
+        autoplay: false,
+        loop: false,
+      });
+    } catch {
+      this.animationError.set(true);
+      return;
+    }
     this.animation.addEventListener('load', () => {
       this.startShakeLoop();
       this.animationReady.set(true);
     });
-    this.animation.addEventListener('loadError', () => this.animationError.set(true));
+    this.animation.addEventListener('loadError', () => {
+      this.animation?.destroy();
+      this.animation = undefined;
+      this.animationError.set(true);
+    });
     this.animation.addEventListener('frame', ({ currentFrame }) => {
       if (!this.isShaking && currentFrame >= NAME_VISIBLE_FRAME) {
         this.showPendingRevelation();
@@ -81,7 +122,7 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
   }
 
   protected revealSecretSanta(): void {
-    if (!this.animation?.isLoaded || this.isRevealing()) {
+    if (this.isRevealing() || (!this.animationError() && !this.animation?.isLoaded)) {
       return;
     }
 
@@ -105,7 +146,11 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
       .subscribe(({ revelation, suggestions }) => {
         this.pendingRevelation = revelation;
         this.pendingSuggestions = suggestions;
-        this.playOpening();
+        if (this.animationError()) {
+          this.showPendingRevelation();
+        } else {
+          this.playOpening();
+        }
       });
   }
 
