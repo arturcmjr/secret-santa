@@ -28,6 +28,8 @@ import {
 } from '@features/secret-santa/models/secret-santa.interface';
 import { SecretSantaService } from '@features/secret-santa/services/secret-santa.service';
 
+const MAX_SUGGESTIONS_LIMIT = 5;
+
 interface IParticipantSecretSanta {
   name: string;
   secretSanta: string;
@@ -40,6 +42,7 @@ interface IConfirmationSummary {
   participants: string[];
   useSuggestion: boolean;
   maxSuggestions?: number;
+  suggestionsDescription?: string;
 }
 
 @Component({
@@ -64,6 +67,7 @@ export class CreateSecretSantaComponent {
   private readonly secretSantaService = inject(SecretSantaService);
   private readonly router = inject(Router);
 
+  protected readonly maxSuggestionsLimit = MAX_SUGGESTIONS_LIMIT;
   protected readonly confirmationSummary = signal<IConfirmationSummary | undefined>(undefined);
   protected readonly currentStep = signal(0);
 
@@ -83,8 +87,11 @@ export class CreateSecretSantaComponent {
     useSuggestion: new FormControl(false, { nonNullable: true }),
     maxSuggestions: new FormControl<number | null>(
       { value: null, disabled: true },
-      [Validators.required, Validators.min(1)]
+      [Validators.required, Validators.min(1), Validators.max(MAX_SUGGESTIONS_LIMIT)]
     ),
+    suggestionsDescription: new FormControl<string | null>(null, [
+      Validators.maxLength(300),
+    ]),
   });
   protected readonly step2group = new FormGroup({
     participants: new FormControl<string[]>([], {
@@ -141,7 +148,7 @@ export class CreateSecretSantaComponent {
       return;
     }
     const participants = this.drawSecretSanta();
-    const { name, description, date, useSuggestion, maxSuggestions } =
+    const { name, description, date, useSuggestion, maxSuggestions, suggestionsDescription } =
       this.step1group.getRawValue();
     const data: ICreateSecretSanta = {
       name: name!,
@@ -149,6 +156,10 @@ export class CreateSecretSantaComponent {
       date: date!,
       participants,
       maxSuggestions: useSuggestion ? maxSuggestions ?? undefined : undefined,
+      suggestionsDescription:
+        useSuggestion && suggestionsDescription?.trim()
+          ? suggestionsDescription.trim()
+          : undefined,
       type: useSuggestion
         ? SecretSantaTypeEnum.Suggestions
         : SecretSantaTypeEnum.Default,
@@ -164,7 +175,7 @@ export class CreateSecretSantaComponent {
       participantsControl.markAsTouched();
       return;
     }
-    const { name, description, date, useSuggestion, maxSuggestions } =
+    const { name, description, date, useSuggestion, maxSuggestions, suggestionsDescription } =
       this.step1group.getRawValue();
     this.confirmationSummary.set({
       name: name!,
@@ -173,6 +184,10 @@ export class CreateSecretSantaComponent {
       participants: participantsControl.value,
       useSuggestion,
       maxSuggestions: useSuggestion ? maxSuggestions ?? undefined : undefined,
+      suggestionsDescription:
+        useSuggestion && suggestionsDescription?.trim()
+          ? suggestionsDescription.trim()
+          : undefined,
     });
     this.currentStep.set(2);
   }

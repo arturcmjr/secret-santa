@@ -34,27 +34,26 @@
     <section class="overflow-hidden rounded-2xl border border-base-300 bg-base-100" [attr.aria-label]="'LABELS.PARTICIPANTS' | translate">
       <ul class="divide-y divide-base-300">
         @for (participant of participants(); track participant.id) {
-          <li class="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-6">
+          <li class="flex flex-row gap-3 px-4 py-4 items-center justify-between sm:gap-4 sm:px-6">
             <div class="min-w-0">
               <h3 class="truncate font-semibold">{{ participant.name }}</h3>
               @if (isSuggesting()) {
                 <div class="mt-1 flex items-center gap-2 text-sm">
                   <span class="text-base-content/60">{{ "LABELS.SUGGESTIONS" | translate }}</span>
                   @if (participantHasSuggested(participant)) {
-                    <span class="badge badge-success badge-sm">{{ "LABELS.ADDED" | translate }}</span>
+                    <span class="badge badge-success badge-soft badge-sm px-2">{{ "LABELS.ADDED" | translate }}</span>
                   } @else {
-                    <span class="badge badge-ghost badge-sm">{{ "LABELS.WAITING" | translate }}</span>
+                    <span class="badge badge-ghost badge-sm px-2">{{ "LABELS.WAITING" | translate }}</span>
                   }
                 </div>
               } @else {
                 @let revealedCount = revealedCounts()[participant.id!];
                 <div class="mt-1 flex items-center gap-2 text-sm">
-                  <span class="text-base-content/60">{{ "LABELS.REVEALED" | translate }}</span>
                   @if (revealedCount !== undefined) {
                     @if (revealedCount > 0) {
-                      <span class="badge badge-success badge-sm">{{ "LABELS.OPENED" | translate }}</span>
+                      <span class="badge badge-success badge-soft badge-sm px-2">{{ "LABELS.OPENED" | translate }}</span>
                     } @else {
-                      <span class="badge badge-ghost badge-sm">{{ "LABELS.NOT_OPENED_YET" | translate }}</span>
+                      <span class="badge badge-ghost badge-sm px-2">{{ "LABELS.NOT_OPENED_YET" | translate }}</span>
                     }
                   } @else {
                     <span class="skeleton h-5 w-20" aria-label="Loading reveal status"></span>
@@ -62,7 +61,16 @@
                 </div>
               }
             </div>
-            <div class="flex shrink-0 items-center gap-2">
+            <div class="flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:items-center">
+              <button
+                class="btn btn-ghost btn-sm"
+                type="button"
+                [attr.aria-label]="'LABELS.COPY_LINK' | translate"
+                (click)="copyParticipantToClipboard(participant)"
+              >
+                <svg lucideCopy class="size-4"></svg>
+                <span class="hidden sm:inline">{{ "LABELS.COPY_LINK" | translate }}</span>
+              </button>
               <button
                 class="btn btn-ghost btn-sm"
                 type="button"
