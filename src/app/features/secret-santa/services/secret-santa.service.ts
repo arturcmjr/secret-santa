@@ -43,8 +43,9 @@ export class SecretSantaService {
       description,
       date,
       type,
-      maxSuggestions,
+      ...(maxSuggestions !== undefined ? { maxSuggestions } : {}),
       ...(suggestionsDescription ? { suggestionsDescription } : {}),
+      ...(type === SecretSantaTypeEnum.Suggestions ? {} : { suggestionsLocked: true }),
     });
 
     participants.forEach((participant) => {

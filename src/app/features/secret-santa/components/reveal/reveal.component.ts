@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LucideGift } from '@lucide/angular';
 import { DotLottie } from '@lottiefiles/dotlottie-web';
 import { finalize, map, switchMap } from 'rxjs';
 import {
@@ -30,7 +31,7 @@ const MAX_NAME_FONT_SIZE = 40;
 
 @Component({
   selector: 'app-reveal',
-  imports: [TranslatePipe],
+  imports: [TranslatePipe, LucideGift],
   templateUrl: './reveal.component.html',
   styleUrl: './reveal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
