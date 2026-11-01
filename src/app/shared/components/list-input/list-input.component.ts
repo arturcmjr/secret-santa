@@ -70,13 +70,19 @@ export class ListInputComponent implements ControlValueAccessor {
     this.inputControl.reset();
     this.value.update((items) => [...items, newItem]);
     this.onChange?.(this.value());
-    this.onTouched?.();
   }
 
   protected removeItem(index: number): void {
     this.value.update((items) => items.filter((_, i) => i !== index));
     this.onChange?.(this.value());
-    this.onTouched?.();
+  }
+
+  // Mark as touched only when focus leaves the whole component, not on add/remove
+  protected onFocusOut(event: FocusEvent): void {
+    const container = event.currentTarget as HTMLElement;
+    if (!container.contains(event.relatedTarget as Node | null)) {
+      this.onTouched?.();
+    }
   }
 
   writeValue(value: string[] | null): void {
