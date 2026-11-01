@@ -29,18 +29,26 @@
     ></p>
     @if (type() === SecretSantaTypeEnum.Suggestions) {
       @if (suggestions()?.length) {
-        <p
-          class="text-center"
-          [innerHTML]="
-            'MESSAGES.INFO_REVEALED_SUGGESTIONS'
-              | translate : { name: revelation.name }
-          "
-        ></p>
-        <ul class="flex flex-wrap justify-center gap-2">
-          @for (suggestion of suggestions(); track suggestion) {
-            <li class="badge badge-outline h-9 border-base-300 px-4">{{ suggestion }}</li>
-          }
-        </ul>
+        <section
+          class="w-full max-w-md rounded-box border-2 border-primary bg-primary/10 p-5 shadow-lg ring-4 ring-primary/20"
+          role="note"
+        >
+          <p
+            class="mb-4 text-center text-lg font-bold"
+            [innerHTML]="
+              'MESSAGES.INFO_REVEALED_SUGGESTIONS'
+                | translate : { name: revelation.name }
+            "
+          ></p>
+          <ul class="divide-y divide-primary/20 text-left">
+            @for (suggestion of suggestions(); track suggestion) {
+              <li class="flex cursor-default select-text items-start gap-3 py-2 text-base font-medium">
+                <svg lucideGift class="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true"></svg>
+                <span class="break-words">{{ suggestion }}</span>
+              </li>
+            }
+          </ul>
+        </section>
       } @else {
         <p class="text-center">
           {{
