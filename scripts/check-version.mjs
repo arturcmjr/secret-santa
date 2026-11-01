@@ -19,6 +19,6 @@ if (remoteVersion === null || currentVersion() !== remoteVersion) {
   process.exit(0);
 }
 
-run('npm version minor --no-git-tag-version');
+run('npm version patch --no-git-tag-version');
 run('git add package.json package-lock.json');
 console.log(`Version unchanged from remote (${remoteVersion}); bumped to ${currentVersion()}.`);
