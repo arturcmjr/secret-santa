@@ -150,5 +150,33 @@
     "LEARN_MORE": "Como funciona",
     "DATE_ON": "Em {{date}}",
     "LOCAL_NOTE": "Salvo apenas neste navegador."
+  },
+  "SEO": {
+    "HOME": {
+      "TITLE": "Amiko: amigo oculto online grátis, sem cadastro",
+      "DESCRIPTION": "Organize seu amigo oculto (amigo secreto) online em três passos. Sorteio justo, link privado para cada participante, sem cadastro e sem custo."
+    },
+    "CREATE": {
+      "TITLE": "Criar amigo oculto online | Amiko",
+      "DESCRIPTION": "Crie seu amigo oculto em minutos: informe o evento, adicione os participantes e envie os links privados do sorteio."
+    },
+    "DASHBOARD": {
+      "TITLE": "Meus amigos ocultos | Amiko",
+      "DESCRIPTION": "Os amigos ocultos que você abriu ou organizou neste dispositivo."
+    },
+    "PARTICIPANT": {
+      "TITLE": "{{name}}, descubra quem você tirou no amigo oculto {{event}}",
+      "DESCRIPTION": "{{name}}, você foi convidado(a) para o amigo oculto \"{{event}}\" em {{date}}. Abra seu link privado e descubra quem você tirou!",
+      "SUGGESTIONS_TITLE": "{{name}}, conte o que quer ganhar no amigo oculto {{event}}",
+      "SUGGESTIONS_DESCRIPTION": "{{name}}, você foi convidado(a) para o amigo oculto \"{{event}}\" em {{date}}. Abra seu link privado e dê suas sugestões de presente!"
+    },
+    "SHARE": {
+      "TITLE": "Participantes de {{event}} | Amiko",
+      "DESCRIPTION": "Links do amigo oculto \"{{event}}\" em {{date}}, com {{count}} participantes. Envie a cada pessoa o link para descobrir quem tirou."
+    },
+    "NOT_FOUND": {
+      "TITLE": "Amigo oculto não encontrado | Amiko",
+      "DESCRIPTION": "Este amigo oculto não existe ou já não está mais disponível."
+    }
   }
 }

@@ -45,10 +45,28 @@
             "outputPath": "dist/prod",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "ssr": {
+              "entry": "src/server.ts"
+            },
+            "security": {
+              "allowedHosts": [
+                "amiko.arju.dev",
+                "arju-secret-santa.web.app",
+                "arju-secret-santa.firebaseapp.com",
+                "localhost"
+              ]
+            },
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.svg",
+              {
+                "glob": "{robots.txt,sitemap.xml}",
+                "input": "src",
+                "output": "/"
+              },
               "src/assets",
               {
                 "glob": "dotlottie-player.wasm",
