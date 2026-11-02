@@ -55,6 +55,7 @@
                 "amiko.arju.dev",
                 "arju-secret-santa.web.app",
                 "arju-secret-santa.firebaseapp.com",
+                "*.a.run.app",
                 "localhost"
               ]
             },
