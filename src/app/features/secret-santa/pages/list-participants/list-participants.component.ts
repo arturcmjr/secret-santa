@@ -24,7 +24,7 @@ import {
 } from '@features/secret-santa/models/secret-santa.interface';
 import { SavedLinksService } from '@core/services/saved-links.service';
 import { SecretSantaService } from '@features/secret-santa/services/secret-santa.service';
-import { ErrorIllustrationComponent } from '../../components/error-illustration/error-illustration.component';
+import { ErrorStateComponent } from '../../components/error-state/error-state.component';
 
 @Component({
   selector: 'app-list-participants',
@@ -35,7 +35,7 @@ import { ErrorIllustrationComponent } from '../../components/error-illustration/
     LucideLink,
     LucideShare2,
     DefaultPageLayoutComponent,
-    ErrorIllustrationComponent,
+    ErrorStateComponent,
     ConfirmationDialogComponent,
   ],
   templateUrl: './list-participants.component.html',
