@@ -123,5 +123,33 @@
     "LEARN_MORE": "How it works",
     "DATE_ON": "On {{date}}",
     "LOCAL_NOTE": "Saved only in this browser."
+  },
+  "SEO": {
+    "HOME": {
+      "TITLE": "Amiko: free online Secret Santa, no sign-up",
+      "DESCRIPTION": "Organize your Secret Santa online in three simple steps. Fair draw, a private link for every participant, no sign-up and no cost."
+    },
+    "CREATE": {
+      "TITLE": "Create a Secret Santa online | Amiko",
+      "DESCRIPTION": "Create your Secret Santa in minutes: set the event, add the participants and send out the private draw links."
+    },
+    "DASHBOARD": {
+      "TITLE": "My Secret Santas | Amiko",
+      "DESCRIPTION": "The Secret Santas you opened or organized on this device."
+    },
+    "PARTICIPANT": {
+      "TITLE": "{{name}}, find out who you drew in the {{event}} Secret Santa",
+      "DESCRIPTION": "{{name}}, you're invited to the \"{{event}}\" Secret Santa on {{date}}. Open your private link and find out who you drew!",
+      "SUGGESTIONS_TITLE": "{{name}}, tell everyone what you want in the {{event}} Secret Santa",
+      "SUGGESTIONS_DESCRIPTION": "{{name}}, you're invited to the \"{{event}}\" Secret Santa on {{date}}. Open your private link and add your gift suggestions!"
+    },
+    "SHARE": {
+      "TITLE": "{{event}} participants | Amiko",
+      "DESCRIPTION": "Links for the \"{{event}}\" Secret Santa on {{date}}, with {{count}} participants. Send each person their link to find out who they drew."
+    },
+    "NOT_FOUND": {
+      "TITLE": "Secret Santa not found | Amiko",
+      "DESCRIPTION": "This Secret Santa does not exist or is no longer available."
+    }
   }
 }
