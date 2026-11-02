@@ -1,6 +1,13 @@
 import { Routes } from '@angular/router';
 import { savedLinksRedirectGuard } from '@core/guards/saved-links-redirect.guard';
+import { ISeoRouteData } from '@core/services/seo.service';
 import { AppContainerComponent } from './layout/app-container/app-container.component';
+
+const HOME_SEO: ISeoRouteData = {
+  titleKey: 'SEO.HOME.TITLE',
+  descriptionKey: 'SEO.HOME.DESCRIPTION',
+  canonicalPath: '/',
+};
 
 export const routes: Routes = [
   {
@@ -10,7 +17,7 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        data: { hideFooter: true },
+        data: { hideFooter: true, seo: HOME_SEO },
         canActivate: [savedLinksRedirectGuard],
         loadComponent: () =>
           import('./features/home/pages/home/home.component').then(
@@ -19,7 +26,7 @@ export const routes: Routes = [
       },
       {
         path: 'start',
-        data: { hideFooter: true },
+        data: { hideFooter: true, seo: { ...HOME_SEO, canonicalPath: '/' } },
         loadComponent: () =>
           import('./features/home/pages/home/home.component').then(
             (m) => m.HomeComponent
@@ -27,6 +34,13 @@ export const routes: Routes = [
       },
       {
         path: 'my-secret-santas',
+        data: {
+          seo: {
+            titleKey: 'SEO.DASHBOARD.TITLE',
+            descriptionKey: 'SEO.DASHBOARD.DESCRIPTION',
+            noindex: true,
+          },
+        },
         loadComponent: () =>
           import(
             './features/dashboard/pages/dashboard/dashboard.component'
@@ -34,6 +48,12 @@ export const routes: Routes = [
       },
       {
         path: 'create',
+        data: {
+          seo: {
+            titleKey: 'SEO.CREATE.TITLE',
+            descriptionKey: 'SEO.CREATE.DESCRIPTION',
+          },
+        },
         loadComponent: () =>
           import(
             './features/secret-santa/pages/create-secret-santa/create-secret-santa.component'

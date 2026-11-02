@@ -1,10 +1,13 @@
-import { Injectable, signal } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 
 type ThemeName = 'secret-santa-light' | 'secret-santa-dark';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly storageKey = 'secret-santa-theme';
+  private readonly document = inject(DOCUMENT);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   readonly theme = signal<ThemeName>(this.getInitialTheme());
 
   constructor() {
@@ -22,6 +25,8 @@ export class ThemeService {
   }
 
   private getInitialTheme(): ThemeName {
+    // the server has no preference to read, the browser applies it right after hydration
+    if (!this.isBrowser) return 'secret-santa-light';
     const storedTheme = localStorage.getItem(this.storageKey);
     if (storedTheme === 'secret-santa-light' || storedTheme === 'secret-santa-dark') {
       return storedTheme;
@@ -32,6 +37,6 @@ export class ThemeService {
   }
 
   private applyTheme(theme: ThemeName): void {
-    document.documentElement.setAttribute('data-theme', theme);
+    this.document.documentElement.setAttribute('data-theme', theme);
   }
 }

@@ -5,10 +5,12 @@ import {
   effect,
   inject,
   input,
+  PLATFORM_ID,
   signal,
   untracked,
 } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { isPlatformServer } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { FirestoreError } from 'firebase/firestore';
 import { LucideCheck, LucideCopy, LucideLink, LucideShare2 } from '@lucide/angular';
@@ -22,6 +24,7 @@ import {
   ISecretSanta,
   SecretSantaTypeEnum,
 } from '@features/secret-santa/models/secret-santa.interface';
+import { SeoService } from '@core/services/seo.service';
 import { SavedLinksService } from '@core/services/saved-links.service';
 import { SecretSantaService } from '@features/secret-santa/services/secret-santa.service';
 import { ErrorStateComponent } from '../../components/error-state/error-state.component';
@@ -51,6 +54,8 @@ export class ListParticipantsComponent {
   private readonly translate = inject(TranslateService);
   private readonly titleService = inject(Title);
   private readonly savedLinks = inject(SavedLinksService);
+  private readonly seo = inject(SeoService);
+  private readonly isServer = isPlatformServer(inject(PLATFORM_ID));
 
   protected readonly participants = signal<IParticipant[]>([]);
   protected readonly revealedCounts = signal<Record<string, number>>({});
@@ -93,14 +98,35 @@ export class ListParticipantsComponent {
           this.subtitle.set(
             this.translate.instant('MESSAGES.INFO_SHARE_REVEAL')
           );
-          this.fetchRevelationsCount(participants);
+          if (!this.isServer) this.fetchRevelationsCount(participants);
         }
         this.titleService.setTitle(title);
         this.title.set(title);
+        void this.updateSeo(secretSanta, participants.length);
       },
       error: (error: FirestoreError) => {
+        // the browser retries what the server could not fetch
+        if (this.isServer) return;
         this.errorCode.set(error?.code || 'UNKNOWN');
+        void this.seo.updateNotFound();
       },
+    });
+  }
+
+  private async updateSeo(secretSanta: ISecretSanta, count: number): Promise<void> {
+    const params = {
+      event: secretSanta.name,
+      date: this.seo.formatEventDate(secretSanta.date),
+      count,
+    };
+    const [title, description] = await Promise.all([
+      this.seo.translateKey('SEO.SHARE.TITLE', params),
+      this.seo.translateKey('SEO.SHARE.DESCRIPTION', params),
+    ]);
+    this.seo.update({
+      title,
+      description: [description, secretSanta.description].filter(Boolean).join(' '),
+      noindex: true,
     });
   }
 

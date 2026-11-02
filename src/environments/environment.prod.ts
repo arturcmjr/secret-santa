@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  siteUrl: 'https://amiko.arju.dev',
   firebaseConfig: {
     apiKey: 'AIzaSyBygS6EvetxOt6b1gtEv1kudh8Nek6h2yQ',
     authDomain: 'arju-secret-santa.firebaseapp.com',
