@@ -10,7 +10,7 @@ import {
 import { FirestoreError } from 'firebase/firestore';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DefaultPageLayoutComponent } from '@layout/default-page-layout/default-page-layout.component';
-import { ErrorIllustrationComponent } from '../../components/error-illustration/error-illustration.component';
+import { ErrorStateComponent } from '../../components/error-state/error-state.component';
 import {
   IParticipant,
   ISecretSanta,
@@ -31,7 +31,7 @@ enum ParticipantState {
   imports: [
     TranslatePipe,
     DefaultPageLayoutComponent,
-    ErrorIllustrationComponent,
+    ErrorStateComponent,
     RevealComponent,
     SuggestionsComponent,
   ],
