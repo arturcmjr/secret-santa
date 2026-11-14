@@ -8,10 +8,12 @@ import {
   inject,
   input,
   OnDestroy,
+  PLATFORM_ID,
   signal,
   ViewChild,
   viewChild,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LucideGift } from '@lucide/angular';
@@ -43,6 +45,7 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
 
   private readonly secretSanta = inject(SecretSantaService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   @ViewChild('presentAnimation')
   private readonly presentAnimation!: ElementRef<HTMLCanvasElement>;
@@ -63,7 +66,7 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
     effect(() => {
       const box = this.nameBox()?.nativeElement;
       const label = this.nameLabel()?.nativeElement;
-      if (box && label) {
+      if (this.isBrowser && box && label) {
         document.fonts.load('600 20px Caveat').finally(() => this.fitName(box, label));
       }
     });
@@ -89,6 +92,7 @@ export class RevealComponent implements AfterViewInit, OnDestroy {
   private pendingSuggestions?: string[];
 
   public ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     try {
       DotLottie.setWasmUrl('/assets/anim/dotlottie-player.wasm');
       this.animation = new DotLottie({

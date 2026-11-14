@@ -3,6 +3,19 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "server/**/*.map"
+      ]
+    }
+  ],
   "hosting": {
     "public": "dist/prod/browser",
     "ignore": [
@@ -10,10 +23,31 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "headers": [
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        ]
+      },
+      {
+        "source": "/assets/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=86400" }
+        ]
+      }
+    ],
     "rewrites": [
       {
+        "source": "/my-secret-santas",
+        "destination": "/index.csr.html"
+      },
+      {
         "source": "**",
-        "destination": "/index.html"
+        "function": {
+          "functionId": "ssr",
+          "region": "southamerica-east1"
+        }
       }
     ]
   }

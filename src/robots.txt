@@ -1,0 +1,6 @@
+# Private pages are kept out of search results with a noindex meta tag instead of a Disallow,
+# because link preview crawlers (WhatsApp, Facebook, X...) must still be able to fetch them.
+User-agent: *
+Allow: /
+
+Sitemap: https://amiko.arju.dev/sitemap.xml

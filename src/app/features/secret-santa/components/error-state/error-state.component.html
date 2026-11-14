@@ -1,11 +1,9 @@
 @switch (errorCode()) {
   @case ('permission-denied') {
     <section class="alert alert-warning mt-6 items-start" role="alert">
-      <img
-        src="../../../../../assets/img/illustrations/not-found.svg"
-        alt=""
-        class="size-16 shrink-0"
-      />
+      <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-warning/15 text-warning" aria-hidden="true">
+        <svg lucideShieldAlert class="size-7"></svg>
+      </span>
       <div>
         <h2 class="font-semibold">
           {{ "ERRORS.NO_PERMISSION.TITLE" | translate }}
@@ -19,11 +17,9 @@
   @case (undefined) {}
   @default {
     <section class="alert alert-error mt-6 items-start" role="alert">
-      <img
-        src="../../../../../assets/img/illustrations/server-broken.svg"
-        alt=""
-        class="size-16 shrink-0"
-      />
+      <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-error/15 text-error" aria-hidden="true">
+        <svg lucideServerCrash class="size-7"></svg>
+      </span>
       <div>
         <h2 class="font-semibold">{{ "ERRORS.GENERIC.TITLE" | translate }}</h2>
         <p>{{ "ERRORS.GENERIC.MESSAGE" | translate }}</p>

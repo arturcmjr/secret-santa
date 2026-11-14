@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <title>Amiko</title>
+  <title>Amiko: amigo oculto online grátis, sem cadastro</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -11,6 +11,35 @@
   <!-- <script src="https://cdn.statically.io/gh/arturcmjr/portifolio-warning/main/index.js"></script>
   <link rel="stylesheet" href="https://cdn.statically.io/gh/arturcmjr/portifolio-warning/main/style.css"> -->
   <meta name="theme-color" content="#0F766E">
+  <meta name="application-name" content="Amiko">
+  <meta name="description" content="Organize seu amigo oculto (amigo secreto) online em três passos. Sorteio justo, link privado para cada participante, sem cadastro e sem custo.">
+  <script>
+    // Applies the saved theme before first paint to avoid a light flash on server rendered pages
+    (function () {
+      try {
+        var theme = localStorage.getItem('secret-santa-theme');
+        if (theme !== 'secret-santa-light' && theme !== 'secret-santa-dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'secret-santa-dark' : 'secret-santa-light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Amiko",
+      "alternateName": ["Amigo oculto", "Amigo secreto online", "Secret Santa"],
+      "url": "https://amiko.arju.dev/",
+      "description": "Organize seu amigo oculto online em três passos, sem cadastro e sem custo.",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Any",
+      "inLanguage": ["pt-BR", "en"],
+      "image": "https://amiko.arju.dev/assets/img/og-image.png",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+    }
+  </script>
 </head>
 <body>
   <app-root></app-root>

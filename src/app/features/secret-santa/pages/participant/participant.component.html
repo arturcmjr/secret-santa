@@ -3,7 +3,7 @@
   [subTitleTemplate]="subTitleTemplate"
 >
   @if (errorCode()) {
-    <app-error-illustration [errorCode]="errorCode()"></app-error-illustration>
+    <app-error-state [errorCode]="errorCode()"></app-error-state>
   } @else {
     <section class="card border border-base-300 bg-base-100 shadow-sm">
       <div class="card-body p-4 sm:p-8">
