@@ -19,7 +19,7 @@ export class AppComponent {
     const translate = inject(TranslateService);
     const defaultLang = 'en';
     translate.setFallbackLang(defaultLang);
-    translate.use('pt');
-    //translate.use(translate.getBrowserLang() || defaultLang);
+    //translate.use('pt');
+    translate.use(translate.getBrowserLang() || defaultLang);
   }
 }
